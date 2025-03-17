@@ -1,0 +1,61 @@
+{
+    "program": [
+        {
+      "id": 1,
+      "title": "Технологія хлібопекарських продуктів, кондитерських виробів та харчових концентратів",
+      "fieldOfKnowledge": "G інженерія, виробництво та будівництво",
+      "specialty": "G13 Машинобудування (за галузями)",
+      "modeOfStudy": "Очна",
+      "durationOptions": [2, 4],
+      "credits": "45",
+      "tuitionFees": [14600, 14600, 14600, 14600],
+      "description": "Tattooed brunch I'm baby. Ascot pop-up chillwave frutufat jean. Waistcoat whatever. Some keytar banjo food portland banh mi.",
+      "link": "https://ontu.edu.ua",
+      "documents": [
+        {
+          "docId": 1,
+          "fileName": "very-cool-file.pdf",
+          "fileUrl": "https://example.com/path/very-cool-file.pdf"
+        }
+      ]
+    },
+    {
+        "id": 2,
+        "title": "Економіка",
+        "fieldOfKnowledge": "05 Соціальні та поведінкові науки",
+        "specialty": "051 Економіка",
+        "modeOfStudy": "Очна",
+        "durationOptions": [2, 4],
+        "credits": "60",
+        "tuitionFees": [18000, 18000, 18000, 18000],
+        "description": "Програма з економіки спрямована на підготовку фахівців у сфері аналізу ринків, макро- та мікроекономіки, бізнес-планування.",
+        "link": "https://ontu.edu.ua",
+        "documents": [
+          {
+            "docId": 2,
+            "fileName": "economics-info.pdf",
+            "fileUrl": "https://example.com/path/economics-info.pdf"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Технології харчової та легкої промисловості",
+        "fieldOfKnowledge": "18 Виробництво та технології",
+        "specialty": "181 Харчові технології",
+        "modeOfStudy": "Очна",
+        "durationOptions": [2, 4],
+        "credits": "45",
+        "tuitionFees": [15000, 15000, 15000, 15000],
+        "description": "Програма спрямована на вивчення технологій виробництва зернових, бобових, круп'яних продуктів і комбікормів.",
+        "link": "https://ontu.edu.ua",
+        "documents": [
+          {
+            "docId": 3,
+            "fileName": "food-tech-details.pdf",
+            "fileUrl": "https://example.com/path/food-tech-details.pdf"
+          }
+        ]
+      }
+    ]
+  }
