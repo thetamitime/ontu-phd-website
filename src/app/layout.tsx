@@ -23,10 +23,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${sofiaSans.variable} ${rubik.variable} antialiased`}
-      >
+    <html lang="en" data-theme="dracula, winter">
+      <body className={`${sofiaSans.variable} ${rubik.variable} antialiased`}>
         {children}
       </body>
     </html>

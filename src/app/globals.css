@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light, dracula --prefersdark, winter --default;
+}
 
 @theme {
   --font-sofia-sans: var(--font-sofia-sans);
@@ -8,5 +10,9 @@
 
 html, body {
   font-family: var(--font-rubik), sans-serif;
+}
+
+ul {
+  margin-top: .2rem;
 }
 

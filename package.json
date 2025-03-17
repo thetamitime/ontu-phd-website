@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@tanstack/react-table": "^8.21.2",
+    "lucide-react": "^0.482.0",
     "next": "15.2.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -29,6 +31,8 @@
     "typescript": "^5"
   },
   "prettier": {
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }
