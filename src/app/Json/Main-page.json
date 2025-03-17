@@ -1,0 +1,87 @@
+{
+  "hero_section": {
+    "title": "Office ipsum you must be",
+    "description": "Office ipsum you must be muted. Eod market drawing-board submit shark net opportunity running supervisor. Accountable floor market got we existing plan optimal book solutions. 30,000ft baseline / mint ipsum you’re we roll.",
+    "button": {
+      "text": "УМОВИ ВСТУПУ",
+      "link": "/admission-conditions"
+    }
+  },
+  "accredited_programs": [
+    {
+      "id": 1,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    },
+    {
+      "id": 2,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    },
+    {
+      "id": 3,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    },
+    {
+      "id": 4,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    },
+    {
+      "id": 5,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    },
+    {
+      "id": 6,
+      "degree": "Доктор філософії",
+      "field": "Соціальні та поведінкові науки"
+    }
+  ],
+  "view_all_programs": {
+    "text": "Переглянути усі програми",
+    "link": "/programs"
+  },
+  "staff_section": {
+    "title": "НАШІ СПІВРОБІТНИКИ",
+    "staff_members": [
+      {
+        "id": 1,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      },
+      {
+        "id": 4,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      },
+      {
+        "id": 5,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      },
+      {
+        "id": 6,
+        "name": "Олена Лівенцова",
+        "position": "Завідувачка відділу",
+        "image": "/images/staff/olena-liventcova.jpg"
+      }
+    ]
+  }
+}
