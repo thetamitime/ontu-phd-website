@@ -83,7 +83,7 @@ export const MainNavigation: FC = () => {
   };
 
   return (
-    <div className="navbar justify-start px-3 py-6 md:justify-between md:px-16 md:py-5">
+    <nav className="navbar justify-start px-3 py-6 md:justify-between md:px-16 md:py-5">
       <div className="navbar-start gap-1">
         {/* mobile display dropdown menu */}
         <div className="dropdown">
@@ -135,6 +135,6 @@ export const MainNavigation: FC = () => {
           );
         })}
       </ul>
-    </div>
+    </nav>
   );
 };
