@@ -1,13 +1,14 @@
 //import Image from "next/image";
 import { NavigationBar } from "@/ui/NavigationBar";
-import { ProgramCardsContainer } from "@/ui/ProgramCardsContainer";
+import { ProgramCardSmall } from "@/ui/ProgramCards";
+import { programs } from "../lib/json/Programs.json";
 
 export default function Home() {
   const photoUrl =
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   return (
-    <div>
+    <div className="bg-base-200 min-h-screen">
       {/* Admin Bar + Navigation */}
       <header>
         <NavigationBar />
@@ -33,6 +34,25 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Main Information */}
+      <main className="m-auto w-[80%]">
+        {/* Programs Section */}
+        <section className="section">
+          <h3 className="header">Акредитовані галузі</h3>
+          <div className="flex flex-wrap content-center items-stretch justify-center gap-6">
+            {programs.map((program) => (
+              <ProgramCardSmall
+                key={program.id}
+                id={program.id}
+                degree={program.degree}
+                fieldOfKnowledge={program.fieldOfKnowledge}
+                link={program.link}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

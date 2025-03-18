@@ -8,6 +8,28 @@
   --font-rubik: var(--font-rubik);
 }
 
+@layer components {
+  .section {
+    margin-top: calc(var(--spacing) * 16);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing) * 10);
+    @media (width >= 48rem) {
+      margin-top: calc(var(--spacing) * 20)
+    }
+  }
+  .header {
+    font-family: var(--font-sofia-sans), sans-serif;
+    text-align: center;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+  }
+}
+
 html, body {
   font-family: var(--font-rubik), sans-serif;
 }
