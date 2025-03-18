@@ -3,9 +3,9 @@ import { MainNavigation } from "@/ui/MainNavigation";
 
 export function NavigationBar() {
   return (
-    <header>
+    <div>
       <ControlBar />
       <MainNavigation />
-    </header>
+    </div>
   );
 }

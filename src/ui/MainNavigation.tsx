@@ -83,8 +83,8 @@ export const MainNavigation: FC = () => {
   };
 
   return (
-    <nav className="navbar justify-start px-3 py-6 md:justify-between md:px-16 md:py-5">
-      <div className="navbar-start gap-1">
+    <nav className="navbar justify-start px-3 py-5 md:justify-between md:px-16 md:py-2">
+      <div className="navbar-start gap-2">
         {/* mobile display dropdown menu */}
         <div className="dropdown">
           <div
@@ -112,7 +112,7 @@ export const MainNavigation: FC = () => {
         </div>
 
         {/* logo */}
-        <h1 className="line text-3xl font-bold whitespace-nowrap">ONTU PHD</h1>
+        <h1 className="line text-2xl font-bold whitespace-nowrap">ONTU PHD</h1>
       </div>
 
       {/* menu */}
