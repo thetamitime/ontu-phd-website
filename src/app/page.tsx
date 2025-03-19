@@ -1,12 +1,10 @@
 //import Image from "next/image";
-import { MainNavigation } from "@/ui/navigation/MainNavigation";
 import { ProgramCardSmall } from "@/ui/components/ProgramCards";
 import { programs } from "../lib/json/Programs.json";
 import { workers } from "../lib/json/Workers.json";
 import { news } from "../lib/json/News.json";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
-import { MainFooter } from "@/ui/footer/MainFooter";
 
 export default function Home() {
   const photoUrl =
