@@ -18,3 +18,13 @@ export interface Program {
     fileUrl: string;
   }[];
 }
+
+export interface News {
+  id: number;
+  category: string;
+  date: Date;
+  photo: string;
+  title: string;
+  description: string;
+  link: string;
+}

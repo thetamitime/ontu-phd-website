@@ -3,11 +3,14 @@ import { NavigationBar } from "@/ui/NavigationBar";
 import { ProgramCardSmall } from "@/ui/ProgramCards";
 import { programs } from "../lib/json/Programs.json";
 import { workers } from "../lib/json/Workers.json";
+import { news } from "../lib/json/News.json";
 import { FacultyCard } from "@/ui/FacultyCard";
+import { NewsCardLarge, NewsCardMedium } from "@/ui/NewsCards";
 
 export default function Home() {
   const photoUrl =
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const [firstNewsCard, ...newsCards] = news;
 
   return (
     <div className="bg-base-200 min-h-screen">
@@ -66,6 +69,36 @@ export default function Home() {
                 name={worker.name}
                 photo={worker.photo}
                 post={worker.post}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* News Section */}
+        <section className="section">
+          <h3 className="header">Останні новини</h3>
+          <div className="col grid w-full items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
+            <div className="row-span-3">
+              <NewsCardLarge
+                id={firstNewsCard.id}
+                category={firstNewsCard.category}
+                date={new Date(firstNewsCard.date)}
+                photo={firstNewsCard.photo}
+                title={firstNewsCard.title}
+                description={firstNewsCard.description}
+                link={firstNewsCard.link}
+              />
+            </div>
+            {newsCards.map((newsCard) => (
+              <NewsCardMedium
+                key={newsCard.id}
+                id={newsCard.id}
+                category={newsCard.category}
+                date={new Date(newsCard.date)}
+                photo={newsCard.photo}
+                title={newsCard.title}
+                description={newsCard.description}
+                link={newsCard.link}
               />
             ))}
           </div>
