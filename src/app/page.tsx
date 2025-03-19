@@ -2,6 +2,8 @@
 import { NavigationBar } from "@/ui/NavigationBar";
 import { ProgramCardSmall } from "@/ui/ProgramCards";
 import { programs } from "../lib/json/Programs.json";
+import { workers } from "../lib/json/Workers.json";
+import { FacultyCard } from "@/ui/FacultyCard";
 
 export default function Home() {
   const photoUrl =
@@ -16,7 +18,7 @@ export default function Home() {
 
       {/* Banner */}
       <section
-        className="hero min-h-[60dvh] items-end justify-items-start"
+        className="hero min-h-[65dvh] items-end justify-items-start"
         style={{
           backgroundImage: `url(${photoUrl})`,
         }}
@@ -36,10 +38,10 @@ export default function Home() {
       </section>
 
       {/* Main Information */}
-      <main className="m-auto w-[80%]">
+      <main className="m-auto w-[90%] lg:w-[80%]">
         {/* Programs Section */}
         <section className="section">
-          <h3 className="header">Акредитовані галузі</h3>
+          <h3 className="header">Галузі знань</h3>
           <div className="flex flex-wrap content-center items-stretch justify-center gap-6">
             {programs.map((program) => (
               <ProgramCardSmall
@@ -48,6 +50,22 @@ export default function Home() {
                 degree={program.degree}
                 fieldOfKnowledge={program.fieldOfKnowledge}
                 link={program.link}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* Faculty Section */}
+        <section className="section">
+          <h3 className="header">Наші співробітники</h3>
+          <div className="flex flex-wrap content-center items-stretch justify-center gap-7">
+            {workers.map((worker) => (
+              <FacultyCard
+                key={worker.id}
+                id={worker.id}
+                name={worker.name}
+                photo={worker.photo}
+                post={worker.post}
               />
             ))}
           </div>

@@ -3,20 +3,26 @@
       {
         "id": 1,
         "name": "Олена Лівенцова",
-        "photo": "photo",
+        "photo": "https://images.unsplash.com/photo-1546961329-78bef0414d7c?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         "post": "Завідувачка відділу"
       },
       {
         "id": 2,
-        "name": "22Олена Лівенцова",
-        "photo": "22photo",
-        "post": "22Завідувачка відділу"
+        "name": "Шерлок Яросевич",
+        "photo": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "post": "Контент-менеджер"
       },
       {
         "id": 3,
-        "name": "33Олена Лівенцова",
-        "photo": "33photo",
-        "post": "33Завідувачка відділу"
+        "name": "Йосипа Мартиненко",
+        "photo": "https://images.unsplash.com/photo-1517462964-21fdcec3f25b?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "post": "Адміністраторка"
+      },
+      {
+        "id": 4,
+        "name": "Павло Александренко",
+        "photo": "https://images.unsplash.com/photo-1621592484082-2d05b1290d7a?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "post": "Просто крутий чел"
       }
     ]
   }
