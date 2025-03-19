@@ -14,9 +14,7 @@ export default function Home() {
   const [firstNewsCard, ...newsCards] = news;
 
   return (
-    <div className="bg-base-200 min-h-full">
-      {/* Admin Bar + Navigation */}
-
+    <main className="bg-base-200 min-h-full">
       {/* Banner */}
       <section
         className="hero min-h-[65dvh] items-end justify-items-start"
@@ -39,7 +37,7 @@ export default function Home() {
       </section>
 
       {/* Main Information */}
-      <main className="m-auto my-20 w-[90%] lg:w-[80%]">
+      <div className="m-auto my-20 w-[90%] lg:w-[80%]">
         {/* Programs Section */}
         <section className="section">
           <h3 className="header">Галузі знань</h3>
@@ -101,9 +99,7 @@ export default function Home() {
             ))}
           </div>
         </section>
-      </main>
-
-      {/* Footer */}
-    </div>
+      </div>
+    </main>
   );
 }

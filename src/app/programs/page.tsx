@@ -2,13 +2,11 @@
 
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
-import { MainNavigation } from "@/ui/navigation/MainNavigation";
 
 export default function Programs() {
   return (
     <Suspense>
       <div>
-        <MainNavigation />
         <Suspense fallback={null}>
           <ShowContent />
         </Suspense>
