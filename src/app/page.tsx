@@ -6,6 +6,7 @@ import { workers } from "../lib/json/Workers.json";
 import { news } from "../lib/json/News.json";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
+import { MainFooter } from "@/ui/footer/MainFooter";
 
 export default function Home() {
   const photoUrl =
@@ -13,9 +14,8 @@ export default function Home() {
   const [firstNewsCard, ...newsCards] = news;
 
   return (
-    <div className="bg-base-200 min-h-screen">
+    <div className="bg-base-200 min-h-full">
       {/* Admin Bar + Navigation */}
-      <MainNavigation />
 
       {/* Banner */}
       <section
@@ -39,7 +39,7 @@ export default function Home() {
       </section>
 
       {/* Main Information */}
-      <main className="m-auto w-[90%] lg:w-[80%]">
+      <main className="m-auto my-20 w-[90%] lg:w-[80%]">
         {/* Programs Section */}
         <section className="section">
           <h3 className="header">Галузі знань</h3>
@@ -102,6 +102,8 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      {/* Footer */}
     </div>
   );
 }

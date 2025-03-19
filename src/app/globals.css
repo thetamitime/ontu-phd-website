@@ -6,18 +6,16 @@
 @theme {
   --font-sofia-sans: var(--font-sofia-sans);
   --font-rubik: var(--font-rubik);
+  --color-base-400: oklch(22% 0.019 277.51);
 }
 
 @layer components {
   .section {
-    margin-top: calc(var(--spacing) * 16);
+    margin-bottom: calc(var(--spacing) * 20);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: calc(var(--spacing) * 10);
-    @media (width >= 48rem) {
-      margin-top: calc(var(--spacing) * 20)
-    }
   }
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
@@ -29,6 +27,8 @@
     text-transform: uppercase;
   }
 }
+
+@custom-variant dark (&:where([data-theme=dracula], [data-theme=dracula] *));
 
 html, body {
   font-family: var(--font-rubik), sans-serif;
