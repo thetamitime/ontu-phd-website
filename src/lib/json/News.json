@@ -1,0 +1,41 @@
+{
+    "news": [
+      {
+        "id": 1,
+        "category": "Мобільність",
+        "date": "2025-03-06",
+        "photo": "https://images.unsplash.com/photo-1579626747178-6b17360cbf44?q=80&w=1929&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "title": "Стажування у Румунії по програмі DAAD",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        "link": "https://example.com/news/daad-internship"
+      },
+      {
+        "id": 2,
+        "category": "Конкурс",
+        "date": "2025-03-04",
+        "photo": "https://images.unsplash.com/photo-1579626747178-6b17360cbf44?q=80&w=1929&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "title": "Стажування у Німеччині по програмі DAAD",
+        "description": "Mauris bibendum lectus in mauris pharetra, eu elementum turpis tincidunt. Proin tincidunt nec lorem sit amet venenatis. Proin eu fermentum erat. Vivamus bibendum fermentum augue, eu dignissim lorem lobortis id. Sed ut sodales leo. Aliquam accumsan sit amet odio id iaculis. Proin ut odio nec elit finibus tempor vel ac libero. Nunc lorem ligula, ultricies et leo nec, condimentum pulvinar nisi.",
+        "link": "https://example.com/news/meme-internship"
+      },
+      {
+        "id": 3,
+        "category": "Лекція",
+        "date": "2025-03-10",
+        "photo": "https://images.unsplash.com/photo-1579626747178-6b17360cbf44?q=80&w=1929&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "title": "Стажування у Києві по програмі DAAD",
+        "description": "Mauris bibendum lectus in mauris pharetra, eu elementum turpis tincidunt. Proin tincidunt nec lorem sit amet venenatis. Proin eu fermentum erat. Vivamus bibendum fermentum augue, eu dignissim lorem lobortis id. Sed ut sodales leo. Aliquam accumsan sit amet odio id iaculis. Proin ut odio nec elit finibus tempor vel ac libero. Nunc lorem ligula, ultricies et leo nec, condimentum pulvinar nisi..",
+        "link": "https://example.com/news/ssss-internship"
+      },
+      {
+        "id": 4,
+        "category": "Мобільність",
+        "date": "2025-05-13",
+        "photo": "https://images.unsplash.com/photo-1579626747178-6b17360cbf44?q=80&w=1929&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "title": "Стажування у Києві по програмі DAAD",
+        "description": "Mauris bibendum lectus in mauris pharetra, eu elementum turpis tincidunt. Proin tincidunt nec lorem sit amet venenatis. Proin eu fermentum erat. Vivamus bibendum fermentum augue, eu dignissim lorem lobortis id. Sed ut sodales leo. Aliquam accumsan sit amet odio id iaculis. Proin ut odio nec elit finibus tempor vel ac libero. Nunc lorem ligula, ultricies et leo nec, condimentum pulvinar nisi.",
+        "link": "https://example.com/news/ssss-internship"
+      }
+    ]
+  }
+  

@@ -1,12 +1,41 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: light, dracula --prefersdark, winter --default;
+}
 
 @theme {
   --font-sofia-sans: var(--font-sofia-sans);
   --font-rubik: var(--font-rubik);
+  --color-base-400: oklch(22% 0.019 277.51);
+  --color-light-base-400: oklch(87.09% 0.0214 262.751);
 }
+
+@layer components {
+  .section {
+    margin-bottom: calc(var(--spacing) * 20);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--spacing) * 10);
+  }
+  .header {
+    font-family: var(--font-sofia-sans), sans-serif;
+    text-align: center;
+    font-size: var(--text-3xl);
+    line-height: var(--text-3xl--line-height);
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+  }
+}
+
+@custom-variant dark (&:where([data-theme=dracula], [data-theme=dracula] *));
 
 html, body {
   font-family: var(--font-rubik), sans-serif;
+}
+
+ul {
+  margin-top: .2rem;
 }
 
