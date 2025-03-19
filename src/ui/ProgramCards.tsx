@@ -1,5 +1,5 @@
 import { Program } from "@/lib/types";
-import Link from "next/link";
+//import Link from "next/link";
 
 type ProgramShortened = Pick<
   Program,
@@ -18,7 +18,7 @@ export function ProgramCardSmall({
         <p className="text-base-content/80 text-base">
           {degree === "Phd" ? "Доктор філософії" : "Доктор наук"}
         </p>
-        <h3 className="card-title font-semibold"> {fieldOfKnowledge} </h3>
+        <h4 className="card-title font-semibold"> {fieldOfKnowledge} </h4>
         <a
           target="_blank"
           href={link}

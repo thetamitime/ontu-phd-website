@@ -20,7 +20,7 @@ export function FacultyCard({ id, name, photo, post }: FacultyStaff) {
         />
       </figure>
       <div className="card-body">
-        <h3 className="card-title font-semibold"> {name} </h3>
+        <h4 className="card-title font-semibold"> {name} </h4>
         <p className="text-base-content/80 text-base">{post}</p>
       </div>
     </div>
