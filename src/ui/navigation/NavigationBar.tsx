@@ -9,7 +9,7 @@ interface Page {
   subTitle?: Page[];
 }
 
-export const MainNavigation: FC = () => {
+export const NavigationBar: FC = () => {
   const pages: Page[] = [
     {
       title: "Головна",

@@ -1,11 +1,11 @@
 //import Image from "next/image";
-import { NavigationBar } from "@/ui/NavigationBar";
-import { ProgramCardSmall } from "@/ui/ProgramCards";
+import { MainNavigation } from "@/ui/navigation/MainNavigation";
+import { ProgramCardSmall } from "@/ui/components/ProgramCards";
 import { programs } from "../lib/json/Programs.json";
 import { workers } from "../lib/json/Workers.json";
 import { news } from "../lib/json/News.json";
-import { FacultyCard } from "@/ui/FacultyCard";
-import { NewsCardLarge, NewsCardMedium } from "@/ui/NewsCards";
+import { FacultyCard } from "@/ui/components/FacultyCard";
+import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
 
 export default function Home() {
   const photoUrl =
@@ -15,9 +15,7 @@ export default function Home() {
   return (
     <div className="bg-base-200 min-h-screen">
       {/* Admin Bar + Navigation */}
-      <header>
-        <NavigationBar />
-      </header>
+      <MainNavigation />
 
       {/* Banner */}
       <section
