@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sofiaSans.variable} ${rubik.variable} grid justify-between antialiased`}
+        className={`${sofiaSans.variable} ${rubik.variable} grid antialiased`}
       >
         <ThemeProvider
           attribute="class"
