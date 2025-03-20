@@ -2,8 +2,8 @@
     "programs": [
     {
       "id": 1,
-      "degree": "Phd",
-      "title": "Технологія хлібопекарських продуктів, кондитерських виробів та харчових концентратів",
+      "degree": "phd",
+      "title": "Менеджмент",
       "fieldOfKnowledgeCode": "G",
       "fieldOfKnowledge": "Інжиніринг, виробництво та будівництво",
       "specialtyCode": "G13",
@@ -24,8 +24,8 @@
     },
     {
         "id": 2,
-        "degree": "Phd",
-        "title": "Економіка",
+        "degree": "phd",
+        "title": "Енергетичне машинобудування",
         "fieldOfKnowledgeCode": "С",
         "fieldOfKnowledge": "Соціальні науки, журналістика та інформація",
         "specialtyCode": "С1",
@@ -46,7 +46,7 @@
       },
       {
         "id": 3,
-        "degree": "Doc",
+        "degree": "doctorate",
         "title": "Технології харчової та легкої промисловості",
         "fieldOfKnowledgeCode": "G",
         "fieldOfKnowledge": "Інжиніринг, виробництво та будівництво",
@@ -68,8 +68,8 @@
       },
       {
         "id": 4,
-        "degree": "Phd",
-        "title": "Технологія хлібопекарських продуктів, кондитерських виробів та харчових концентратів",
+        "degree": "phd",
+        "title": "Автоматизація, комп'ютерно-інтегровані технології та робототехніка",
         "fieldOfKnowledgeCode": "G",
         "fieldOfKnowledge": "Інжиніринг, виробництво та будівництво",
         "specialtyCode": "G13",
@@ -90,7 +90,7 @@
       },
       {
         "id": 5,
-        "degree": "Phd",
+        "degree": "phd",
         "title": "Економіка",
         "fieldOfKnowledgeCode": "С",
         "fieldOfKnowledge": "Соціальні науки, журналістика та інформація",
@@ -112,7 +112,7 @@
       },
       {
         "id": 6,
-        "degree": "Doc",
+        "degree": "doctorate",
         "title": "Технології харчової та легкої промисловості",
         "fieldOfKnowledgeCode": "G",
         "fieldOfKnowledge": "Інжиніринг, виробництво та будівництво",
@@ -134,7 +134,7 @@
       },
       {
         "id": 7,
-        "degree": "Phd",
+        "degree": "phd",
         "title": "Економіка",
         "fieldOfKnowledgeCode": "С",
         "fieldOfKnowledge": "Соціальні науки, журналістика та інформація",
