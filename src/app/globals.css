@@ -17,6 +17,8 @@
     flex-direction: column;
     align-items: center;
     gap: calc(var(--spacing) * 10);
+    padding-top: calc(var(--spacing) * 14);
+    padding-bottom: calc(var(--spacing) * 10);
   }
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
@@ -26,7 +28,6 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
-    margin-top: calc(var(--spacing) * 10);
   }
   .wrapper {
     display: flex;
