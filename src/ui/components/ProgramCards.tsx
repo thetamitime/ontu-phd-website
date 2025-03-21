@@ -9,8 +9,8 @@ type ProgramShortenedSmall = Pick<
 
 type ProgramShortened = Pick<
   Program,
-  "id" | "degree" | "fieldOfKnowledge" | "link" | "title" | "specialty"
-> & { slug: string };
+  "id" | "fieldOfKnowledge" | "title" | "specialty"
+>;
 
 export function ProgramCardSmall({
   id,
@@ -40,11 +40,8 @@ export function ProgramCardSmall({
 export function ProgramCard({
   id,
   fieldOfKnowledge,
-  degree,
-  link,
   specialty,
   title,
-  slug,
 }: ProgramShortened) {
   return (
     <div className="card bg-base-100 card-border border-base-300 w-80">
@@ -56,7 +53,7 @@ export function ProgramCard({
         <h3 className="text-base-content h-full text-xl font-bold">{title}</h3>
         <div className="card-actions justify-end self-stretch">
           <Link
-            href={`/programs/${slug}`}
+            href={`/programs/${id}`}
             className="link md:link-hover text-base-content/40 mt-3"
           >
             <ArrowRight />

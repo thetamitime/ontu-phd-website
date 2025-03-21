@@ -28,9 +28,6 @@ export default function Programs() {
               title={program.title}
               fieldOfKnowledge={program.fieldOfKnowledge}
               specialty={program.specialty}
-              degree={program.degree}
-              link={program.link}
-              slug={program.title}
             ></ProgramCard>
           ))}
         </div>
