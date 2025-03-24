@@ -29,6 +29,21 @@
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
   }
+  .sub-header {
+    text-align: start;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .title {
+    text-align: start;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+    padding-bottom: calc(var(--spacing) * 2);
+  }
   .wrapper {
     display: flex;
     flex-wrap: wrap;
@@ -45,4 +60,5 @@ html, body {
 ul {
   margin-top: .2rem;
 }
+
 
