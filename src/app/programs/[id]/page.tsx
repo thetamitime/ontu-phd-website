@@ -2,7 +2,7 @@ import { programs } from "@/lib/json/Programs.json";
 import { Program } from "@/lib/types";
 import React from "react";
 import { TableLarge, TableSimple } from "@/ui/components/Tables";
-import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
+import { ArrowUpRight, FileDown } from "lucide-react";
 
 export default async function Page({
   params,
@@ -18,7 +18,7 @@ export default async function Page({
     <main className="section">
       <div className="mx-auto w-[90%] gap-10 md:grid md:w-[80%] md:grid-cols-[auto_auto]">
         {/*Main program content*/}
-        <article className="pb-20 [&_p]:mb-2">
+        <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
           {/*Main Section*/}
           <section id="main">
             <h2 className="header text-start md:w-[80%]">{program?.title}</h2>
@@ -65,7 +65,7 @@ export default async function Page({
           </section>
 
           {/*Program Characteristics*/}
-          <section id="characteristics" className="mt-12">
+          <section id="characteristics">
             <Title text="Характеристики програми" />
             <div className="flex flex-col gap-4">
               <div>
@@ -144,7 +144,7 @@ export default async function Page({
           </section>
 
           {/*Job Opportunities*/}
-          <section id="job" className="mt-12">
+          <section id="job">
             <Title text="Працевлаштування" />
             <div className="flex flex-wrap gap-4">
               <div className="card card-border border-base-300 bg-base-100">
@@ -229,7 +229,7 @@ export default async function Page({
           </section>
 
           {/*Competences*/}
-          <section id="competences" className="mt-12">
+          <section id="competences">
             <Title text="Програмні компетентності" />
             <div className="flex flex-col gap-4">
               <div>
@@ -319,7 +319,7 @@ export default async function Page({
           </section>
 
           {/*Results*/}
-          <section id="results" className="mt-12">
+          <section id="results">
             <Title text="Програмні результати навчання" />
             <div>
               <p>
@@ -375,7 +375,7 @@ export default async function Page({
           </section>
 
           {/*Components Table*/}
-          <section id="components" className="mt-12">
+          <section id="components">
             <Title text="Перелік компонент програми" />
             <div className="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border">
               <TableLarge />
@@ -388,7 +388,7 @@ export default async function Page({
 
         {/*Menu*/}
         <nav className="sticky top-0 self-start overflow-visible">
-          <ul className="menu bg-base-200 rounded-box text-base font-medium [&_a]:px-6 [&_a]:py-3">
+          <ul className="menu bg-base-200 rounded-box text-base font-medium [&_a]:px-4 [&_a]:py-3">
             <li>
               <a href="#main">Головна інформація</a>
             </li>
@@ -406,6 +406,19 @@ export default async function Page({
             </li>
             <li>
               <a href="#components">Перелік компонент програми</a>
+            </li>
+            <div className="divider m-0.5 px-2"></div>
+            <li>
+              <a href="" role="button">
+                Cайт кафедри
+                <ArrowUpRight />
+              </a>
+            </li>
+            <li>
+              <a href="" role="button">
+                Документ програми
+                <FileDown size={22} />
+              </a>
             </li>
           </ul>
         </nav>
