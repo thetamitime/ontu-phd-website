@@ -11,14 +11,15 @@
 }
 
 @layer components {
+  .container {
+    @apply mx-auto my-14;
+  }
   .section {
     background-color: var(--color-base-200);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: calc(var(--spacing) * 10);
-    padding-top: calc(var(--spacing) * 14);
-    padding-bottom: calc(var(--spacing) * 10);
   }
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
@@ -28,6 +29,7 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
+    margin-bottom: calc(var(--spacing) * 10);
   }
   .sub-header {
     text-align: start;

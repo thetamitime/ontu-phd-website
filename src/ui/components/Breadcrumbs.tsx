@@ -12,21 +12,23 @@ export function Breadcrumbs() {
   console.log(router);
 
   return (
-    <div className="breadcrumbs bg-base-200 col-start-1 row-start-1 text-sm">
-      <ul>
-        <li>
-          <Link href="/">Головна</Link>
-        </li>
-        {pathNames
-          .reverse()
-          .slice(1)
-          .map((pathName) => (
-            <li key={pathName}>
-              <a onClick={() => router.back()}>{pathName}</a>
-            </li>
-          ))}
-        <li>{pathNames[0]}</li>
-      </ul>
-    </div>
+    pathNames.length > 1 && (
+      <div className="breadcrumbs">
+        <ul>
+          <li>
+            <Link href="/">Головна</Link>
+          </li>
+          {pathNames
+            .reverse()
+            .slice(1)
+            .map((pathName) => (
+              <li key={pathName}>
+                <a onClick={() => router.back()}>{pathName}</a>
+              </li>
+            ))}
+          <li>{pathNames[0]}</li>
+        </ul>
+      </div>
+    )
   );
 }

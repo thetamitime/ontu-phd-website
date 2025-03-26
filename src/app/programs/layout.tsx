@@ -7,7 +7,7 @@ export default function ProgramLayout({
 }) {
   return (
     <>
-      <main>
+      <main className="bg-base-200 grid grid-rows-[auto_1fr] px-10 lg:px-20">
         <Breadcrumbs />
         {children}
       </main>

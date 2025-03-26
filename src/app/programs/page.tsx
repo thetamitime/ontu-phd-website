@@ -14,13 +14,13 @@ export default function Programs() {
 
   return (
     <Suspense>
-      <main className="section pb-20">
-        <h2 className="header w-[90%] md:w-full">
+      <div className="container">
+        <h2 className="header">
           {searchParams.toString() === "phd"
             ? "Програми аспірантури"
             : "Програми докторантури"}
         </h2>
-        <div className="wrapper my-auto mt-0 w-[90%] gap-6">
+        <div className="wrapper gap-6">
           {filteredPrograms.map((program) => (
             <ProgramCard
               key={uuidv4()}
@@ -31,7 +31,7 @@ export default function Programs() {
             ></ProgramCard>
           ))}
         </div>
-      </main>
+      </div>
     </Suspense>
   );
 }
