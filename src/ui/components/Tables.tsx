@@ -1,38 +1,90 @@
 export function TableSimple() {
   return (
-    <table className="table h-full">
-      <thead className="bg-base-300 overflow-hidden text-center [&_th]:font-semibold">
-        <tr>
-          <th rowSpan={2}>Сума за весь період</th>
-          <th colSpan={4}>Сума за рік</th>
-        </tr>
-        <tr>
-          <th>1 рік</th>
-          <th>2 рік</th>
-          <th>3 рік</th>
-          <th>4 рік</th>
-        </tr>
-      </thead>
-      <tbody className="text-center [&_span]:text-lg [&_span]:font-normal [&_td]:text-xl [&_td]:font-bold">
-        <tr>
-          <td>
-            146700 <span>грн.</span>
-          </td>
-          <td>
-            31700 <span>грн.</span>
-          </td>
-          <td>
-            38200 <span>грн.</span>
-          </td>
-          <td>
-            34800 <span>грн.</span>
-          </td>
-          <td>
-            42000 <span>грн.</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div
+      className="grid h-full md:grid-cols-[auto_repeat(4,1fr)] md:grid-rows-[auto_auto_1fr]"
+      role="table"
+      aria-labelledby="table-caption"
+    >
+      {/* Table caption for accessibility */}
+      <div id="table-caption" className="sr-only">
+        Financial Overview Table
+      </div>
+
+      {/* Header Section */}
+      <div role="row" className="contents text-center font-semibold">
+        <div
+          className="bg-base-300 content-center p-4 md:row-span-2"
+          role="columnheader"
+        >
+          Сума за весь період
+        </div>
+        <div className="bg-base-300 py-2 md:col-span-4" role="columnheader">
+          Сума за рік
+        </div>
+      </div>
+
+      {/* Year Headers */}
+      <div role="row" className="contents text-center font-semibold">
+        <div
+          className="bg-base-300/30 row-start-4 py-2 md:row-auto"
+          role="columnheader"
+        >
+          1 рік
+        </div>
+        <div
+          className="bg-base-300/30 row-start-6 py-2 md:row-auto"
+          role="columnheader"
+        >
+          2 рік
+        </div>
+        <div
+          className="bg-base-300/30 row-start-8 py-2 md:row-auto"
+          role="columnheader"
+        >
+          3 рік
+        </div>
+        <div
+          className="bg-base-300/30 row-start-10 py-2 md:row-auto"
+          role="columnheader"
+        >
+          4 рік
+        </div>
+      </div>
+
+      {/* Data Row */}
+      <div role="row" className="contents text-center text-xl font-bold">
+        <div
+          className="bg-base-100 row-start-2 content-center px-6 py-8 md:row-auto"
+          role="cell"
+        >
+          146700 <span className="text-lg font-normal"> грн.</span>
+        </div>
+        <div
+          className="bg-base-100 row-start-5 content-center px-6 py-8 md:row-auto"
+          role="cell"
+        >
+          31700 <span className="text-lg font-normal">грн.</span>
+        </div>
+        <div
+          className="bg-base-100 row-start-7 content-center px-6 py-8 md:row-auto"
+          role="cell"
+        >
+          38200 <span className="text-lg font-normal">грн.</span>
+        </div>
+        <div
+          className="bg-base-100 row-start-9 content-center px-6 py-8 md:row-auto"
+          role="cell"
+        >
+          34800 <span className="text-lg font-normal">грн.</span>
+        </div>
+        <div
+          className="bg-base-100 row-start-11 content-center px-6 py-8 md:row-auto"
+          role="cell"
+        >
+          42000 <span className="text-lg font-normal">грн.</span>
+        </div>
+      </div>
+    </div>
   );
 }
 

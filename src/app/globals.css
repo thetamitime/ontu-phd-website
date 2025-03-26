@@ -12,7 +12,7 @@
 
 @layer components {
   .container {
-    @apply mx-auto my-14;
+    @apply mx-auto mb-14;
   }
   .section {
     background-color: var(--color-base-200);

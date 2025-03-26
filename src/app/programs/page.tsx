@@ -14,23 +14,21 @@ export default function Programs() {
 
   return (
     <Suspense>
-      <div className="container">
-        <h2 className="header">
-          {searchParams.toString() === "phd"
-            ? "Програми аспірантури"
-            : "Програми докторантури"}
-        </h2>
-        <div className="wrapper gap-6">
-          {filteredPrograms.map((program) => (
-            <ProgramCard
-              key={uuidv4()}
-              id={program.id}
-              title={program.title}
-              fieldOfKnowledge={program.fieldOfKnowledge}
-              specialty={program.specialty}
-            ></ProgramCard>
-          ))}
-        </div>
+      <h2 className="header">
+        {searchParams.toString() === "phd"
+          ? "Програми аспірантури"
+          : "Програми докторантури"}
+      </h2>
+      <div className="wrapper gap-6">
+        {filteredPrograms.map((program) => (
+          <ProgramCard
+            key={uuidv4()}
+            id={program.id}
+            title={program.title}
+            fieldOfKnowledge={program.fieldOfKnowledge}
+            specialty={program.specialty}
+          ></ProgramCard>
+        ))}
       </div>
     </Suspense>
   );

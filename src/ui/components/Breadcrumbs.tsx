@@ -13,7 +13,7 @@ export function Breadcrumbs() {
 
   return (
     pathNames.length > 1 && (
-      <div className="breadcrumbs">
+      <div className="breadcrumbs py-4">
         <ul>
           <li>
             <Link href="/">Головна</Link>
