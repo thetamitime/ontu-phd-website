@@ -15,7 +15,7 @@ export default async function Page({
   );
 
   return (
-    <div className="gap-10 lg:grid lg:grid-cols-[auto_auto]">
+    <div className="lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
       {/*Main program content*/}
       <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
         {/*Main Section*/}
@@ -58,7 +58,7 @@ export default async function Page({
               <h3 className="text-lg font-bold">
                 Вартість навчання (2024/2025 н.р.)
               </h3>
-              <div className="rounded-box border-base-content/5 flex-1 overflow-x-auto border">
+              <div className="rounded-box border-base-content/5 w-full max-w-[100vw] flex-1 overflow-x-auto border md:max-w-full">
                 <TableSimple />
               </div>
             </div>
@@ -374,17 +374,15 @@ export default async function Page({
         </section>
 
         {/*Components Table*/}
-        {/*
-          <section id="components">
-            <Title text="Перелік компонент програми" />
-            <div className="rounded-box border-base-content/5 bg-base-100 overflow-x-auto border">
-              <TableLarge />
-            </div>
-            <p className="text-base-content/40 mt-4">
-              *є можливість вибору дисципліни з іншої освітньої програми
-            </p>
-          </section>
-        */}
+        <section id="components">
+          <Title text="Перелік компонент програми" />
+          <div className="rounded-box border-base-content/5 bg-base-100 m-auto w-[85dvw] overflow-auto border md:w-full">
+            <TableLarge />
+          </div>
+          <p className="text-base-content/40 mt-2 text-sm">
+            *є можливість вибору дисципліни з іншої освітньої програми
+          </p>
+        </section>
       </article>
 
       {/*Menu*/}
