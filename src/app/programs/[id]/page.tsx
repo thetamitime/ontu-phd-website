@@ -2,7 +2,7 @@ import { programs } from "@/lib/json/Programs.json";
 import { Program } from "@/lib/types";
 import React from "react";
 import { TableLarge, TableSimple } from "@/ui/components/Tables";
-import { ArrowUpRight, FileDown } from "lucide-react";
+import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
 
 export default async function Page({
   params,
@@ -16,7 +16,64 @@ export default async function Page({
 
   return (
     <div className="lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
-      {/*Main program content*/}
+      {/* Mobile Menu */}
+      <nav className="fixed top-[92%] right-3 z-50">
+        <input type="checkbox" id="menu-toggle" className="peer hidden" />
+        <label
+          htmlFor="menu-toggle"
+          className="btn btn-square btn-active md:hidden"
+          aria-label="Toggle menu"
+        >
+          <SquareMenu />
+        </label>
+        <div className="bg-base-300 absolute -top-2 left-10 hidden w-[70svw] -translate-x-[100%] -translate-y-[100%] rounded-xl py-4 shadow-md peer-checked:block">
+          <div className="flex items-center justify-between px-5 font-bold">
+            <p>Меню</p>
+            <label
+              htmlFor="menu-toggle"
+              className="btn btn-ghost btn-square size-auto md:hidden"
+              aria-label="Toggle menu"
+            >
+              <X />
+            </label>
+          </div>
+          <ul className="menu w-full py-0 text-base" role="menu">
+            <li>
+              <a href="#main">Головна інформація</a>
+            </li>
+            <li>
+              <a href="#characteristics">Характеристики програми</a>
+            </li>
+            <li>
+              <a href="#job">Працевлаштування</a>
+            </li>
+            <li>
+              <a href="#competences">Програмні компетентності</a>
+            </li>
+            <li>
+              <a href="#results">Результати навчання</a>
+            </li>
+            <li>
+              <a href="#components">Перелік компонент програми</a>
+            </li>
+            <div className="divider m-0.5 px-2"></div>
+            <li>
+              <a href="" role="button">
+                Cайт кафедри
+                <ArrowUpRight />
+              </a>
+            </li>
+            <li>
+              <a href="" role="button">
+                Документ програми
+                <FileDown size={22} />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      {/*Content*/}
       <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
         {/*Main Section*/}
         <section id="main">
@@ -385,9 +442,9 @@ export default async function Page({
         </section>
       </article>
 
-      {/*Menu*/}
-      <nav className="sticky top-0 self-start overflow-visible">
-        <ul className="menu bg-base-200 rounded-box text-base font-medium [&_a]:px-4 [&_a]:py-3">
+      {/*Side Menu*/}
+      <nav className="sticky top-0 col-start-2 self-start overflow-visible">
+        <ul className="menu bg-base-200 rounded-box hidden text-base font-medium md:block [&_a]:px-4 [&_a]:py-3">
           <li>
             <a href="#main">Головна інформація</a>
           </li>

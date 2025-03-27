@@ -90,7 +90,7 @@ export function TableSimple() {
 
 export function TableLarge() {
   return (
-    <table className="table overflow-x-auto text-center text-base">
+    <table className="table text-center">
       <thead className="bg-base-300 overflow-hidden [&_th]:font-semibold">
         <tr>
           <th>Шифр</th>
@@ -235,7 +235,7 @@ export function TableLarge() {
           <td>-</td>
         </tr>
       </tbody>
-      <tfoot className="text-base">
+      <tfoot>
         <tr>
           <td></td>
           <td>Разом за програму</td>
