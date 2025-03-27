@@ -1,4 +1,3 @@
-//import Image from "next/image";
 import { ProgramCardSmall } from "@/ui/components/ProgramCards";
 import { programs } from "../lib/json/Programs.json";
 import { workers } from "../lib/json/Workers.json";
@@ -35,11 +34,11 @@ export default function Home() {
       </section>
 
       {/* Main Information */}
-      <div className="m-auto my-20 w-[90%] lg:w-[80%]">
+      <div className="m-auto mt-10 mb-30 w-[90%] lg:w-[80%]">
         {/* Programs Section */}
-        <section className="section">
+        <section className="section mt-0">
           <h3 className="header">Галузі знань</h3>
-          <div className="flex flex-wrap content-center items-stretch justify-center gap-6">
+          <div className="wrapper gap-6">
             {programs.map((program) => (
               <ProgramCardSmall
                 key={program.id}
@@ -55,7 +54,7 @@ export default function Home() {
         {/* Faculty Section */}
         <section className="section">
           <h3 className="header">Наші співробітники</h3>
-          <div className="flex flex-wrap content-center items-stretch justify-center gap-7">
+          <div className="wrapper gap-7">
             {workers.map((worker) => (
               <FacultyCard
                 key={worker.id}

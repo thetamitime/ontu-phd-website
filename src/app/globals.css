@@ -11,12 +11,16 @@
 }
 
 @layer components {
+  .container {
+    @apply mx-auto mb-14;
+  }
   .section {
-    margin-bottom: calc(var(--spacing) * 20);
+    background-color: var(--color-base-200);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(var(--spacing) * 10);
+    margin-bottom: calc(var(--spacing) * 6);
+    margin-top: calc(var(--spacing) * 6);
   }
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
@@ -26,6 +30,28 @@
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
+    margin-bottom: calc(var(--spacing) * 10);
+    margin-top: calc(var(--spacing) * 15);
+  }
+  .sub-header {
+    text-align: start;
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .title {
+    text-align: start;
+    font-size: var(--text-xl);
+    line-height: var(--text-xl--line-height);
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+    padding-bottom: calc(var(--spacing) * 2);
+  }
+  .wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 
@@ -38,4 +64,5 @@ html, body {
 ul {
   margin-top: .2rem;
 }
+
 
