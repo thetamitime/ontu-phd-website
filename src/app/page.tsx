@@ -34,9 +34,9 @@ export default function Home() {
       </section>
 
       {/* Main Information */}
-      <div className="m-auto mt-10 mb-20 w-[90%] lg:w-[80%]">
+      <div className="m-auto mt-10 mb-30 w-[90%] lg:w-[80%]">
         {/* Programs Section */}
-        <section className="section">
+        <section className="section mt-0">
           <h3 className="header">Галузі знань</h3>
           <div className="wrapper gap-6">
             {programs.map((program) => (

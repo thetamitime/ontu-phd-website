@@ -77,7 +77,7 @@ export default async function Page({
       <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
         {/*Main Section*/}
         <section id="main">
-          <h2 className="header mb-0 text-start md:w-[80%]">
+          <h2 className="header mt-2 mb-0 text-start md:w-[80%]">
             {program?.title}
           </h2>
           {/*Field and Specialty Badges*/}

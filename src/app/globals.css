@@ -19,7 +19,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(var(--spacing) * 10);
+    margin-bottom: calc(var(--spacing) * 6);
+    margin-top: calc(var(--spacing) * 6);
   }
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
@@ -30,6 +31,7 @@
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     margin-bottom: calc(var(--spacing) * 10);
+    margin-top: calc(var(--spacing) * 15);
   }
   .sub-header {
     text-align: start;
