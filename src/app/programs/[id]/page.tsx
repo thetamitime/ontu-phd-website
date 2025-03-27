@@ -17,11 +17,11 @@ export default async function Page({
   return (
     <div className="lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
       {/* Mobile Menu */}
-      <nav className="fixed top-[92%] right-3 z-50">
+      <nav className="fixed right-3 bottom-3 z-50">
         <input type="checkbox" id="menu-toggle" className="peer hidden" />
         <label
           htmlFor="menu-toggle"
-          className="btn btn-square btn-active md:hidden"
+          className="btn btn-square btn-active lg:hidden"
           aria-label="Toggle menu"
         >
           <SquareMenu />
