@@ -3,6 +3,7 @@ import { Program } from "@/lib/types";
 import React from "react";
 import { TableLarge, TableSimple } from "@/ui/components/Tables";
 import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
+import Link from "next/link";
 
 export default async function Page({
   params,
@@ -39,10 +40,14 @@ export default async function Page({
           </div>
           <ul className="menu w-full py-0 text-base" role="menu">
             <li>
-              <a href="#main">Головна інформація</a>
+              <Link href={`#main`} replace>
+                Головна інформація
+              </Link>
             </li>
             <li>
-              <a href="#characteristics">Характеристики програми</a>
+              <Link href="#characteristics" replace>
+                Характеристики програми
+              </Link>
             </li>
             <li>
               <a href="#job">Працевлаштування</a>

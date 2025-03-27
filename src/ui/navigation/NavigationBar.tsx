@@ -21,11 +21,11 @@ export const NavigationBar: FC = () => {
       subTitle: [
         {
           title: "Аспірантура",
-          path: "/phd",
+          path: "phd",
         },
         {
           title: "Докторантура",
-          path: "/doctorate",
+          path: "doctorate",
         },
       ],
     },
@@ -35,11 +35,11 @@ export const NavigationBar: FC = () => {
       subTitle: [
         {
           title: "Етапи вступу",
-          path: "/roadmap",
+          path: "roadmap",
         },
         {
           title: "Необхідні документи",
-          path: "/apply_docs",
+          path: "apply-docs",
         },
       ],
     },
@@ -73,7 +73,7 @@ export const NavigationBar: FC = () => {
     return tab.subTitle?.map((sub) => (
       <li key={uuidv4()}>
         <Link
-          href={{ pathname: tab.path, query: sub.path }}
+          href={{ pathname: tab.path, query: { type: sub.path } }}
           className="whitespace-nowrap"
         >
           {sub.title}

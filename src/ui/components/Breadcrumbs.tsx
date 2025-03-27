@@ -3,13 +3,16 @@
 import React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { programs } from "../../lib/json/Programs.json";
+import { Program } from "@/lib/types";
 
 export function Breadcrumbs() {
   const paths = usePathname();
   const pathNames = paths.split("/").filter((path) => path);
-  const router = useRouter();
-  console.log(router);
+  const id = pathNames[pathNames.length - 1];
+  const program: Program | undefined = programs.find(
+    (obj) => obj.id.toString() === id,
+  );
 
   return (
     pathNames.length > 1 && (
@@ -23,7 +26,15 @@ export function Breadcrumbs() {
             .slice(1)
             .map((pathName) => (
               <li key={pathName}>
-                <a onClick={() => router.back()}>{pathName}</a>
+                <Link
+                  href={{
+                    pathname: "/programs",
+                    query: { degree: program?.degree },
+                  }}
+                >
+                  Програми{" "}
+                  {program?.degree === "phd" ? "аспірантури" : "докторантури"}
+                </Link>
               </li>
             ))}
           <li>{pathNames[0]}</li>

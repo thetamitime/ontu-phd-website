@@ -7,7 +7,7 @@ import { ProgramCard } from "@/ui/components/ProgramCards";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Programs() {
-  const searchParams = useSearchParams().toString().slice(3, -1); //find degree of program from URL
+  const searchParams = useSearchParams().toString().substring(5); //find degree of program from URL
   const filteredPrograms = programs.filter(
     (prog) => prog.degree === searchParams,
   );
