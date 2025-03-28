@@ -82,7 +82,7 @@ export const NavigationBar = () => {
       tab.path === "" ? (
         <li key={uuidv4()}>
           <Link
-            href={{ pathname: sub.path }}
+            href={{ pathname: sub.path, query: { type: "phd" } }}
             className="whitespace-nowrap"
             onClick={closeDropdown}
           >
