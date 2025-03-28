@@ -1,5 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import { FC } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Menu } from "lucide-react";
 
@@ -9,7 +10,14 @@ interface Page {
   subTitle?: Page[];
 }
 
-export const NavigationBar: FC = () => {
+export const NavigationBar = () => {
+  //dropdown closed on click
+  const closeDropdown = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  ) => {
+    e.currentTarget.blur();
+  };
+
   const pages: Page[] = [
     {
       title: "Головна",
@@ -31,15 +39,15 @@ export const NavigationBar: FC = () => {
     },
     {
       title: "Вступ",
-      path: "/vstup",
+      path: "",
       subTitle: [
         {
           title: "Етапи вступу",
-          path: "roadmap",
+          path: "/apply-roadmap",
         },
         {
           title: "Необхідні документи",
-          path: "apply-docs",
+          path: "/apply-documents",
         },
       ],
     },
@@ -70,16 +78,29 @@ export const NavigationBar: FC = () => {
 
   //func for displaying two-level tab
   const navigationDropdownTab = (tab: Page) => {
-    return tab.subTitle?.map((sub) => (
-      <li key={uuidv4()}>
-        <Link
-          href={{ pathname: tab.path, query: { type: sub.path } }}
-          className="whitespace-nowrap"
-        >
-          {sub.title}
-        </Link>
-      </li>
-    ));
+    return tab.subTitle?.map((sub) =>
+      tab.path === "" ? (
+        <li key={uuidv4()}>
+          <Link
+            href={{ pathname: sub.path }}
+            className="whitespace-nowrap"
+            onClick={closeDropdown}
+          >
+            {sub.title}
+          </Link>
+        </li>
+      ) : (
+        <li key={uuidv4()}>
+          <Link
+            href={{ pathname: tab.path, query: { type: sub.path } }}
+            className="whitespace-nowrap"
+            onClick={closeDropdown}
+          >
+            {sub.title}
+          </Link>
+        </li>
+      ),
+    );
   };
 
   return (
