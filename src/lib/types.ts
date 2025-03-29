@@ -28,3 +28,10 @@ export interface News {
   description: string;
   link: string;
 }
+
+export interface Contact {
+  icon: React.ReactNode;
+  title: string;
+  caption: string;
+  href?: string;
+}
