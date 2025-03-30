@@ -15,7 +15,7 @@ export default async function DocumentsPage() {
               href={document.link}
               target="_blank"
               key={document.id}
-              className="btn btn-lg border-light-base-400 h-fit gap-4 py-3 text-left text-base"
+              className="btn btn-lg border-light-base-400 dark:border-base-400 h-fit gap-4 py-3 text-left text-base"
             >
               <p className="w-full">{document.name}</p>
               <FileSymlink size={24} />
