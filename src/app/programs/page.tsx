@@ -6,14 +6,22 @@ import { programs } from "../../lib/json/Programs.json";
 import { ProgramCard } from "@/ui/components/ProgramCards";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Programs() {
+export default function ProgramsPage() {
+  return (
+    <Suspense>
+      <ProgramPageBody />
+    </Suspense>
+  );
+}
+
+const ProgramPageBody = () => {
   const searchParams = useSearchParams().toString().substring(5); //find degree of program from URL
   const filteredPrograms = programs.filter(
     (prog) => prog.degree === searchParams,
   );
 
   return (
-    <Suspense>
+    <>
       <h2 className="header">
         {searchParams.toString() === "phd"
           ? "Програми аспірантури"
@@ -30,6 +38,6 @@ export default function Programs() {
           ></ProgramCard>
         ))}
       </div>
-    </Suspense>
+    </>
   );
-}
+};

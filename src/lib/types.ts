@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface Program {
   id: number;
   degree: string;
@@ -27,6 +29,13 @@ export interface News {
   title: string;
   description: string;
   link: string;
+}
+
+export interface Contact {
+  icon: ReactElement;
+  title: string;
+  caption: string;
+  href?: string;
 }
 
 interface Requirement {
