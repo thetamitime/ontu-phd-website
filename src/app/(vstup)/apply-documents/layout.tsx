@@ -2,6 +2,7 @@ import { Tabs } from "@/ui/components/Tabs";
 import Link from "next/link";
 import React from "react";
 import { getDocuments } from "@/lib/api/documents";
+import { FileSymlink } from "lucide-react";
 
 const contacts: { name: string; caption: string }[] = [
   {
@@ -20,6 +21,7 @@ export default async function ApplyDocumentsLayout({
   children: React.ReactNode;
 }) {
   const documents = await getDocuments("Entry");
+  console.log(documents);
 
   return (
     <>
@@ -27,18 +29,23 @@ export default async function ApplyDocumentsLayout({
       <Tabs />
       <div className="mt-6 lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
         {children}
-        <nav className="sticky top-0 col-start-2 self-start overflow-visible">
-          <ul className="menu bg-base-200 rounded-box mt-0 hidden max-w-80 pt-0 text-base font-medium md:block [&_a]:px-4 [&_a]:py-3">
+        <nav className="sticky top-0 mt-6 flex flex-col items-center self-start overflow-visible md:flex-row md:items-start md:justify-around lg:col-start-2 lg:mb-0 lg:flex-col">
+          <ul className="menu bg-base-200 rounded-box mt-0 max-w-80 pt-0 text-base font-medium [&_a]:px-4 [&_a]:py-3">
             <li className="menu-title pt-0">Матеріали</li>
             {documents.map((item) => (
               <li key={item.id}>
-                <Link href={item.link} target="_blank">
-                  {item.name}
+                <Link
+                  href={item.link}
+                  target="_blank"
+                  className="flex justify-between"
+                >
+                  <p className="w-full">{item.name}</p>
+                  <FileSymlink size={24} />
                 </Link>
               </li>
             ))}
           </ul>
-          <ul className="menu bg-base-200 rounded-box mt-0 hidden max-w-80 pt-0 text-base font-medium md:block [&_a]:px-4 [&_a]:py-3">
+          <ul className="menu bg-base-200 rounded-box mt-0 max-w-80 pt-0 text-base font-medium [&_a]:px-4 [&_a]:py-3">
             <li className="menu-title pt-0">Контакти</li>
             {contacts.map((item, index) => (
               <div

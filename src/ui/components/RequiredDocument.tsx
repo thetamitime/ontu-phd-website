@@ -13,7 +13,7 @@ export const RequiredDocument = ({
   description,
   isLast = false,
 }: RequirementProps) => {
-  // avoid extra space if it starts with ","
+  // avoid extra space if description starts with ","
   const formattedDescription = description?.startsWith(",")
     ? description
     : ` ${description}`;
@@ -28,7 +28,7 @@ export const RequiredDocument = ({
   return (
     <div className="flex items-center justify-between">
       <p className="text-lg font-semibold">{number}</p>
-      <p className="w-[95%]">
+      <p className="w-[90%] md:w-[95%]">
         {titleParts.map((part, index) => (
           <span
             key={index}
@@ -37,12 +37,23 @@ export const RequiredDocument = ({
             }
           >
             {part}
-            {/* avoid extra space */}
-            {titleParts[index + 1]?.startsWith(",") ? "" : " "}
+            {/* avoid extra space unless the next part is not a comma */}
+            {index < titleParts.length - 1 &&
+            !titleParts[index + 1]?.startsWith(",")
+              ? " "
+              : ""}
           </span>
         ))}
+        {/*
+        // if part is empty prevent from adding extra space
+        // else check for highlighted (underlined) parts
+        */}
         {descriptionParts.map((part, index) =>
-          highlightRegex.test(part) ? <u key={index}>{part}</u> : part,
+          part.trim() === "" ? null : highlightRegex.test(part) ? (
+            <u key={index}>{part}</u>
+          ) : (
+            part
+          ),
         )}
         {isLast ? "." : ";"}
       </p>

@@ -6,5 +6,5 @@ export async function getDocuments(type: string) {
 
   const documents: Documents = await res.json();
   if (!documents) notFound();
-  return documents;
+  return documents.sort((a, b) => a.id - b.id);
 }
