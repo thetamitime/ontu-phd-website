@@ -1,5 +1,5 @@
 import Timeline from "@/ui/components/Timeline";
-import { timeline } from "../../../../lib/json/timeline.json";
+import { getRoadmap } from "@/lib/api/roadmap";
 
 export default async function Roadmap({
   params,
@@ -7,9 +7,7 @@ export default async function Roadmap({
   params: Promise<{ degree: string }>;
 }) {
   const { degree } = await params;
-  const typedTimeline = timeline.find((x) => x.type === degree);
+  const roadmap = await getRoadmap(degree);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  return <Timeline events={typedTimeline.events} />;
+  return <Timeline roadmap={roadmap} />;
 }
