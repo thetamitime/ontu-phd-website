@@ -29,11 +29,11 @@ export const NavigationBar = () => {
       subTitle: [
         {
           title: "Аспірантура",
-          path: "phd",
+          path: "/phd",
         },
         {
           title: "Докторантура",
-          path: "doctorate",
+          path: "/doctorate",
         },
       ],
     },
@@ -92,7 +92,7 @@ export const NavigationBar = () => {
       ) : (
         <li key={uuidv4()}>
           <Link
-            href={{ pathname: tab.path, query: { type: sub.path } }}
+            href={tab.path + sub.path}
             className="whitespace-nowrap"
             onClick={closeDropdown}
           >

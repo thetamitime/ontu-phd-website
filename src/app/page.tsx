@@ -4,6 +4,7 @@ import { workers } from "../lib/json/Workers.json";
 import { news } from "../lib/json/News.json";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
+import Link from "next/link";
 
 export default function Home() {
   const photoUrl =
@@ -45,10 +46,15 @@ export default function Home() {
                 id={program.id}
                 degree={program.degree}
                 fieldOfKnowledge={program.fieldOfKnowledge}
-                link={program.link}
               />
             ))}
           </div>
+          <Link
+            href={"/programs"}
+            className="link md:link-hover text-base-content/40 mt-5"
+          >
+            Усі програми
+          </Link>
         </section>
 
         {/* Faculty Section */}

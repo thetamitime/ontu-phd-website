@@ -4,19 +4,18 @@ import { ArrowRight } from "lucide-react";
 
 type ProgramShortenedSmall = Pick<
   Program,
-  "id" | "degree" | "fieldOfKnowledge" | "link"
+  "id" | "degree" | "fieldOfKnowledge"
 >;
 
 type ProgramShortened = Pick<
   Program,
-  "id" | "fieldOfKnowledge" | "title" | "specialty"
+  "id" | "fieldOfKnowledge" | "title" | "specialty" | "degree"
 >;
 
 export function ProgramCardSmall({
   id,
   fieldOfKnowledge,
   degree,
-  link,
 }: ProgramShortenedSmall) {
   return (
     <div className="card card-border border-base-300 bg-base-100 w-78" key={id}>
@@ -25,13 +24,6 @@ export function ProgramCardSmall({
           {degree === "Phd" ? "Доктор філософії" : "Доктор наук"}
         </p>
         <h4 className="card-title font-semibold"> {fieldOfKnowledge} </h4>
-        <a
-          target="_blank"
-          href={link}
-          className="link md:link-hover text-base-content/40 mt-3"
-        >
-          Усі програми
-        </a>
       </div>
     </div>
   );
@@ -39,6 +31,7 @@ export function ProgramCardSmall({
 
 export function ProgramCard({
   id,
+  degree,
   fieldOfKnowledge,
   specialty,
   title,
@@ -53,7 +46,7 @@ export function ProgramCard({
         <h3 className="text-base-content h-full text-xl font-bold">{title}</h3>
         <div className="card-actions justify-end self-stretch">
           <Link
-            href={`/programs/${id}`}
+            href={`/programs/${degree}/${id}`}
             className="link md:link-hover text-base-content/40 mt-3"
           >
             <ArrowRight />
