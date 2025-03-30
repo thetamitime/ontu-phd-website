@@ -29,9 +29,39 @@ export interface News {
   link: string;
 }
 
-export interface Contact {
-  icon: React.ReactNode;
+interface Requirement {
   title: string;
-  caption: string;
-  href?: string;
+  description: string;
 }
+
+interface ApplyDocument {
+  id: number;
+  name: string;
+  description: string;
+  requirements: Requirement[];
+  originalsRequired: Requirement[];
+}
+
+export type ApplyDocuments = ApplyDocument[];
+
+interface Document {
+  id: number;
+  programId: number;
+  name: string;
+  type: string;
+  link: string;
+}
+
+export type Documents = Document[];
+
+export interface RoadmapItem {
+  id: number;
+  type: string;
+  dataStart: string;
+  dataEnd: string | null;
+  additionalTime: string | null;
+  description: string;
+  status: string;
+}
+
+export type Roadmap = RoadmapItem[];

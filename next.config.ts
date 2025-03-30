@@ -15,6 +15,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/apply-documents",
+        destination: "/apply-documents/phd",
+        permanent: true,
+      },
+      {
+        source: "/apply-roadmap",
+        destination: "/apply-roadmap/phd",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
