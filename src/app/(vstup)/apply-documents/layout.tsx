@@ -29,7 +29,7 @@ export default async function ApplyDocumentsLayout({
       <Tabs />
       <div className="mt-6 lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
         {children}
-        <nav className="sticky top-0 mt-6 flex flex-col items-center self-start overflow-visible md:flex-row md:items-start md:justify-around lg:col-start-2 lg:mb-0 lg:flex-col">
+        <nav className="sticky top-0 mt-6 flex flex-col items-center self-start overflow-visible md:mt-0 md:flex-row md:items-start md:justify-around lg:col-start-2 lg:mb-0 lg:flex-col">
           <ul className="menu bg-base-200 rounded-box mt-0 max-w-80 pt-0 text-base font-medium [&_a]:px-4 [&_a]:py-3">
             <li className="menu-title pt-0">Матеріали</li>
             {documents.map((item) => (
