@@ -1,6 +1,5 @@
-import { programs } from "../../../lib/json/Programs.json";
 import { ProgramCard } from "@/ui/components/ProgramCards";
-import { v4 as uuidv4 } from "uuid";
+import { getProgramsByDegree } from "@/lib/api/programs";
 
 export default async function ProgramsPage({
   params,
@@ -8,7 +7,7 @@ export default async function ProgramsPage({
   params: Promise<{ degree: string }>;
 }) {
   const { degree } = await params;
-  const filteredPrograms = programs.filter((prog) => prog.degree === degree);
+  const programsByDegree = await getProgramsByDegree(degree);
 
   return (
     <>
@@ -16,14 +15,14 @@ export default async function ProgramsPage({
         {degree === "phd" ? "Програми аспірантури" : "Програми докторантури"}
       </h2>
       <div className="wrapper gap-6">
-        {filteredPrograms.map((program) => (
+        {programsByDegree.map((program) => (
           <ProgramCard
-            key={uuidv4()}
+            key={program.id}
             id={program.id}
             degree={degree}
-            title={program.title}
-            fieldOfKnowledge={program.fieldOfKnowledge}
-            specialty={program.specialty}
+            name={program.name}
+            fieldOfStudy={program.fieldOfStudy}
+            speciality={program.speciality}
           ></ProgramCard>
         ))}
       </div>

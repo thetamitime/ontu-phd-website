@@ -16,7 +16,7 @@ export const Breadcrumbs = ({ degree, forPath, title }: BreadcrumbsProps) => {
       : "Новини";
 
   return (
-    <div className="breadcrumbs py-4">
+    <div className="breadcrumbs max-w-[88svw] py-4 lg:max-w-full">
       <ul>
         <li>
           <Link href="/">Головна</Link>

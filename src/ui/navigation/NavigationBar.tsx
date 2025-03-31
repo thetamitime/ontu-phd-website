@@ -33,7 +33,7 @@ export const NavigationBar = () => {
         },
         {
           title: "Докторантура",
-          path: "/doctorate",
+          path: "/doc",
         },
       ],
     },

@@ -1,7 +1,13 @@
-export function TableSimple() {
+import React from "react";
+import { Component } from "@/lib/types/programs";
+
+export const CostsTable: React.FC<{ sum: number; costs: number[] }> = ({
+  sum,
+  costs,
+}) => {
   return (
     <div
-      className="grid h-full md:grid-cols-[auto_repeat(4,1fr)] md:grid-rows-[auto_auto_1fr]"
+      className="grid h-full grid-cols-1 grid-rows-[auto_auto_repeat(8,auto)] md:grid-cols-[auto_repeat(4,1fr)] md:grid-rows-[repeat(3,auto)]"
       role="table"
       aria-labelledby="table-caption"
     >
@@ -11,84 +17,105 @@ export function TableSimple() {
       </div>
 
       {/* Header Section */}
-      <div role="row" className="contents text-center font-semibold">
+      <div className="contents text-center font-semibold">
         <div
-          className="bg-base-300 content-center p-4 md:row-span-2"
+          className="bg-base-300 content-center p-4 md:col-start-1 md:row-span-2 md:row-start-1"
           role="columnheader"
         >
           Сума за весь період
         </div>
-        <div className="bg-base-300 py-2 md:col-span-4" role="columnheader">
+        <div
+          className="bg-base-300 row-start-3 py-2 md:col-span-4 md:col-start-2 md:row-start-1"
+          role="columnheader"
+        >
           Сума за рік
         </div>
       </div>
 
-      {/* Year Headers */}
-      <div role="row" className="contents text-center font-semibold">
+      {/* Total Amount */}
+      <div className="contents text-center text-xl font-bold">
         <div
-          className="bg-base-300/30 row-start-4 py-2 md:row-auto"
-          role="columnheader"
+          className="bg-base-100 row-start-2 content-center px-6 py-8 md:col-start-1 md:row-span-2 md:row-start-3"
+          role="cell"
         >
-          1 рік
-        </div>
-        <div
-          className="bg-base-300/30 row-start-6 py-2 md:row-auto"
-          role="columnheader"
-        >
-          2 рік
-        </div>
-        <div
-          className="bg-base-300/30 row-start-8 py-2 md:row-auto"
-          role="columnheader"
-        >
-          3 рік
-        </div>
-        <div
-          className="bg-base-300/30 row-start-10 py-2 md:row-auto"
-          role="columnheader"
-        >
-          4 рік
+          {`${sum}`} <span className="text-lg font-normal"> грн.</span>
         </div>
       </div>
 
-      {/* Data Row */}
-      <div role="row" className="contents text-center text-xl font-bold">
-        <div
-          className="bg-base-100 row-start-2 content-center px-6 py-8 md:row-auto"
-          role="cell"
-        >
-          146700 <span className="text-lg font-normal"> грн.</span>
+      {/* Year Headers and Data Rows */}
+      {costs.map((cost, index) => (
+        <div key={index} className="contents text-center">
+          {/* Year Header */}
+          <div
+            className={`bg-base-300/30 content-center py-1 font-medium md:row-start-2 md:col-start-${index + 2}`}
+            role="columnheader"
+          >
+            {`${index + 1} рік`}
+          </div>
+
+          {/* Corresponding Cost */}
+          <div
+            className={`bg-base-100 row-span-2 content-center px-6 py-8 md:row-start-3 md:col-start-${index + 2} text-xl font-bold`}
+            role="cell"
+          >
+            {`${cost}`} <span className="text-lg font-normal"> грн.</span>
+          </div>
         </div>
-        <div
-          className="bg-base-100 row-start-5 content-center px-6 py-8 md:row-auto"
-          role="cell"
-        >
-          31700 <span className="text-lg font-normal">грн.</span>
-        </div>
-        <div
-          className="bg-base-100 row-start-7 content-center px-6 py-8 md:row-auto"
-          role="cell"
-        >
-          38200 <span className="text-lg font-normal">грн.</span>
-        </div>
-        <div
-          className="bg-base-100 row-start-9 content-center px-6 py-8 md:row-auto"
-          role="cell"
-        >
-          34800 <span className="text-lg font-normal">грн.</span>
-        </div>
-        <div
-          className="bg-base-100 row-start-11 content-center px-6 py-8 md:row-auto"
-          role="cell"
-        >
-          42000 <span className="text-lg font-normal">грн.</span>
-        </div>
-      </div>
+      ))}
     </div>
   );
-}
+};
 
-export function TableLarge() {
+export const ComponentsTable: React.FC<{ components: Component[] }> = ({
+  components,
+}) => {
+  //find optional components for correct indexing
+  const optionalComponents = components.filter(
+    (component) => component.componentType === "Optional",
+  );
+
+  // func for counting property of component
+  const sumProperty = <K extends keyof Component>(
+    type: "Universal" | "Practical" | "Optional",
+    components: Component[],
+    property: K,
+  ): number =>
+    components
+      .filter(({ componentType }) => componentType === type)
+      .reduce((acc, component) => acc + (component[property] as number), 0);
+
+  // totals counted
+  const totalUniversalCredits = sumProperty(
+    "Universal",
+    components,
+    "componentCredits",
+  );
+  const totalUniversalHours = sumProperty(
+    "Universal",
+    components,
+    "componentHours",
+  );
+  const totalPracticalCredits = sumProperty(
+    "Practical",
+    components,
+    "componentCredits",
+  );
+  const totalPracticalHours = sumProperty(
+    "Practical",
+    components,
+    "componentHours",
+  );
+  const totalOptionalCredits = sumProperty(
+    "Optional",
+    components,
+    "componentCredits",
+  );
+  const totalOptionalHours = sumProperty(
+    "Optional",
+    components,
+    "componentHours",
+  );
+
   return (
     <table className="table text-center">
       <thead className="bg-base-300 overflow-hidden [&_th]:font-semibold">
@@ -110,40 +137,25 @@ export function TableLarge() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>ОК1</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК2</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК3</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК4</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
+        {components.map(
+          (component, index) =>
+            component.componentType === "Universal" && (
+              <tr key={index}>
+                <td>ОК{index + 1}</td>
+                <td>{component.componentName}</td>
+                <td>{component.componentCredits}</td>
+                <td>{component.componentHours}</td>
+                <td>{component.controlForm.join(", ")}</td>
+              </tr>
+            ),
+        )}
+
         <tr>
           <td colSpan={2} className="text-start">
             Всього за цикл:
           </td>
-          <td>16</td>
-          <td>480</td>
+          <td>{totalUniversalCredits}</td>
+          <td>{totalUniversalHours}</td>
           <td>-</td>
         </tr>
       </tbody>
@@ -156,54 +168,31 @@ export function TableLarge() {
         </tr>
       </thead>
       <tbody className="text-center">
-        <tr>
-          <td>ОК5</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК6</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК7</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК8</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ОК9</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
+        {components.map(
+          (component, index) =>
+            component.componentType === "Practical" && (
+              <tr key={index}>
+                <td>ОК{index + 1}</td>
+                <td>{component.componentName}</td>
+                <td>{component.componentCredits}</td>
+                <td>{component.componentHours}</td>
+                <td>{component.controlForm.join(", ")}</td>
+              </tr>
+            ),
+        )}
         <tr>
           <td colSpan={2} className="text-start">
             Всього за цикл:
           </td>
-          <td>16</td>
-          <td>480</td>
+          <td>{totalPracticalCredits}</td>
+          <td>{totalPracticalHours}</td>
           <td>-</td>
         </tr>
         <tr>
           <td></td>
           <td>Разом обов&#39;язкові компоненти</td>
-          <td>33</td>
-          <td>90</td>
+          <td>{totalUniversalCredits + totalPracticalCredits}</td>
+          <td>{totalUniversalHours + totalPracticalHours}</td>
           <td>-</td>
         </tr>
       </tbody>
@@ -213,37 +202,31 @@ export function TableLarge() {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>ВК1</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td>ВК2</td>
-          <td>Філософія пізнання</td>
-          <td>3</td>
-          <td>90</td>
-          <td>диф. залік, екзамен</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>Разом вибіркові компоненти</td>
-          <td>33</td>
-          <td>90</td>
-          <td>-</td>
-        </tr>
+        {optionalComponents.map((component, index) => (
+          <tr key={index}>
+            <td>ВК{index + 1}</td>
+            <td>{component.componentName}</td>
+            <td>{component.componentCredits}</td>
+            <td>{component.componentHours}</td>
+            <td>{component.controlForm.join(", ")}</td>
+          </tr>
+        ))}
       </tbody>
       <tfoot>
         <tr>
           <td></td>
           <td>Разом за програму</td>
-          <td>33</td>
-          <td>90</td>
+          <td>
+            {totalUniversalCredits +
+              totalPracticalCredits +
+              totalOptionalCredits}
+          </td>
+          <td>
+            {totalUniversalHours + totalPracticalHours + totalOptionalHours}
+          </td>
           <td>-</td>
         </tr>
       </tfoot>
     </table>
   );
-}
+};

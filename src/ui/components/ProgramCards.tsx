@@ -1,29 +1,26 @@
-import { Program } from "@/lib/types";
+import { Program } from "@/lib/types/programs";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-type ProgramShortenedSmall = Pick<
-  Program,
-  "id" | "degree" | "fieldOfKnowledge"
->;
+type ProgramShortenedSmall = Pick<Program, "id" | "degree" | "fieldOfStudy">;
 
 type ProgramShortened = Pick<
   Program,
-  "id" | "fieldOfKnowledge" | "title" | "specialty" | "degree"
+  "id" | "fieldOfStudy" | "name" | "speciality" | "degree"
 >;
 
 export function ProgramCardSmall({
   id,
-  fieldOfKnowledge,
+  fieldOfStudy,
   degree,
 }: ProgramShortenedSmall) {
   return (
     <div className="card card-border border-base-300 bg-base-100 w-78" key={id}>
       <div className="card-body">
-        <p className="text-base-content/80 text-base">
-          {degree === "Phd" ? "Доктор філософії" : "Доктор наук"}
+        <p className="text-base-content/80 grow-0 text-base">
+          {degree === "phd" ? "Доктор філософії" : "Доктор наук"}
         </p>
-        <h4 className="card-title font-semibold"> {fieldOfKnowledge} </h4>
+        <h4 className="card-title font-semibold">{fieldOfStudy.name}</h4>
       </div>
     </div>
   );
@@ -32,18 +29,20 @@ export function ProgramCardSmall({
 export function ProgramCard({
   id,
   degree,
-  fieldOfKnowledge,
-  specialty,
-  title,
+  fieldOfStudy,
+  speciality,
+  name,
 }: ProgramShortened) {
   return (
     <div className="card bg-base-100 card-border border-base-300 w-80">
       <div className="card-body items-start justify-between">
         <div className="text-sm">
-          <p className="text-base-content pb-2 uppercase">{fieldOfKnowledge}</p>
-          <p className="text-base-content/40 font-medium">{specialty}</p>
+          <p className="text-base-content pb-2 uppercase">{`${fieldOfStudy.code} ${fieldOfStudy.name}`}</p>
+          <p className="text-base-content/40 font-medium">
+            {`${speciality.code} ${speciality.name}`}
+          </p>
         </div>
-        <h3 className="text-base-content h-full text-xl font-bold">{title}</h3>
+        <h3 className="text-base-content h-full text-xl font-bold">{name}</h3>
         <div className="card-actions justify-end self-stretch">
           <Link
             href={`/programs/${degree}/${id}`}

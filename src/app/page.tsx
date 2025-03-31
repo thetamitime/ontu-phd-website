@@ -1,15 +1,17 @@
 import { ProgramCardSmall } from "@/ui/components/ProgramCards";
-import { programs } from "../lib/json/Programs.json";
 import { workers } from "../lib/json/Workers.json";
 import { news } from "../lib/json/News.json";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
 import Link from "next/link";
+import { getProgramFields } from "@/lib/api/programs";
 
-export default function Home() {
+export default async function Home() {
   const photoUrl =
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   const [firstNewsCard, ...newsCards] = news;
+
+  const programFields = await getProgramFields();
 
   return (
     <main className="bg-base-200 min-h-full">
@@ -40,12 +42,12 @@ export default function Home() {
         <section className="section mt-0">
           <h3 className="header">Галузі знань</h3>
           <div className="wrapper gap-6">
-            {programs.map((program) => (
+            {programFields.map((field) => (
               <ProgramCardSmall
-                key={program.id}
-                id={program.id}
-                degree={program.degree}
-                fieldOfKnowledge={program.fieldOfKnowledge}
+                key={field.id}
+                id={field.id}
+                degree={field.degree}
+                fieldOfStudy={field.fieldOfStudy}
               />
             ))}
           </div>
