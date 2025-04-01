@@ -101,17 +101,21 @@ export function NewsCardSmall({ id, title, mainTag, date, thumbnail }: News) {
         <Image
           src={`/${thumbnail}`}
           alt="Thumbnail"
-          className="h-64 w-xs object-cover"
+          className="h-64 w-full object-cover"
           width={1000}
           height={1000}
         />
       </figure>
-      <div className="card-body max-w-64">
+      <div className="card-body">
         <div className="badge badge-soft badge-secondary"> {mainTag} </div>
         <Link className="link link-hover mb-4" href={`/news/${id}`}>
           <h4 className="card-title text-lg font-semibold">{title}</h4>
         </Link>
-        <p className="text-base-content/80 text-sm">{formattedDate}</p>
+        <div className="flex grow-1">
+          <p className="text-base-content/80 mt-auto text-sm">
+            {formattedDate}
+          </p>
+        </div>
       </div>
     </div>
   );
