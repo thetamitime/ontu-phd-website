@@ -1,14 +1,18 @@
 import { ReactElement } from "react";
 
-export interface News {
+export interface NewsSingular {
   id: number;
-  category: string;
-  date: Date;
-  photo: string;
   title: string;
-  description: string;
-  link: string;
+  summary: string;
+  mainTag: string;
+  otherTags: string[];
+  date: string;
+  thumbnail: string;
+  photos: string[];
+  body: string[];
 }
+
+export type News = NewsSingular[];
 
 export interface Contact {
   icon: ReactElement;
