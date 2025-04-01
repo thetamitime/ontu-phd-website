@@ -22,7 +22,9 @@ export const Breadcrumbs = ({ degree, forPath, title }: BreadcrumbsProps) => {
           <Link href="/">Головна</Link>
         </li>
         <li>
-          <Link href={forPath + `/${degree}`}>{previousPath}</Link>
+          <Link href={degree ? forPath + `/${degree}` : forPath}>
+            {previousPath}
+          </Link>
         </li>
         <li>{title}</li>
       </ul>

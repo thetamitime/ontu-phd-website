@@ -27,11 +27,6 @@ const nextConfig: NextConfig = {
         destination: "/apply-roadmap/phd",
         permanent: true,
       },
-      {
-        source: "/programs",
-        destination: "/programs/phd",
-        permanent: true,
-      },
     ];
   },
 };
