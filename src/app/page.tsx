@@ -79,33 +79,12 @@ export default async function Home() {
         {/* News Section */}
         <section className="section">
           <h3 className="header">Останні новини</h3>
-          <div className="col grid w-full items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
+          <div className="grid w-full items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
             <div className="row-span-3">
-              <NewsCardLarge
-                id={firstLatestNews.id}
-                title={firstLatestNews.title}
-                summary={firstLatestNews.summary}
-                mainTag={firstLatestNews.mainTag}
-                otherTags={firstLatestNews.otherTags}
-                date={firstLatestNews.date}
-                thumbnail={firstLatestNews.thumbnail}
-                photos={firstLatestNews.photos}
-                body={firstLatestNews.body}
-              />
+              <NewsCardLarge {...firstLatestNews} />
             </div>
             {restLatestNews.map((newsCard) => (
-              <NewsCardMedium
-                key={newsCard.id}
-                id={newsCard.id}
-                title={newsCard.title}
-                summary={newsCard.summary}
-                mainTag={newsCard.mainTag}
-                otherTags={newsCard.otherTags}
-                date={newsCard.date}
-                thumbnail={newsCard.thumbnail}
-                photos={newsCard.photos}
-                body={newsCard.body}
-              />
+              <NewsCardMedium key={newsCard.id} {...newsCard} />
             ))}
           </div>
         </section>

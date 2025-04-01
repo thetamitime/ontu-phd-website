@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { NewsSingular } from "@/lib/types";
+import { LatestNews, News } from "@/lib/types";
 import Link from "next/link";
 
 export function NewsCardLarge({
@@ -7,17 +7,15 @@ export function NewsCardLarge({
   title,
   summary,
   mainTag,
-  otherTags,
   date,
   thumbnail,
-  photos,
-  body,
-}: NewsSingular) {
+}: LatestNews) {
   const formattedDate = new Date(date).toLocaleString("uk-UA", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+
   return (
     <div
       className="card card-border border-base-300 bg-base-100 h-full"
@@ -57,12 +55,8 @@ export function NewsCardMedium({
   title,
   summary,
   mainTag,
-  otherTags,
   date,
-  thumbnail,
-  photos,
-  body,
-}: NewsSingular) {
+}: LatestNews) {
   const formattedDate = new Date(date).toLocaleString("uk-UA", {
     year: "numeric",
     month: "long",
@@ -91,6 +85,34 @@ export function NewsCardMedium({
   );
 }
 
-export function NewsCardSmall() {
-  return <></>;
+export function NewsCardSmall({ id, title, mainTag, date, thumbnail }: News) {
+  const formattedDate = new Date(date).toLocaleString("uk-UA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  return (
+    <div
+      className="card card-sm card-border border-base-300 bg-base-100"
+      key={id}
+    >
+      <figure>
+        <Image
+          src={`/${thumbnail}`}
+          alt="Thumbnail"
+          className="h-64 w-xs object-cover"
+          width={1000}
+          height={1000}
+        />
+      </figure>
+      <div className="card-body max-w-64">
+        <div className="badge badge-soft badge-secondary"> {mainTag} </div>
+        <Link className="link link-hover mb-4" href={`/news/${id}`}>
+          <h4 className="card-title text-lg font-semibold">{title}</h4>
+        </Link>
+        <p className="text-base-content/80 text-sm">{formattedDate}</p>
+      </div>
+    </div>
+  );
 }
