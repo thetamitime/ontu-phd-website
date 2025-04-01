@@ -2,6 +2,8 @@ import React from "react";
 import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getNewsById } from "@/lib/api/news";
 import { Carousel } from "@/ui/components/Carousel";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default async function Page({
   params,
@@ -42,7 +44,9 @@ export default async function Page({
 
         <div>
           {news.body.map((item, index) => (
-            <p key={index}>{item}</p>
+            <Markdown key={index} remarkPlugins={[remarkGfm]}>
+              {item}
+            </Markdown>
           ))}
         </div>
       </article>
