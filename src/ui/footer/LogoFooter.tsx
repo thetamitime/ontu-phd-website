@@ -31,28 +31,28 @@ export function LogoFooter() {
         <a className="link link-hover" href={""}>
           Про нас
         </a>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/news">
           Новини
         </Link>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/documents">
           Документи
         </Link>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/contacts">
           Контакти
         </Link>
       </nav>
       <nav>
         <h3 className="footer-title uppercase">Вступ</h3>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/programs/phd">
           Аспірантура
         </Link>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/programs/doc">
           Докторантура
         </Link>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/apply-documents">
           Необхідні документи
         </Link>
-        <Link className="link link-hover" href={""}>
+        <Link className="link link-hover" href="/apply-roadmap">
           Етапи вступу
         </Link>
       </nav>
