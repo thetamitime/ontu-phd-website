@@ -124,7 +124,7 @@ export const NavigationBar = () => {
                 navigationTab(page)
               ) : (
                 <li key={uuidv4()}>
-                  <a> {page.title}</a>
+                  <Link href={page.path}> {page.title} </Link>
                   <ul>{navigationDropdownTab(page)}</ul>
                 </li>
               );
@@ -146,9 +146,13 @@ export const NavigationBar = () => {
               className="dropdown dropdown-hover md:dropdown-end lg:dropdown-start"
               key={uuidv4()}
             >
-              <div tabIndex={0} role="button" className="btn btn-ghost">
-                {page.title}
-              </div>
+              {page.path !== "" ? (
+                navigationTab(page)
+              ) : (
+                <div tabIndex={0} role="button" className="btn btn-ghost">
+                  {page.title}
+                </div>
+              )}
               <ul className="dropdown-content menu bg-base-200 rounded-box z-1 flex w-fit p-2 normal-case shadow-sm">
                 {navigationDropdownTab(page)}
               </ul>

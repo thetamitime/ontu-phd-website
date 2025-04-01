@@ -41,8 +41,8 @@ export default async function Page({
         <Carousel images={news.photos} />
 
         <div>
-          {news.body.map((item) => (
-            <p>{item}</p>
+          {news.body.map((item, index) => (
+            <p key={index}>{item}</p>
           ))}
         </div>
       </article>
