@@ -25,22 +25,20 @@ export const MainSection: React.FC<Program> = ({ ...props }) => {
       <p>
         <b>Основна мета програми:</b> {props.purpose}
       </p>
-      <div className="mt-4 grid w-full grid-cols-1 gap-4 md:inline-grid md:grid-cols-[auto_1fr] md:grid-rows-2">
+      <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
         {/* Years */}
-        {props.years !== undefined && (
+        {props.years && (
           <SmallCardWithNumber
             num={props.years}
             caption="тривалість навчання"
           />
         )}
         {/* Credits */}
-        {props.credits !== undefined && (
-          <div className="md:row-start-2">
-            <SmallCardWithNumber
-              num={props.credits}
-              caption="кількість кредитів"
-            />
-          </div>
+        {props.credits && (
+          <SmallCardWithNumber
+            num={props.credits}
+            caption="кількість кредитів"
+          />
         )}
       </div>
     </section>

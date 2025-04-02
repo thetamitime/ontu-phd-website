@@ -56,18 +56,6 @@ export default async function Page({
                   Характеристики програми
                 </Link>
               </li>
-              <li>
-                <a href={"#job"}>Працевлаштування</a>
-              </li>
-              <li>
-                <a href={"#competences"}>Програмні компетентності</a>
-              </li>
-              <li>
-                <a href={"#results"}>Результати навчання</a>
-              </li>
-              <li>
-                <a href={"#components"}>Перелік компонент програми</a>
-              </li>
               <div className="divider m-0.5 px-2"></div>
               <li>
                 <Link href={program.linkFaculty} target="_blank" role="button">
@@ -106,18 +94,6 @@ export default async function Page({
             </li>
             <li>
               <a href={"#characteristics"}>Характеристики програми</a>
-            </li>
-            <li>
-              <a href={"#job"}>Працевлаштування</a>
-            </li>
-            <li>
-              <a href={"#competences"}>Програмні компетентності</a>
-            </li>
-            <li>
-              <a href={"#results"}>Результати навчання</a>
-            </li>
-            <li>
-              <a href={"#components"}>Перелік компонент програми</a>
             </li>
             <div className="divider m-0.5 px-2"></div>
             <li>
