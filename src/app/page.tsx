@@ -1,5 +1,4 @@
 import { ProgramCardSmall } from "@/ui/components/ProgramCards";
-import { workers } from "../lib/json/Workers.json";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
 import Link from "next/link";
