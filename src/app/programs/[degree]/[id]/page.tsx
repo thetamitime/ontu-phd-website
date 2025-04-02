@@ -3,14 +3,7 @@ import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getProgramById } from "@/lib/api/programs";
-import {
-  MainSection,
-  CharacteristicsSection,
-  JobSection,
-  CompetencesSection,
-  ResultsSection,
-  ComponentsSection,
-} from "@/ui/program-parts";
+import { MainSection, CharacteristicsSection } from "@/ui/program-parts";
 
 export default async function Page({
   params,
@@ -93,34 +86,14 @@ export default async function Page({
         {/*Content*/}
         <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
           {/*Main Section*/}
-          <MainSection
-            programName={program.name}
-            programField={program.fieldOfStudy}
-            programSpecialty={program.speciality}
-            programForm={program.form}
-            programPurpose={program.purpose}
-            programDuration={program.years}
-            programCredits={program.credits}
-            programCosts={program.costs}
-            programSum={program.sum}
-          />
+          <MainSection {...program} />
 
           {/*Program Characteristics*/}
-          <CharacteristicsSection
-            programCharacteristics={program.programCharacteristics}
-          />
-
-          {/*Job Opportunities*/}
-          <JobSection jobs={program.jobs} />
-
-          {/*Competences*/}
-          <CompetencesSection programCompetences={program.programCompetence} />
-
-          {/*Results*/}
-          <ResultsSection programResults={program.results} />
-
-          {/*Components Table*/}
-          <ComponentsSection programComponents={program.components} />
+          {program.programCharacteristics !== undefined && (
+            <CharacteristicsSection
+              programCharacteristics={program.programCharacteristics}
+            />
+          )}
         </article>
 
         {/*Side Menu*/}

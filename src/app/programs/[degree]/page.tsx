@@ -9,6 +9,8 @@ export default async function ProgramsPage({
   const { degree } = await params;
   const programsByDegree = await getProgramsByDegree(degree);
 
+  console.log(programsByDegree);
+
   return (
     <>
       <h2 className="header">

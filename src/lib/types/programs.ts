@@ -22,48 +22,23 @@ export interface ProgramCharacteristics {
   features: string[];
 }
 
-export interface ProgramCompetence {
-  overallCompetence: string[];
-  specialCompetence: string[];
-  integralCompetence: string;
-}
-
-export interface Component {
-  id: number;
-  programId: number;
-  componentType: string;
-  componentName: string;
-  componentCredits: number;
-  componentHours: number;
-  controlForm: string[];
-}
-
-export interface Job {
-  id: number;
-  code: string;
-  title: string;
-}
-
 export interface Program {
   id: number;
   degree: string;
   name: string;
-  nameEng: string;
+  nameCode?: string;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
   form: string[];
-  purpose: string;
-  years: number;
-  credits: number;
-  sum: number;
-  costs: number[];
-  programCharacteristics: ProgramCharacteristics;
-  programCompetence: ProgramCompetence;
-  results: string[];
+  purpose?: string;
+  years?: number;
+  credits?: number;
+  programCharacteristics?: ProgramCharacteristics;
+  description?: string;
+  programObjects: string;
+  directions: string[];
   linkFaculty: string;
   linkFile: string;
-  components: Component[];
-  jobs: Job[];
 }
 
 export type Programs = Program[];
