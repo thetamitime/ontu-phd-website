@@ -9,7 +9,7 @@ export interface NewsFull {
   thumbnail: string;
   otherTags: string[];
   photos: string[];
-  body: string[];
+  body: string;
 }
 
 export type LatestNews = Omit<NewsFull, "otherTags" | "photos" | "body">;

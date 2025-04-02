@@ -43,11 +43,7 @@ export default async function Page({
         <Carousel images={news.photos} />
 
         <div>
-          {news.body.map((item, index) => (
-            <Markdown key={index} remarkPlugins={[remarkGfm]}>
-              {item}
-            </Markdown>
-          ))}
+          <Markdown remarkPlugins={[remarkGfm]}>{news.body}</Markdown>
         </div>
       </article>
     </>
