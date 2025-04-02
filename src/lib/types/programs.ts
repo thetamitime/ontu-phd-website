@@ -8,6 +8,10 @@ export interface Speciality {
   name: string;
 }
 
+interface ShortSpeciality extends Speciality {
+  fieldCode: string;
+}
+
 interface ProgramCharacteristicsArea {
   object: string;
   aim: string;
@@ -29,6 +33,7 @@ export interface Program {
   nameCode?: string;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
+  shortSpeciality?: ShortSpeciality;
   form: string[];
   purpose?: string;
   years?: number;

@@ -13,6 +13,8 @@ export default async function Page({
   const { id } = await params;
   const program = await getProgramById(id);
 
+  console.log(program);
+
   return (
     <>
       <Breadcrumbs

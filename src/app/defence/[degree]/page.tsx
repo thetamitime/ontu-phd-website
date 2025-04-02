@@ -1,13 +1,8 @@
-import Timeline from "@/ui/components/Timeline";
-import { getRoadmap } from "@/lib/api/roadmap";
+//import { getRoadmap } from "@/lib/api/roadmap";
+import { DefenceCardPhd } from "@/ui/components/DefenceCards";
 
-export default async function DefencePage({
-  params,
-}: {
-  params: Promise<{ degree: string }>;
-}) {
-  const { degree } = await params;
-  const roadmap = await getRoadmap(degree);
+export default async function DefencePage() {
+  //const { degree } = await params;
 
-  return <Timeline roadmap={roadmap} />;
+  return <DefenceCardPhd />;
 }

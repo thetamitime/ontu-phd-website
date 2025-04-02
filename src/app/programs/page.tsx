@@ -6,6 +6,8 @@ export default async function NewsPage() {
   const programsPhd = await getProgramsByDegree("phd");
   const programsDoc = await getProgramsByDegree("doc");
 
+  console.log();
+
   return (
     <>
       <h2 className="header">Наші програми</h2>

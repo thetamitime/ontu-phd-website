@@ -6,7 +6,7 @@ type ProgramShortenedSmall = Pick<Program, "id" | "degree" | "fieldOfStudy">;
 
 type ProgramShortened = Pick<
   Program,
-  "id" | "fieldOfStudy" | "name" | "speciality" | "degree"
+  "id" | "fieldOfStudy" | "name" | "shortSpeciality" | "degree"
 >;
 
 export function ProgramCardSmall({
@@ -30,7 +30,7 @@ export function ProgramCard({
   id,
   degree,
   fieldOfStudy,
-  speciality,
+  shortSpeciality,
   name,
 }: ProgramShortened) {
   return (
@@ -39,7 +39,7 @@ export function ProgramCard({
         <div className="text-sm">
           <p className="text-base-content pb-2 uppercase">{`${fieldOfStudy.code} ${fieldOfStudy.name}`}</p>
           <p className="text-base-content/40 font-medium">
-            {`${speciality.code} ${speciality.name}`}
+            {`${shortSpeciality.code} ${shortSpeciality.name}`}
           </p>
         </div>
         <h3 className="text-base-content h-full text-xl font-bold">{name}</h3>
