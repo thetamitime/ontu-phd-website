@@ -1,18 +1,20 @@
 import Image from "next/image";
+import { Employee } from "@/lib/types";
 
-type FacultyStaff = {
-  id: number;
-  name: string;
-  photo: string;
-  post: string;
-};
-
-export function FacultyCard({ id, name, photo, post }: FacultyStaff) {
+export const FacultyCard: React.FC<Employee> = ({
+  id,
+  name,
+  photo,
+  position,
+}) => {
   return (
-    <div className="card card-border border-base-300 bg-base-100" key={id}>
-      <figure className="relative size-64">
+    <div
+      className="card card-border border-base-300 bg-base-100 w-2xs"
+      key={id}
+    >
+      <figure className="relative h-64 w-full">
         <Image
-          src={photo}
+          src={`/${photo}`}
           alt={`${name} - Фото`}
           className="size-full object-cover"
           width={300}
@@ -21,8 +23,8 @@ export function FacultyCard({ id, name, photo, post }: FacultyStaff) {
       </figure>
       <div className="card-body">
         <h4 className="card-title font-semibold"> {name} </h4>
-        <p className="text-base-content/80 text-base">{post}</p>
+        <p className="text-base-content/80 text-base">{position}</p>
       </div>
     </div>
   );
-}
+};

@@ -61,3 +61,12 @@ export interface RoadmapItem {
 }
 
 export type Roadmap = RoadmapItem[];
+
+export interface Employee {
+  id: number;
+  name: string;
+  position: string;
+  photo: string;
+}
+
+export type Employees = Employee[];

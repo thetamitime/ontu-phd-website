@@ -5,12 +5,14 @@ import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
 import Link from "next/link";
 import { getProgramFields } from "@/lib/api/programs";
 import { getLatestNews } from "@/lib/api/news";
+import { getAllEmployees } from "@/lib/api/employees";
 
 export default async function Home() {
   const photoUrl =
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
   const programFields = await getProgramFields();
+  const employees = await getAllEmployees();
   const latestNews = await getLatestNews();
   const [firstLatestNews, ...restLatestNews] = latestNews;
 
@@ -32,7 +34,9 @@ export default async function Home() {
               excepturi exercitationem quasi. In deleniti eaque aut repudiandae
               et a id nisi.
             </p>
-            <button className="btn btn-accent">Умови вступу</button>
+            <Link href="/apply-documents" className="btn btn-accent">
+              Умови вступу
+            </Link>
           </div>
         </div>
       </section>
@@ -64,13 +68,13 @@ export default async function Home() {
         <section className="section">
           <h3 className="header">Наші співробітники</h3>
           <div className="wrapper gap-7">
-            {workers.map((worker) => (
+            {employees.map((worker) => (
               <FacultyCard
                 key={worker.id}
                 id={worker.id}
                 name={worker.name}
                 photo={worker.photo}
-                post={worker.post}
+                position={worker.position}
               />
             ))}
           </div>
@@ -87,6 +91,12 @@ export default async function Home() {
               <NewsCardMedium key={newsCard.id} {...newsCard} />
             ))}
           </div>
+          <Link
+            href={"/news"}
+            className="link md:link-hover text-base-content/40 mt-5"
+          >
+            Усі новини
+          </Link>
         </section>
       </div>
     </main>
