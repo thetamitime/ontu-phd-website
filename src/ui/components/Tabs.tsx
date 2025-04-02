@@ -24,7 +24,7 @@ export function Tabs() {
         className={`tab ${isPhd && "tab-active"}`}
         onClick={() => setIsPhd(true)}
       >
-        Аспіранту
+        Аспірант
       </Link>
       <Link
         prefetch={true}
@@ -32,7 +32,7 @@ export function Tabs() {
         className={`tab ${!isPhd && "tab-active"}`}
         onClick={() => setIsPhd(false)}
       >
-        Доктору наук
+        Доктор наук
       </Link>
     </div>
   );
