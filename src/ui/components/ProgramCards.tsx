@@ -39,7 +39,7 @@ export function ProgramCard({
         <div className="text-sm">
           <p className="text-base-content pb-2 uppercase">{`${fieldOfStudy.code} ${fieldOfStudy.name}`}</p>
           <p className="text-base-content/40 font-medium">
-            {`${shortSpeciality.code} ${shortSpeciality.name}`}
+            {`${shortSpeciality?.code} ${shortSpeciality?.name}`}
           </p>
         </div>
         <h3 className="text-base-content h-full text-xl font-bold">{name}</h3>
