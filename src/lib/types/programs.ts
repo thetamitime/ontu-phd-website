@@ -1,15 +1,38 @@
-export interface FieldOfStudy {
+export interface Program {
+  id: number;
+  degree: string;
+  name: string;
+  nameCode?: string;
+  accredited: boolean;
+  fieldOfStudy: FieldOfStudy;
+  speciality: Speciality;
+  form: string[];
+  purpose?: string;
+  years?: number;
+  credits?: number;
+  programCharacteristics?: ProgramCharacteristics;
+  description?: string;
+  objects?: string;
+  directions?: string[];
+  linkFaculty: string;
+  linkFile: string;
+}
+
+export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
+
+export type ProgramDegree = Pick<
+  Program,
+  "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
+>;
+
+interface FieldOfStudy {
   code: string;
   name: string;
 }
 
-export interface Speciality {
+interface Speciality {
   code: string;
   name: string;
-}
-
-interface ShortSpeciality extends Speciality {
-  fieldCode: string;
 }
 
 interface ProgramCharacteristicsArea {
@@ -20,30 +43,8 @@ interface ProgramCharacteristicsArea {
   instruments: string;
 }
 
-export interface ProgramCharacteristics {
+interface ProgramCharacteristics {
   area: ProgramCharacteristicsArea;
   focus: string;
   features: string[];
 }
-
-export interface Program {
-  id: number;
-  degree: string;
-  name: string;
-  nameCode?: string;
-  fieldOfStudy: FieldOfStudy;
-  speciality: Speciality;
-  shortSpeciality?: ShortSpeciality;
-  form: string[];
-  purpose?: string;
-  years?: number;
-  credits?: number;
-  programCharacteristics?: ProgramCharacteristics;
-  description?: string;
-  programObjects: string;
-  directions: string[];
-  linkFaculty: string;
-  linkFile: string;
-}
-
-export type Programs = Program[];

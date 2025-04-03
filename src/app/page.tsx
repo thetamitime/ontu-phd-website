@@ -1,10 +1,13 @@
-import { ProgramCardSmall } from "@/ui/components/ProgramCards";
 import { FacultyCard } from "@/ui/components/FacultyCard";
 import Link from "next/link";
 import { getProgramFields } from "@/lib/api/programs";
 import { getLatestNews } from "@/lib/api/news";
 import { getAllEmployees } from "@/lib/api/employees";
-import { NewsCardMedium, NewsCardLarge } from "@/ui/components";
+import {
+  NewsCardMedium,
+  NewsCardLarge,
+  ProgramCardSmall,
+} from "@/ui/components";
 
 export default async function Home() {
   const photoUrl =

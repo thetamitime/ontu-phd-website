@@ -1,12 +1,10 @@
 import { getProgramsByDegree } from "@/lib/api/programs";
 import { Title } from "@/ui/components/Title";
-import { ProgramCard } from "@/ui/components/ProgramCards";
+import { ProgramCardLarge } from "@/ui/components";
 
-export default async function NewsPage() {
+export default async function ProgramsPage() {
   const programsPhd = await getProgramsByDegree("phd");
   const programsDoc = await getProgramsByDegree("doc");
-
-  console.log();
 
   return (
     <>
@@ -16,7 +14,7 @@ export default async function NewsPage() {
           <Title text="Аспірантура" />
           <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {programsPhd.map((item) => (
-              <ProgramCard key={item.id} {...item} />
+              <ProgramCardLarge key={item.id} {...item} />
             ))}
           </div>
         </div>
@@ -24,7 +22,7 @@ export default async function NewsPage() {
           <Title text="Докторантура" />
           <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {programsDoc.map((item) => (
-              <ProgramCard key={item.id} {...item} />
+              <ProgramCardLarge key={item.id} {...item} />
             ))}
           </div>
         </div>

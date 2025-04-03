@@ -1,7 +1,7 @@
-import { ProgramCard } from "@/ui/components/ProgramCards";
+import { ProgramCardLarge } from "@/ui/components/";
 import { getProgramsByDegree } from "@/lib/api/programs";
 
-export default async function ProgramsPage({
+export default async function ProgramPage({
   params,
 }: {
   params: Promise<{ degree: string }>;
@@ -16,7 +16,7 @@ export default async function ProgramsPage({
       </h2>
       <div className="wrapper gap-6">
         {programsByDegree.map((program) => (
-          <ProgramCard key={program.id} {...program}></ProgramCard>
+          <ProgramCardLarge key={program.id} {...program}></ProgramCardLarge>
         ))}
       </div>
     </>

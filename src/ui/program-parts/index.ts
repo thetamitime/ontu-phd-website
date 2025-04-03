@@ -1,2 +1,2 @@
 export { MainSection } from "./MainSection";
-export { CharacteristicsSection } from "./CharacteristicsSection";
+export { Section } from "./Section";

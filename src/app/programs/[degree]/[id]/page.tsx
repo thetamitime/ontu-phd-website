@@ -3,7 +3,7 @@ import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getProgramById } from "@/lib/api/programs";
-import { MainSection, CharacteristicsSection } from "@/ui/program-parts";
+import { MainSection, Section } from "@/ui/program-parts";
 
 export default async function Page({
   params,
@@ -12,8 +12,6 @@ export default async function Page({
 }) {
   const { id } = await params;
   const program = await getProgramById(id);
-
-  console.log(program);
 
   return (
     <>
@@ -76,14 +74,33 @@ export default async function Page({
         {/*Content*/}
         <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
           {/*Main Section*/}
-          <MainSection {...program} />
+          <MainSection
+            name={program.name}
+            degree={program.degree}
+            fieldOfStudy={program.fieldOfStudy}
+            form={program.form}
+            speciality={program.speciality}
+            accredited={program.accredited}
+            {...(program.degree === "phd"
+              ? {
+                  purpose: program.purpose,
+                  years: program.years,
+                  credits: program.credits,
+                }
+              : {
+                  description: program.description,
+                  objects: program.objects,
+                  purpose: program.purpose,
+                })}
+          />
 
           {/*Program Characteristics*/}
-          {program.programCharacteristics !== undefined && (
-            <CharacteristicsSection
-              programCharacteristics={program.programCharacteristics}
-            />
-          )}
+          <Section
+            degree={program.degree}
+            {...(program.degree === "phd"
+              ? { programCharacteristics: program.programCharacteristics }
+              : { directions: program.directions })}
+          />
         </article>
 
         {/*Side Menu*/}
