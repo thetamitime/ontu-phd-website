@@ -27,7 +27,7 @@ export default function Sidebar({ isSidebarOpen }: SidebarProps) {
 
   return (
     <div
-      className={`bg-base-200 row-span-2 flex flex-col gap-10 px-2 py-3 ${
+      className={`bg-base-300 row-span-2 flex flex-col gap-10 px-2 py-3 ${
         isSidebarOpen ? "" : "hidden"
       }`}
     >
