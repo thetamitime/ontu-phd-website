@@ -18,7 +18,7 @@ export const NewsCardMedium: React.FC<NewsCardMediumProps> = ({
 
   return (
     <div className="card card-border border-base-300 bg-base-100" key={id}>
-      <div className="card-body flex-none flex-row items-center justify-between py-4">
+      <div className="card-body flex-none flex-wrap items-center justify-between py-4 md:flex-row">
         <div className="badge badge-soft badge-secondary"> {mainTag} </div>
         <div className="text-base-content/80 text-base">{displayDate}</div>
       </div>

@@ -28,7 +28,7 @@ export const NewsCardLarge: React.FC<NewsCardLargeProps> = ({
         <Image
           src={`/${thumbnail}`}
           alt={`Новина за тегом ${mainTag} - ${title}`}
-          className="size-full object-cover"
+          className="max-h-[28rem] w-full object-cover"
           width={1000}
           height={1000}
         />
