@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Sofia_Sans, Rubik } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
-import { MainNavigation } from "@/ui/navigation/MainNavigation";
-import { MainFooter } from "@/ui/footer/MainFooter";
 
 const sofiaSans = Sofia_Sans({
   variable: "--font-sofia-sans",
@@ -28,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${sofiaSans.variable} ${rubik.variable} grid min-h-screen grid-rows-[auto_1fr_auto] antialiased`}
+        className={`${sofiaSans.variable} ${rubik.variable} min-h-screen antialiased`}
       >
         <ThemeProvider
           attribute="class"
