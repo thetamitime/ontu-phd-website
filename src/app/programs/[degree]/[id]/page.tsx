@@ -3,14 +3,7 @@ import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getProgramById } from "@/lib/api/programs";
-import {
-  MainSection,
-  CharacteristicsSection,
-  JobSection,
-  CompetencesSection,
-  ResultsSection,
-  ComponentsSection,
-} from "@/ui/program-parts";
+import { MainSection, Section } from "@/ui/program-parts";
 
 export default async function Page({
   params,
@@ -61,18 +54,6 @@ export default async function Page({
                   Характеристики програми
                 </Link>
               </li>
-              <li>
-                <a href={"#job"}>Працевлаштування</a>
-              </li>
-              <li>
-                <a href={"#competences"}>Програмні компетентності</a>
-              </li>
-              <li>
-                <a href={"#results"}>Результати навчання</a>
-              </li>
-              <li>
-                <a href={"#components"}>Перелік компонент програми</a>
-              </li>
               <div className="divider m-0.5 px-2"></div>
               <li>
                 <Link href={program.linkFaculty} target="_blank" role="button">
@@ -94,33 +75,32 @@ export default async function Page({
         <article className="flex flex-col gap-12 pb-20 [&_p]:mb-2">
           {/*Main Section*/}
           <MainSection
-            programName={program.name}
-            programField={program.fieldOfStudy}
-            programSpecialty={program.speciality}
-            programForm={program.form}
-            programPurpose={program.purpose}
-            programDuration={program.years}
-            programCredits={program.credits}
-            programCosts={program.costs}
-            programSum={program.sum}
+            name={program.name}
+            degree={program.degree}
+            fieldOfStudy={program.fieldOfStudy}
+            form={program.form}
+            speciality={program.speciality}
+            accredited={program.accredited}
+            {...(program.degree === "phd"
+              ? {
+                  purpose: program.purpose,
+                  years: program.years,
+                  credits: program.credits,
+                }
+              : {
+                  description: program.description,
+                  objects: program.objects,
+                  purpose: program.purpose,
+                })}
           />
 
           {/*Program Characteristics*/}
-          <CharacteristicsSection
-            programCharacteristics={program.programCharacteristics}
+          <Section
+            degree={program.degree}
+            {...(program.degree === "phd"
+              ? { programCharacteristics: program.programCharacteristics }
+              : { directions: program.directions })}
           />
-
-          {/*Job Opportunities*/}
-          <JobSection jobs={program.jobs} />
-
-          {/*Competences*/}
-          <CompetencesSection programCompetences={program.programCompetence} />
-
-          {/*Results*/}
-          <ResultsSection programResults={program.results} />
-
-          {/*Components Table*/}
-          <ComponentsSection programComponents={program.components} />
         </article>
 
         {/*Side Menu*/}
@@ -131,18 +111,6 @@ export default async function Page({
             </li>
             <li>
               <a href={"#characteristics"}>Характеристики програми</a>
-            </li>
-            <li>
-              <a href={"#job"}>Працевлаштування</a>
-            </li>
-            <li>
-              <a href={"#competences"}>Програмні компетентності</a>
-            </li>
-            <li>
-              <a href={"#results"}>Результати навчання</a>
-            </li>
-            <li>
-              <a href={"#components"}>Перелік компонент програми</a>
             </li>
             <div className="divider m-0.5 px-2"></div>
             <li>

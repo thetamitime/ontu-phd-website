@@ -1,23 +1,5 @@
 import { ReactElement } from "react";
 
-export interface NewsFull {
-  id: number;
-  title: string;
-  summary: string;
-  mainTag: string;
-  date: string;
-  thumbnail: string;
-  otherTags: string[];
-  photos: string[];
-  body: string[];
-}
-
-export type LatestNews = Omit<NewsFull, "otherTags" | "photos" | "body">;
-export type News = Pick<
-  NewsFull,
-  "id" | "title" | "mainTag" | "date" | "thumbnail"
->;
-
 export interface Contact {
   icon: ReactElement;
   title: string;

@@ -16,7 +16,7 @@ export const SmallCardWithNumber: React.FC<{
   const shouldShowYears = caption.toLowerCase().includes("тривалість");
 
   return (
-    <div className="card card-sm card-border overflow-hidden">
+    <div className="card card-sm card-border border-base-300 overflow-hidden">
       <div className="card-body bg-base-100 items-center px-8 pb-2">
         <p className="text-center text-sm">
           {firstHalfCaption} <br /> {secondHalfCaption}

@@ -52,6 +52,10 @@ export const NavigationBar = () => {
       ],
     },
     {
+      title: "Захист",
+      path: "/defence",
+    },
+    {
       title: "Нормативні документи",
       path: "/documents",
     },

@@ -1,76 +1,104 @@
-import { CostsTable } from "@/ui/components/Tables";
 import React from "react";
 import { SmallCardWithNumber } from "@/ui/components/SmallCardWithNumber";
-import { FieldOfStudy, Speciality } from "@/lib/types/programs";
+import { Program } from "@/lib/types/programs";
+import { InfoBox } from "@/ui/components/InfoBox";
 
-interface MainSectionProps {
-  programName: string;
-  programField: FieldOfStudy;
-  programSpecialty: Speciality;
-  programForm: string[];
-  programPurpose: string;
-  programCredits: number;
-  programDuration: number;
-  programCosts: number[];
-  programSum: number;
-}
+type MainSectionProps = Omit<
+  Program,
+  | "id"
+  | "nameCode"
+  | "programCharacteristics"
+  | "directions"
+  | "linkFaculty"
+  | "linkFile"
+>;
 
 export const MainSection: React.FC<MainSectionProps> = ({
-  programName,
-  programField,
-  programSpecialty,
-  programForm,
-  programPurpose,
-  programCredits,
-  programDuration,
-  programCosts,
-  programSum,
+  name,
+  degree,
+  speciality,
+  form,
+  fieldOfStudy,
+  purpose,
+  years,
+  credits,
+  description,
+  objects,
+  accredited,
 }) => {
   return (
     <section id="main">
       {/* Program Name */}
-      <h2 className="header mt-2 mb-0 text-start md:w-[80%]">{programName}</h2>
+      <h2 className="header mt-2 mb-0 text-start md:w-[80%]">{name}</h2>
+
       {/* Field and Specialty Badges */}
       <div className="flex flex-wrap gap-2 pt-2 pb-6">
         <div className="badge badge-lg badge-primary badge-soft h-fit">
-          {`${programField.code} ${programField.name}`}
+          {`${fieldOfStudy.code} ${fieldOfStudy.name}`}
         </div>
         <div className="badge badge-lg badge-primary badge-soft h-fit">
-          {`${programSpecialty.code} ${programSpecialty.name}`}
+          {`${speciality.code} ${speciality.name}`}
         </div>
       </div>
+
+      {/* Accreditation notice */}
+      {!accredited && (
+        <InfoBox
+          className="mb-5"
+          size={24}
+          body="Увага! Акредитацію програми заплановано на 2026-2027 роки."
+        />
+      )}
+
       {/* Form of study */}
       <p>
-        <b>Форма навчання:</b>{" "}
-        {programForm.length > 1 ? programForm.join(" та ") : programForm[0]}
+        <b>Форма навчання:</b> {form.length > 1 ? form.join(" та ") : form[0]}
       </p>
-      {/* Purpose of program */}
-      <p>
-        <b>Основна мета програми:</b> {programPurpose}
-      </p>
-      <div className="mt-4 grid w-full grid-cols-1 gap-4 md:inline-grid md:grid-cols-[auto_1fr] md:grid-rows-2">
-        {/* Years */}
-        <SmallCardWithNumber
-          num={programDuration}
-          caption="тривалість навчання"
-        />
-        {/* Credits */}
-        <div className="md:row-start-2">
-          <SmallCardWithNumber
-            num={programCredits}
-            caption="кількість кредитів"
-          />
-        </div>
-        {/* Costs Table */}
-        <div className="flex flex-col gap-4 pl-2 md:col-span-2 md:col-start-2 md:row-span-2">
-          <h3 className="text-lg font-bold">
-            Вартість навчання (2024/2025 н.р.)
-          </h3>
-          <div className="rounded-box border-base-content/5 w-full max-w-[100vw] flex-1 overflow-x-auto border md:max-w-full">
-            <CostsTable costs={programCosts} sum={programSum} />
-          </div>
-        </div>
-      </div>
+
+      {/* Basic info based on degree */}
+      {degree === "phd" ? (
+        <PhdView purpose={purpose} credits={credits || 0} years={years || 0} />
+      ) : (
+        <DocView description={description} objects={objects} />
+      )}
     </section>
+  );
+};
+
+type PhdViewProps = Pick<Program, "purpose"> & {
+  years: number;
+  credits: number;
+};
+
+const PhdView = ({ purpose, years, credits }: PhdViewProps) => {
+  return (
+    <>
+      <p>
+        <b>Основна мета програми:</b> {purpose}
+      </p>
+      <div className="mt-4 grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+        {/* Years */}
+        <SmallCardWithNumber num={years} caption="тривалість навчання" />
+        {/* Credits */}
+        <SmallCardWithNumber num={credits} caption="кількість кредитів" />
+      </div>
+    </>
+  );
+};
+
+type DocViewProps = Pick<Program, "description" | "objects">;
+
+const DocView = ({ description, objects }: DocViewProps) => {
+  return (
+    <>
+      <p>
+        <span className="inline font-bold">Oпис: </span>
+        <span className="inline font-normal lowercase">{description}</span>
+      </p>
+      <p>
+        <span className="inline font-bold">Об&#39;єкти спеціальності: </span>
+        <span className="inline font-normal lowercase">{objects}</span>
+      </p>
+    </>
   );
 };
