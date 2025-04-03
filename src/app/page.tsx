@@ -1,10 +1,10 @@
 import { ProgramCardSmall } from "@/ui/components/ProgramCards";
 import { FacultyCard } from "@/ui/components/FacultyCard";
-import { NewsCardLarge, NewsCardMedium } from "@/ui/components/NewsCards";
 import Link from "next/link";
 import { getProgramFields } from "@/lib/api/programs";
 import { getLatestNews } from "@/lib/api/news";
 import { getAllEmployees } from "@/lib/api/employees";
+import { NewsCardMedium, NewsCardLarge } from "@/ui/components";
 
 export default async function Home() {
   const photoUrl =
@@ -83,10 +83,24 @@ export default async function Home() {
           <h3 className="header">Останні новини</h3>
           <div className="grid w-full items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
             <div className="row-span-3">
-              <NewsCardLarge {...firstLatestNews} />
+              <NewsCardLarge
+                id={firstLatestNews.id}
+                title={firstLatestNews.title}
+                summary={firstLatestNews.summary}
+                mainTag={firstLatestNews.mainTag}
+                thumbnail={firstLatestNews.thumbnail}
+                date={firstLatestNews.date}
+              />
             </div>
             {restLatestNews.map((newsCard) => (
-              <NewsCardMedium key={newsCard.id} {...newsCard} />
+              <NewsCardMedium
+                key={newsCard.id}
+                id={newsCard.id}
+                summary={newsCard.summary}
+                date={newsCard.date}
+                title={newsCard.title}
+                mainTag={newsCard.mainTag}
+              />
             ))}
           </div>
           <Link
