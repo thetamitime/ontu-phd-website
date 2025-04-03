@@ -1,5 +1,5 @@
 import { getAllNews } from "@/lib/api/news";
-import { NewsCardSmall } from "@/ui/components/NewsCards";
+import { NewsCardSmall } from "@/ui/components";
 
 export default async function NewsPage() {
   const news = await getAllNews();
