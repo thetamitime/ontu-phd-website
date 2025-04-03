@@ -36,13 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* Admin Bar + Navigation */}
-          <MainNavigation />
-
           {children}
-
-          {/* Footer */}
-          <MainFooter />
         </ThemeProvider>
       </body>
     </html>

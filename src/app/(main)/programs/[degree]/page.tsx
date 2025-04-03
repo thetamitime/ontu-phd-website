@@ -1,4 +1,4 @@
-import { ProgramCardLarge } from "@/ui/components/";
+import { ProgramCardLarge } from "@/ui/components";
 import { getProgramsByDegree } from "@/lib/api/programs";
 
 export default async function ProgramPage({

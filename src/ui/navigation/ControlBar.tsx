@@ -3,6 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { Moon, SunMedium, UserRound } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 
 export const ControlBar: FC = () => {
   return (
@@ -13,14 +14,17 @@ export const ControlBar: FC = () => {
   );
 };
 
-function LoginLink() {
+const LoginLink = () => {
   return (
-    <button className="btn btn-soft btn-xs text-base-content flex items-center gap-2 rounded-none px-3 py-2 text-xs">
+    <Link
+      href="/dashboard"
+      className="btn btn-soft btn-xs text-base-content flex items-center gap-2 rounded-none px-3 py-2 text-xs"
+    >
       <UserRound className="md:size-4" />
       Вхід
-    </button>
+    </Link>
   );
-}
+};
 
 function ThemeToggle() {
   const { theme, setTheme } = useTheme();
