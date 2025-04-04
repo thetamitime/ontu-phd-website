@@ -1,5 +1,5 @@
-import { DefenceCard } from "@/ui/components/";
 import { getDefencesByDegree } from "@/lib/api/defence";
+import DefenceCardsTable from "@/ui/components/tables/DefenceCardsTable";
 
 export default async function DefencePage({
   params,
@@ -9,7 +9,10 @@ export default async function DefencePage({
   const { degree } = await params;
   const defences = await getDefencesByDegree(degree);
 
-  return defences.map((def) => (
-    <DefenceCard key={def.id} {...def} degree={degree} />
-  ));
+  const dataWithDegree = defences.map((defence) => ({
+    ...defence,
+    degree,
+  }));
+
+  return <DefenceCardsTable data={dataWithDegree} />;
 }

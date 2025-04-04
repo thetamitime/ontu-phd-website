@@ -12,5 +12,7 @@ export { NewsCardLarge } from "./NewsCardLarge";
 export { ProgramCardSmall } from "./ProgramCardSmall";
 export { ProgramCardLarge } from "./ProgramCardLarge";
 
+//Defence - card for displaying info about thesis on defence page
+//Rada - card for rada members on defence card
 export { DefenceCard } from "./DefenceCard";
 export { RadaCard } from "./RadaCard";
