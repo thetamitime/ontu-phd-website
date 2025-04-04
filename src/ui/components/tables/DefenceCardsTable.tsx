@@ -36,9 +36,9 @@ export const DefenceCardsTable = ({ data }: { data: CardRow[] }) => {
 
   const pageIndex = table.getState().pagination.pageIndex;
 
-  // Inside your component, after initializing the `table`
+  // after changing page - move view up
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [pageIndex]);
 
   return (
