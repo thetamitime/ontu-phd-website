@@ -11,3 +11,6 @@ export { NewsCardLarge } from "./NewsCardLarge";
 //Large - program card for programs pages
 export { ProgramCardSmall } from "./ProgramCardSmall";
 export { ProgramCardLarge } from "./ProgramCardLarge";
+
+export { DefenceCard } from "./DefenceCard";
+export { RadaCard } from "./RadaCard";

@@ -7,3 +7,13 @@ export const formattedDate = (date: string) => {
     day: "numeric",
   });
 };
+
+export const formattedDateWithHours = (date: string) => {
+  return new Date(date).toLocaleString("uk-UA", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
+};
