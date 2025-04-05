@@ -44,7 +44,12 @@ export const columns: ColumnDef<ProgramsColumn>[] = [
     cell: ({ row }) => (
       <ProgramActions
         program={row.original}
-        onEditAction={(id) => console.log("Edit", id)}
+        onEditAction={() => {
+          const drawerCheckbox = document.getElementById("my-drawer");
+          if (drawerCheckbox) {
+            (drawerCheckbox as HTMLInputElement).checked = true;
+          }
+        }}
         onDeleteAction={(id) => console.log("Delete", id)}
       />
     ),

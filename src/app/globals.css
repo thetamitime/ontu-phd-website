@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: light, dracula --prefersdark, winter --default;
+  exclude: rootscrollgutter;
 }
 
 @theme {
@@ -56,6 +57,8 @@
 }
 
 @custom-variant dark (&:where([data-theme=dracula], [data-theme=dracula] *));
+
+
 
 html, body {
   font-family: var(--font-rubik), sans-serif;

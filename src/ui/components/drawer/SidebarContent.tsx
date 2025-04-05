@@ -5,5 +5,5 @@ interface SidebarContentProps {
 }
 
 export const SidebarContent = ({ children }: SidebarContentProps) => {
-  return <div>{children}</div>;
+  return <>{children}</>;
 };
