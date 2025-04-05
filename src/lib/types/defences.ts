@@ -9,7 +9,7 @@ export interface DefenseEvent {
   scienceTeachers?: string[];
   dateOfDefense: string;
   address: string;
-  description: string;
+  message: string;
   members?: Member[];
   placeholder?: string;
   files: DefenseFile[];
@@ -24,4 +24,8 @@ interface DefenseFile {
 
 export interface Member {
   position: string;
+  members: {
+    nameSurname: string;
+    toolTip: string;
+  }[];
 }

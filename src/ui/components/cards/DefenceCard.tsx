@@ -4,13 +4,14 @@ import React from "react";
 import { RadaCard } from "@/ui/components";
 import { DefenseEvent } from "@/lib/types/defences";
 import { formattedDate, formattedDateWithHours } from "@/lib/functions";
+import { InfoBox } from "@/ui/components/InfoBox";
 
 export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
   nameSurname,
   dateOfDefense,
   dateOfPublication,
   defenseName,
-  description,
+  message,
   address,
   files,
   members,
@@ -24,11 +25,10 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
 
   const radaFile = files.find(({ type }) => type === "Rada");
   const filesAndLivesFiles = files.filter(
-    ({ type, name }) =>
-      (type === "Live" || type === "DES") && !name.includes("КЕП"),
+    ({ type }) => type === "Live" || type === "Defense",
   );
-  const digitalSignatureFiles = files.filter(({ name }) =>
-    name.includes("КЕП"),
+  const digitalSignatureFiles = files.filter(
+    ({ type }) => type === "DES" || type === "Feedback",
   );
 
   return (
@@ -48,16 +48,12 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
       </div>
       {degree === "phd" && (
         <p>
-          <span className="font-semibold">Наукові керівники: </span>
-          {scienceTeachers}{" "}
+          {scienceTeachers &&
+            (scienceTeachers.length > 0
+              ? scienceTeachers.map((teacher) => teacher)
+              : scienceTeachers)}
         </p>
       )}
-      {/*<p>*/}
-      {/*  {scienceTeachers &&*/}
-      {/*    (scienceTeachers.length > 0*/}
-      {/*      ? scienceTeachers.map((teacher) => teacher)*/}
-      {/*      : scienceTeachers)}*/}
-      {/*</p>*/}
       <p>
         <span className="font-semibold">Дата захисту: </span>
         {displayDateOfDefense}
@@ -65,9 +61,10 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
       <p>
         <span className="font-semibold">Адреса: </span> {address}
       </p>
+      <InfoBox body={message} size={20} className="my-4" />
       {degree === "phd" ? (
         <>
-          <p className="mt-4 mb-2">
+          <p className="mt-4">
             Разова спеціалізована вчена рада з правом прийняття до розгляду та
             проведення разового захисту дисертаційної роботи {nameSurname} на
             здобуття ступеня доктора філософії в галузі знань{" "}
@@ -75,12 +72,12 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
             спеціальністю {programInfo.speciality.code} «
             {programInfo.speciality.name}» (ОНП «{programInfo.name}»).
           </p>
-          <p className="mb-4 text-lg font-semibold">
+          <p className="mt-2 mb-4 text-lg font-semibold">
             Склад спеціалізованої ради:
           </p>
           <div className="flex flex-col gap-4 lg:flex-row">
             {members?.map((member, index) => (
-              <RadaCard key={index} position={member.position} />
+              <RadaCard key={index} {...member} />
             ))}
           </div>
           <Link

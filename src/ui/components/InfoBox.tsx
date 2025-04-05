@@ -7,7 +7,7 @@ export const InfoBox = ({
 }: {
   body: string;
   size: number;
-  className: string;
+  className?: string;
 }) => {
   return (
     <div
