@@ -7,7 +7,9 @@ import { ProgramActions } from "@/ui/components/tables/Actions";
 
 type ProgramsColumn = ProgramDegree;
 
-export const columns: ColumnDef<ProgramsColumn>[] = [
+export const columns = (
+  setSelectedProgramId: (id: number) => void,
+): ColumnDef<ProgramsColumn>[] => [
   {
     accessorKey: "id",
     header: ({ column }) => <SortableHeader column={column} title="ID" />,
@@ -49,6 +51,8 @@ export const columns: ColumnDef<ProgramsColumn>[] = [
           if (drawerCheckbox) {
             (drawerCheckbox as HTMLInputElement).checked = true;
           }
+          // Call the setSelectedProgramId function passed from the parent
+          setSelectedProgramId(row.original.id);
         }}
         onDeleteAction={(id) => console.log("Delete", id)}
       />

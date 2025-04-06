@@ -30,7 +30,7 @@ export interface FieldOfStudy {
   name: string;
 }
 
-interface Speciality {
+export interface Speciality {
   code: string;
   name: string;
 }
@@ -43,7 +43,7 @@ interface ProgramCharacteristicsArea {
   instruments: string;
 }
 
-interface ProgramCharacteristics {
+export interface ProgramCharacteristics {
   area: ProgramCharacteristicsArea;
   focus: string;
   features: string[];

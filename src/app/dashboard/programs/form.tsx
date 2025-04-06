@@ -3,43 +3,144 @@
 import { LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm } from "@tanstack/react-form";
+import { useQuery } from "@tanstack/react-query";
+import { getProgramById } from "@/lib/api/programs";
+import { useEffect, useRef, useState } from "react";
 import { Program } from "@/lib/types/programs";
+import { TextInput } from "@/ui/components/form/TextInput";
+import { OptionsRadioInput } from "@/ui/components/form/OptionsRadioInput";
+import { Checkbox } from "@/ui/components/form/Checkbox";
+import { SelectField } from "@/ui/components/form/SelectField";
+import { getFieldsByDegree } from "@/lib/api/fields";
 
-export default function ProgramForm({ program }: { program: Program }) {
+export default function ProgramForm({ programId }: { programId: number }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.5 },
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, []);
+
+  const { data: program } = useQuery({
+    queryKey: ["program", programId],
+    queryFn: () => getProgramById(programId),
+    enabled: isVisible,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: fields } = useQuery({
+    queryKey: ["fields", program?.degree],
+    queryFn: () => getFieldsByDegree(program?.degree || ""),
+    enabled: isVisible,
+    refetchOnWindowFocus: false,
+  });
+
   const form = useForm({
     defaultValues: {
-      name: "Технології",
-      age: 0,
+      name: program?.name || "",
+      degree: program?.degree || "phd",
+      accredited: program?.accredited || false,
+      fieldOfStudy: program?.fieldOfStudy || null,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
+      console.log("Submitted values: ", value);
     },
   });
 
+  console.log(fields);
+
   return (
-    <div className="mx-auto flex w-full flex-1 flex-col gap-4">
+    <div ref={observerRef} className="mx-auto flex w-full flex-1 flex-col">
       <form
+        className="flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
+        {/* Program name */}
         <form.Field name={"name"}>
           {(field) => (
-            <textarea
-              className="textarea textarea-ghost disabled w-full p-0 text-2xl font-semibold"
+            <TextInput
               value={field.state.value}
-              onChange={(e) => field.handleChange(e.target.value)}
+              onChange={(value) => field.handleChange(value)}
+              title="Назва програми"
             />
           )}
         </form.Field>
 
-        <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={form.handleSubmit}
-        >
-          Submit
-        </button>
+        {/* Choose degree and check accreditation */}
+        <div className="flex items-center justify-between">
+          <form.Field name={"degree"}>
+            {(field) => (
+              <OptionsRadioInput
+                legend="Ступінь"
+                className="flex items-center gap-3 text-base"
+                name={field.name}
+                changeValue={field.state.value}
+                possibleValues={[
+                  { label: "Аспірантура", value: "phd" },
+                  { label: "Докторантура", value: "doc" },
+                ]}
+                onChange={(value) => field.handleChange(value)}
+              />
+            )}
+          </form.Field>
+
+          <form.Field name={"accredited"}>
+            {(field) => (
+              <Checkbox
+                value={field.state.value}
+                onChange={(value) => field.handleChange(value)}
+                title="Програму акредитовано"
+              />
+            )}
+          </form.Field>
+        </div>
+
+        {/* Fields of study */}
+        <form.Field name={"fieldOfStudy"}>
+          {(field) => (
+            <fieldset className="fieldset flex flex-row gap-2 text-base">
+              <legend className="fieldset-legend text-base-content/50 font-medium">
+                Галузь знань
+              </legend>
+
+              <select
+                className="select select-bordered w-full"
+                name="typeField"
+                value={JSON.stringify(field.state.value)}
+                onChange={(e) => field.handleChange(JSON.parse(e.target.value))}
+              >
+                {fields?.map((field, index) => (
+                  <option
+                    key={index}
+                    value={JSON.stringify({
+                      name: field.name,
+                      code: field.code,
+                    })}
+                  >
+                    {field.code} {field.name}
+                  </option>
+                ))}
+              </select>
+            </fieldset>
+          )}
+        </form.Field>
       </form>
       {/*<h2 className="text-xl font-bold">*/}
       {/*  Технологія хлібопекарських продуктів...*/}

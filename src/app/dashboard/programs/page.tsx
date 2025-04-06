@@ -1,4 +1,5 @@
-import { getAllPrograms } from "@/lib/api/programs";
+"use client";
+
 import { columns } from "@/app/dashboard/programs/columns";
 import { DataTable } from "@/ui/components/tables/DataTable";
 import { PlusCircleIcon, X } from "lucide-react";
@@ -6,9 +7,19 @@ import { Drawer } from "@/ui/components/drawer/Drawer";
 import { SidebarContent } from "@/ui/components/drawer/SidebarContent";
 import { PageContent } from "@/ui/components/drawer/PageContent";
 import ProgramForm from "@/app/dashboard/programs/form";
+import { useQuery } from "@tanstack/react-query";
+import { getAllPrograms } from "@/lib/api/programs";
+import { useState } from "react";
 
-export default async function ProgramsPage() {
-  const programs = await getAllPrograms();
+export default function ProgramsPage() {
+  const [selectedProgramId, setSelectedProgramId] = useState<number>();
+  console.log(selectedProgramId);
+
+  const programsQuery = useQuery({
+    queryKey: ["programs"],
+    queryFn: getAllPrograms,
+  });
+  const programs = programsQuery.data || [];
 
   return (
     <Drawer>
@@ -21,15 +32,18 @@ export default async function ProgramsPage() {
               Створити нову програму
             </button>
           </div>
-          <DataTable columns={columns} data={programs} />
+          <DataTable columns={columns(setSelectedProgramId)} data={programs} />
         </div>
       </PageContent>
       <SidebarContent>
         <label htmlFor="my-drawer" className="cursor-pointer">
           <X />
         </label>
-        <ProgramForm program={undefined} />
-        <div className="mt-6 flex justify-end gap-4">
+        <ProgramForm
+          key={selectedProgramId}
+          programId={selectedProgramId || 0}
+        />
+        <div className="ajustify-end mt-6 flex gap-4">
           <button className="btn">Відмінити</button>
           <button className="btn btn-soft btn-primary">Зберегти зміни</button>
         </div>

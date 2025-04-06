@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { ProgramField, Program, ProgramDegree } from "@/lib/types/programs";
 
 export async function getAllPrograms() {
-  const res = await fetch(`http://localhost:5124/api/programs`);
+  const res = await fetch(`/api/programs`);
 
   const programs: Program[] = await res.json();
   if (!programs) notFound();
@@ -19,8 +19,8 @@ export async function getProgramsByDegree(degree: string) {
   return programs;
 }
 
-export async function getProgramById(id: string) {
-  const res = await fetch(`http://localhost:5124/api/programs/${id}`);
+export async function getProgramById(id: number) {
+  const res = await fetch(`/api/programs/${id}`);
 
   const program: Program = await res.json();
   if (!program) notFound();
