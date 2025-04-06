@@ -10,7 +10,9 @@ export async function getAllFields() {
 }
 
 export async function getFieldsByDegree(degree: string) {
-  const res = await fetch(`/api/SpecialityNFields?degree=${degree}`);
+  const res = await fetch(
+    `http://localhost:5124/api/SpecialityNFields?degree=${degree}`,
+  );
 
   const fields: FieldOfStudy[] = await res.json();
   if (!fields) notFound();
