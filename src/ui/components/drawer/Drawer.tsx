@@ -24,13 +24,13 @@ export const Drawer = ({ children }: DrawerProps) => {
         {/* render the PageContent inside the drawer */}
         {pageContent}
       </div>
-      <div className="drawer-side">
+      <div className="drawer-side" style={{ perspective: "1px" }}>
         <label
           htmlFor="my-drawer"
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="bg-base-200 text-base-content flex min-h-full w-[40%] flex-col gap-4 p-8">
+        <div className="bg-base-200 text-base-content flex w-[40%] flex-col gap-4 p-8">
           {/* render the SidebarContent inside the sidebar */}
           {sidebarContent}
         </div>
