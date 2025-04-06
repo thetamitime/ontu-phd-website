@@ -1,24 +1,17 @@
 import React from "react";
+import { useFieldContext } from "@/app/dashboard/programs/form";
 
-interface CheckboxProps {
-  value: boolean;
-  onChange: (checked: boolean) => void;
-  title: string;
-}
+export const Checkbox = ({ title }: { title: string }) => {
+  const field = useFieldContext<boolean>();
 
-export const Checkbox: React.FC<CheckboxProps> = ({
-  value,
-  onChange,
-  title,
-}) => {
   return (
     <fieldset className="fieldset text-base">
       <label className="fieldset-label text-base-content gap-3">
         <input
           type="checkbox"
-          checked={value} // Ensuring value is strictly checked (boolean true)
+          checked={field.state.value}
           className="checkbox"
-          onChange={(e) => onChange(e.target.checked)}
+          onChange={(e) => field.handleChange(e.target.checked)}
         />
         {title}
       </label>

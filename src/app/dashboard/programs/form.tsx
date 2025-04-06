@@ -1,17 +1,41 @@
 "use client";
 
 import { LinkIcon } from "lucide-react";
-import Link from "next/link";
-import { useForm } from "@tanstack/react-form";
+import {
+  createFormHook,
+  createFormHookContexts,
+  useStore,
+} from "@tanstack/react-form";
 import { useQuery } from "@tanstack/react-query";
 import { getProgramById } from "@/lib/api/programs";
-import { useEffect, useRef, useState } from "react";
-import { Program } from "@/lib/types/programs";
-import { TextInput } from "@/ui/components/form/TextInput";
+import React, { useEffect, useRef, useState } from "react";
 import { OptionsRadioInput } from "@/ui/components/form/OptionsRadioInput";
 import { Checkbox } from "@/ui/components/form/Checkbox";
 import { SelectField } from "@/ui/components/form/SelectField";
-import { getFieldsByDegree } from "@/lib/api/fields";
+import { getFieldsByDegree, getSpecialitiesByField } from "@/lib/api/fields";
+import { getDocuments } from "@/lib/api/documents";
+import { NumberInput } from "@/ui/components/form/NumberInput";
+import { TextAreaInput } from "@/ui/components/form/TextAreaInput";
+import { TextAreaInputInline } from "@/ui/components/form/TextAreaInputInline";
+import { InputField } from "@/ui/components/form/InputField";
+
+export const { fieldContext, formContext, useFieldContext } =
+  createFormHookContexts();
+
+const { useAppForm } = createFormHook({
+  fieldContext,
+  formContext,
+  fieldComponents: {
+    InputField,
+    OptionsRadioInput,
+    Checkbox,
+    SelectField,
+    NumberInput,
+    TextAreaInput,
+    TextAreaInputInline,
+  },
+  formComponents: {},
+});
 
 export default function ProgramForm({ programId }: { programId: number }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,258 +67,313 @@ export default function ProgramForm({ programId }: { programId: number }) {
     refetchOnWindowFocus: false,
   });
 
-  const { data: fields } = useQuery({
-    queryKey: ["fields", program?.degree],
-    queryFn: () => getFieldsByDegree(program?.degree || ""),
-    enabled: isVisible,
-    refetchOnWindowFocus: false,
-  });
-
-  const form = useForm({
+  const form = useAppForm({
     defaultValues: {
       name: program?.name || "",
       degree: program?.degree || "phd",
       accredited: program?.accredited || false,
       fieldOfStudy: program?.fieldOfStudy || null,
+      speciality: program?.speciality || null,
+      form: program?.form || ["очна (денна)"],
+      years: program?.years || 0,
+      credits: program?.credits || 0,
+      purpose: program?.purpose || "",
+      programCharacteristics: program?.programCharacteristics || [],
+      linkFaculty: program?.linkFaculty || "/",
+      linkFile: program?.linkFile || "/",
     },
     onSubmit: ({ value }) => {
       console.log("Submitted values: ", value);
     },
   });
 
-  console.log(fields);
+  const degree = useStore(form.store, (state) => state.values.degree);
+  const { data: fields } = useQuery({
+    queryKey: ["fields", degree],
+    queryFn: () => getFieldsByDegree(degree || ""),
+    enabled: isVisible,
+    refetchOnWindowFocus: false,
+  });
 
+  const field = useStore(form.store, (state) => state.values.fieldOfStudy);
+  const { data: specialities } = useQuery({
+    queryKey: ["specialities", field],
+    queryFn: () => getSpecialitiesByField(field?.code || ""),
+    enabled: isVisible,
+    refetchOnWindowFocus: false,
+  });
+
+  const { data: documents } = useQuery({
+    queryKey: ["documents", programId],
+    queryFn: () => getDocuments("Entry"),
+    enabled: isVisible,
+    refetchOnWindowFocus: false,
+  });
+
+  const met = useStore(
+    form.store,
+    (state) => state.values.programCharacteristics,
+  );
+  console.log("met", met);
   return (
     <div ref={observerRef} className="mx-auto flex w-full flex-1 flex-col">
       <form
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
         {/* Program name */}
-        <form.Field name={"name"}>
-          {(field) => (
-            <TextInput
-              value={field.state.value}
-              onChange={(value) => field.handleChange(value)}
-              title="Назва програми"
-            />
-          )}
-        </form.Field>
+        <form.AppField name={"name"}>
+          {(field) => <field.InputField label="Назва програми" type={"text"} />}
+        </form.AppField>
 
         {/* Choose degree and check accreditation */}
         <div className="flex items-center justify-between">
-          <form.Field name={"degree"}>
+          <form.AppField
+            name={"degree"}
+            listeners={{
+              onChange: ({ value }) => {
+                if (value === program?.degree) {
+                  form.setFieldValue("fieldOfStudy", program?.fieldOfStudy);
+                  form.setFieldValue("speciality", program?.speciality);
+                } else {
+                  form.setFieldValue("fieldOfStudy", null);
+                  form.setFieldValue("speciality", null);
+                }
+
+                if (value === "doc") {
+                  form.setFieldValue("years", 0);
+                  form.setFieldValue("credits", 0);
+                  form.setFieldValue("purpose", "");
+                } else {
+                  form.setFieldValue("years", program?.years || 1);
+                  form.setFieldValue("credits", program?.credits || 1);
+                }
+              },
+            }}
+          >
             {(field) => (
-              <OptionsRadioInput
-                legend="Ступінь"
+              <field.OptionsRadioInput
+                label="Ступінь"
                 className="flex items-center gap-3 text-base"
-                name={field.name}
-                changeValue={field.state.value}
                 possibleValues={[
                   { label: "Аспірантура", value: "phd" },
                   { label: "Докторантура", value: "doc" },
                 ]}
-                onChange={(value) => field.handleChange(value)}
               />
             )}
-          </form.Field>
+          </form.AppField>
 
-          <form.Field name={"accredited"}>
-            {(field) => (
-              <Checkbox
-                value={field.state.value}
-                onChange={(value) => field.handleChange(value)}
-                title="Програму акредитовано"
-              />
-            )}
-          </form.Field>
+          <form.AppField name={"accredited"}>
+            {(field) => <field.Checkbox title="Програму акредитовано" />}
+          </form.AppField>
         </div>
 
         {/* Fields of study */}
-        <form.Field name={"fieldOfStudy"}>
+        <form.AppField
+          name={"fieldOfStudy"}
+          listeners={{
+            onChange: ({ value }) => {
+              console.log(`Speciality changed to: ${value}, resetting degree`);
+              form.setFieldValue("speciality", null);
+            },
+          }}
+        >
           {(field) => (
-            <fieldset className="fieldset flex flex-row gap-2 text-base">
-              <legend className="fieldset-legend text-base-content/50 font-medium">
-                Галузь знань
-              </legend>
-
-              <select
-                className="select select-bordered w-full"
-                name="typeField"
-                value={JSON.stringify(field.state.value)}
-                onChange={(e) => field.handleChange(JSON.parse(e.target.value))}
-              >
-                {fields?.map((field, index) => (
-                  <option
-                    key={index}
-                    value={JSON.stringify({
-                      name: field.name,
-                      code: field.code,
-                    })}
-                  >
-                    {field.code} {field.name}
-                  </option>
-                ))}
-              </select>
-            </fieldset>
+            <field.SelectField label="Галузь знань" options={fields || []} />
           )}
-        </form.Field>
+        </form.AppField>
+
+        {/* Speciality */}
+        <form.AppField name={"speciality"}>
+          {(field) => (
+            <field.SelectField
+              label="Cпеціальність"
+              options={specialities || []}
+              disabled={
+                form.getFieldValue("speciality") === null &&
+                form.getFieldValue("fieldOfStudy") === null
+              }
+            />
+          )}
+        </form.AppField>
+
+        {/* Flex displaying form, years and credits */}
+        <div className="flex flex-row gap-5">
+          <fieldset className="fieldset flex flex-col gap-2 text-base">
+            <legend className="fieldset-legend text-base-content/50 font-medium">
+              Форма навчання
+            </legend>
+
+            <form.AppField name={"form"} mode={"array"}>
+              {(field) => {
+                return (
+                  <div className="join">
+                    {/* First checkbox */}
+                    <form.Field name={`form[0]`}>
+                      {(subField) => {
+                        return (
+                          <label className="w-24">
+                            <input
+                              type="checkbox"
+                              className="peer hidden"
+                              value="очна (денна)"
+                              checked={subField.state.value === "очна (денна)"}
+                              onChange={(e) => {
+                                subField.handleChange(
+                                  e.target.checked ? "очна (денна)" : "",
+                                );
+                                console.log(field.state.value);
+                              }}
+                            />
+                            <span className="join-item btn peer-checked:btn-primary w-full">
+                              Очна
+                            </span>
+                          </label>
+                        );
+                      }}
+                    </form.Field>
+
+                    {/* Second checkbox */}
+                    <form.Field name={`form[1]`}>
+                      {(subField) => {
+                        return (
+                          <label className="w-24">
+                            <input
+                              type="checkbox"
+                              className="peer hidden"
+                              value="заочна"
+                              checked={subField.state.value === "заочна"}
+                              onChange={(e) => {
+                                subField.handleChange(
+                                  e.target.checked ? "заочна" : "",
+                                );
+                                console.log(field.state.value);
+                              }}
+                            />
+                            <span className="join-item btn peer-checked:btn-primary w-full">
+                              Заочна
+                            </span>
+                          </label>
+                        );
+                      }}
+                    </form.Field>
+                  </div>
+                );
+              }}
+            </form.AppField>
+          </fieldset>
+
+          <form.AppField name={"years"}>
+            {(field) => (
+              <field.NumberInput
+                label={"Кількість років"}
+                disabled={field.state.value === 0}
+              />
+            )}
+          </form.AppField>
+
+          <form.AppField name={"credits"}>
+            {(field) => (
+              <field.NumberInput
+                label={"Кількість кредитів"}
+                disabled={field.state.value === 0}
+              />
+            )}
+          </form.AppField>
+        </div>
+
+        {/* Purpose of program */}
+        <form.AppField name={"purpose"}>
+          {(field) => (
+            <field.TextAreaInput label={"Основна мета"} className="h-40" />
+          )}
+        </form.AppField>
+
+        <fieldset className="fieldset gap-0 text-base">
+          <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">
+            Характеристики програми
+          </legend>
+
+          <fieldset className="fieldset text-base">
+            <legend className="fieldset-legend text-base-content/50 font-medium">
+              Предметна область
+            </legend>
+
+            {/* Area Fields */}
+            <form.AppField name="programCharacteristics.area.object">
+              {(field) => (
+                <field.TextAreaInputInline label={"Об'єкт вивчення"} />
+              )}
+            </form.AppField>
+
+            <form.AppField name="programCharacteristics.area.aim">
+              {(field) => <field.TextAreaInputInline label={"Цілі навчання"} />}
+            </form.AppField>
+
+            <form.AppField name="programCharacteristics.area.theory">
+              {(field) => (
+                <field.TextAreaInputInline label={"Теоретичний зміст"} />
+              )}
+            </form.AppField>
+
+            <form.AppField name="programCharacteristics.area.instruments">
+              {(field) => (
+                <field.TextAreaInputInline
+                  label={"Інструменти та обладнання"}
+                />
+              )}
+            </form.AppField>
+
+            <form.AppField name="programCharacteristics.area.methods">
+              {(field) => (
+                <field.TextAreaInputInline
+                  label={"Методи, методики та технології"}
+                />
+              )}
+            </form.AppField>
+          </fieldset>
+
+          <fieldset className="fieldset text-base">
+            <form.AppField name="programCharacteristics.focus">
+              {(field) => (
+                <field.TextAreaInput label={"Основний фокус програми"} />
+              )}
+            </form.AppField>
+          </fieldset>
+
+          <fieldset className="fieldset text-base">
+            <form.AppField name="programCharacteristics.features">
+              {(field) => (
+                <field.TextAreaInput label={"Особливості програми"} />
+              )}
+            </form.AppField>
+          </fieldset>
+        </fieldset>
+
+        {/* Input for faculty link */}
+        <form.AppField name={"linkFaculty"}>
+          {(field) => (
+            <field.InputField
+              label={"Сайт кафедри"}
+              type={"url"}
+              placeholder="https://"
+              icon={<LinkIcon size={16} />}
+            />
+          )}
+        </form.AppField>
+
+        {/* File selection */}
+        <form.AppField name={"linkFile"}>
+          {(field) => (
+            <field.SelectField
+              label="Документ програми"
+              options={documents || []}
+            />
+          )}
+        </form.AppField>
       </form>
-      {/*<h2 className="text-xl font-bold">*/}
-      {/*  Технологія хлібопекарських продуктів...*/}
-      {/*</h2>*/}
-
-      {/*<form*/}
-      {/*  onSubmit={(e) => {*/}
-      {/*    e.preventDefault();*/}
-      {/*    form.handleSubmit(handleFormSubmit);*/}
-      {/*  }}*/}
-      {/*  className="space-y-6"*/}
-      {/*>*/}
-      {/*  <div>*/}
-      {/*    <label>Галузь знань</label>*/}
-      {/*    /!*<SelectField*!/*/}
-      {/*    /!*  options={["f1", "f3"]}*!/*/}
-      {/*    /!*  value={form.values.fieldOfStudy}*!/*/}
-      {/*    /!*  onChange={(e) => setFieldValue("fieldOfStudy", e.target.value)}*!/*/}
-      {/*  </div>*/}
-
-      {/*  <div className="flex flex-row gap-2">*/}
-      {/*    <fieldset className="fieldset flex w-full flex-col gap-2 text-base">*/}
-      {/*      <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*        Форма навчання*/}
-      {/*      </legend>*/}
-      {/*      <div className="join w-full">*/}
-      {/*        <label className="w-full">*/}
-      {/*          <input*/}
-      {/*            type="checkbox"*/}
-      {/*            value="Очна"*/}
-      {/*            checked={form.values.studyForm.includes("Очна")}*/}
-      {/*            onChange={() =>*/}
-      {/*              setFieldValue(*/}
-      {/*                "studyForm",*/}
-      {/*                form.values.studyForm.includes("Очна")*/}
-      {/*                  ? form.values.studyForm.filter(*/}
-      {/*                      (v: string) => v !== "Очна",*/}
-      {/*                    )*/}
-      {/*                  : [...form.values.studyForm, "Очна"],*/}
-      {/*              )*/}
-      {/*            }*/}
-      {/*          />*/}
-      {/*          <p className="btn bg-base-100 join-item">Очна</p>*/}
-      {/*        </label>*/}
-      {/*        <label className="w-full">*/}
-      {/*          <input*/}
-      {/*            type="checkbox"*/}
-      {/*            value="Заочна"*/}
-      {/*            checked={form.values.studyForm.includes("Заочна")}*/}
-      {/*            onChange={() =>*/}
-      {/*              setFieldValue(*/}
-      {/*                "studyForm",*/}
-      {/*                form.values.studyForm.includes("Заочна")*/}
-      {/*                  ? form.values.studyForm.filter(*/}
-      {/*                      (v: string) => v !== "Заочна",*/}
-      {/*                    )*/}
-      {/*                  : [...form.values.studyForm, "Заочна"],*/}
-      {/*              )*/}
-      {/*            }*/}
-      {/*          />*/}
-      {/*          <p className="btn bg-base-100 join-item">Заочна</p>*/}
-      {/*        </label>*/}
-      {/*      </div>*/}
-      {/*    </fieldset>*/}
-
-      {/*    <fieldset className="fieldset flex w-full flex-row gap-2 text-base">*/}
-      {/*      <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*        Кількість років*/}
-      {/*      </legend>*/}
-      {/*      /!*<input*!/*/}
-      {/*      /!*  type="number"*!/*/}
-      {/*      /!*  value={form.values.years}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("years", Number(e.target.value))}*!/*/}
-      {/*      /!*  className="input w-full"*!/*/}
-      {/*      /!*  min={1}*!/*/}
-      {/*      /!*  max={6}*!/*/}
-      {/*    </fieldset>*/}
-
-      {/*    <fieldset className="fieldset flex w-full flex-row gap-2 text-base">*/}
-      {/*      <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*        Кількість кредитів*/}
-      {/*      </legend>*/}
-      {/*      /!*<input*!/*/}
-      {/*      /!*  type="number"*!/*/}
-      {/*      /!*  value={form.values.credits}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("credits", Number(e.target.value))}*!/*/}
-      {/*      /!*  className="input w-full"*!/*/}
-      {/*      /!*  min={1}*!/*/}
-      {/*    </fieldset>*/}
-      {/*  </div>*/}
-
-      {/*  <fieldset className="fieldset text-base">*/}
-      {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*      Основна мета*/}
-      {/*    </legend>*/}
-      {/*    /!*<textarea*!/*/}
-      {/*    /!*  value={form.values.mainGoal}*!/*/}
-      {/*    /!*  onChange={(e) => setFieldValue("mainGoal", e.target.value)}*!/*/}
-      {/*    /!*  className="textarea h-24 w-full"*!/*/}
-      {/*    /!*  placeholder="Введіть мету програми"*!/*/}
-      {/*  </fieldset>*/}
-
-      {/*  <fieldset className="fieldset text-base">*/}
-      {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*      Сайт кафедри*/}
-      {/*    </legend>*/}
-      {/*    <label className="input w-full">*/}
-      {/*      <LinkIcon size={16} />*/}
-      {/*      /!*<input*!/*/}
-      {/*      /!*  type="url"*!/*/}
-      {/*      /!*  value={form.values.departmentUrl}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("departmentUrl", e.target.value)}*!/*/}
-      {/*      /!*  placeholder="https://"*!/*/}
-      {/*      /!*  pattern="^(https?://)?([a-zA-Z0-9]([a-zA-Z0-9\-].*[a-zA-Z0-9])?\.)+[a-zA-Z].*$"*!/*/}
-      {/*      /!*  title="Must be valid URL"*!/*/}
-      {/*    </label>*/}
-      {/*  </fieldset>*/}
-
-      {/*  <fieldset className="fieldset gap-4">*/}
-      {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-      {/*      Характеристики програми*/}
-      {/*    </legend>*/}
-
-      {/*    <label className="fieldset-label flex-col items-start">*/}
-      {/*      Предметна область*/}
-      {/*      /!*<textarea*!/*/}
-      {/*      /!*  value={form.values.subjectArea}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("subjectArea", e.target.value)}*!/*/}
-      {/*      /!*  className="textarea h-24 w-full"*!/*/}
-      {/*      /!*  placeholder="Предметна область"*!/*/}
-      {/*    </label>*/}
-
-      {/*    <label className="fieldset-label flex-col items-start">*/}
-      {/*      Основний фокус програми*/}
-      {/*      /!*<textarea*!/*/}
-      {/*      /!*  value={form.values.programFocus}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("programFocus", e.target.value)}*!/*/}
-      {/*      /!*  className="textarea h-24 w-full"*!/*/}
-      {/*      /!*  placeholder="Основний фокус програми"*!/*/}
-      {/*    </label>*/}
-
-      {/*    <label className="fieldset-label flex-col items-start">*/}
-      {/*      Особливості програми*/}
-      {/*      /!*<textarea*!/*/}
-      {/*      /!*  value={form.values.programFeatures}*!/*/}
-      {/*      /!*  onChange={(e) => setFieldValue("programFeatures", e.target.value)}*!/*/}
-      {/*      /!*  className="textarea h-24 w-full"*!/*/}
-      {/*      /!*  placeholder="Особливості програми"*!/*/}
-      {/*  </fieldset>*/}
-
-      {/*  <button type="submit" className="btn btn-primary">*/}
-      {/*    Submit*/}
-      {/*  </button>*/}
-      {/*</form>*/}
     </div>
   );
 }

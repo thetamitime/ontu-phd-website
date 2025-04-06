@@ -2,18 +2,18 @@ export interface Program {
   id: number;
   degree: string;
   name: string;
-  nameCode?: string;
+  nameCode?: string; //doc
   accredited: boolean;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
   form: string[];
-  purpose?: string;
-  years?: number;
-  credits?: number;
-  programCharacteristics?: ProgramCharacteristics;
-  description?: string;
-  objects?: string;
-  directions?: string[];
+  purpose?: string; //phd
+  years?: number; //phd
+  credits?: number; //phd
+  programCharacteristics?: ProgramCharacteristics; //phd
+  description?: string; //doc
+  objects?: string; //doc
+  directions?: string[]; //doc
   linkFaculty: string;
   linkFile: string;
 }

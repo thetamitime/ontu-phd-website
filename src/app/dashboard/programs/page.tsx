@@ -43,7 +43,7 @@ export default function ProgramsPage() {
           key={selectedProgramId}
           programId={selectedProgramId || 0}
         />
-        <div className="ajustify-end mt-6 flex gap-4">
+        <div className="mt-6 flex justify-end gap-4">
           <button className="btn">Відмінити</button>
           <button className="btn btn-soft btn-primary">Зберегти зміни</button>
         </div>

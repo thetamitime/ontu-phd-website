@@ -1,54 +1,36 @@
-interface SelectFieldProps {
-  label: string;
-  options: string[];
-  optionValue: string;
-  onOptionChange: (value: string) => void;
-  hasType?: boolean;
-  typeValue?: string;
-  typeOptions?: string[];
-  onTypeChange?: (value: string) => void;
-}
+import { useFieldContext } from "@/app/dashboard/programs/form";
 
-export const SelectField: React.FC<SelectFieldProps> = ({
+export const SelectField = ({
   label,
   options,
-  optionValue,
-  onOptionChange,
-  hasType,
-  typeValue,
-  typeOptions,
-  onTypeChange,
+  disabled,
+}: {
+  label: string;
+  options: any[];
+  disabled?: boolean;
 }) => {
+  const field = useFieldContext();
+
   return (
     <fieldset className="fieldset flex flex-row gap-2 text-base">
       <legend className="fieldset-legend text-base-content/50 font-medium">
         {label}
       </legend>
 
-      {hasType && (
-        <select
-          className="select select-bordered w-fit"
-          name="typeField"
-          value={typeValue}
-          onChange={(e) => onTypeChange?.(e.target.value)}
-        >
-          {typeOptions?.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      )}
-
       <select
         className="select select-bordered w-full"
-        name="knowledgeField"
-        value={optionValue}
-        onChange={(e) => onOptionChange(e.target.value)}
+        name={field.name}
+        value={field.state.value ? JSON.stringify(field.state.value) : ""}
+        onChange={(e) => field.handleChange(JSON.parse(e.target.value))}
+        disabled={disabled}
       >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+        <option value="" disabled>
+          Оберіть {label.toLowerCase()}
+        </option>
+
+        {options?.map((option, index) => (
+          <option key={index} value={JSON.stringify(option)}>
+            {option.code} {option.name}
           </option>
         ))}
       </select>

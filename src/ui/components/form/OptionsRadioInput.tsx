@@ -1,27 +1,24 @@
+import { useFieldContext } from "@/app/dashboard/programs/form";
+
 interface DegreeRadioGroupProps {
-  legend: string;
-  name: string;
-  changeValue: string;
+  label: string;
   possibleValues: {
     label: string;
     value: string;
   }[];
-  onChange: (value: string) => void;
   className?: string;
 }
 
 export const OptionsRadioInput: React.FC<DegreeRadioGroupProps> = ({
-  legend,
-  name,
-  changeValue,
+  label,
   possibleValues,
-  onChange,
   className,
 }) => {
+  const field = useFieldContext();
   return (
     <div className={className}>
       <legend className="fieldset-legend text-base-content/50 font-medium">
-        {legend}
+        {label}
       </legend>
       <div className="join">
         {possibleValues.map((item, index) => (
@@ -29,11 +26,11 @@ export const OptionsRadioInput: React.FC<DegreeRadioGroupProps> = ({
             key={index}
             className="join-item btn"
             type="radio"
-            name={name}
+            name={field.name}
             value={item.value}
-            checked={changeValue === item.value}
+            checked={field.state.value === item.value}
             aria-label={item.label}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => field.handleChange(e.target.value)}
           />
         ))}
       </div>
