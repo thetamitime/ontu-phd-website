@@ -9,17 +9,19 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getProgramById, updateProgram } from "@/lib/api/programs";
 import React, { useEffect, useRef, useState } from "react";
-import { OptionsRadioInput } from "@/ui/components/form/OptionsRadioInput";
-import { Checkbox } from "@/ui/components/form/Checkbox";
-import { SelectField } from "@/ui/components/form/SelectField";
 import { getFieldsByDegree, getSpecialitiesByField } from "@/lib/api/fields";
 import { getDocuments } from "@/lib/api/documents";
-import { NumberInput } from "@/ui/components/form/NumberInput";
-import { TextAreaInput } from "@/ui/components/form/TextAreaInput";
-import { TextAreaInputInline } from "@/ui/components/form/TextAreaInputInline";
-import { InputField } from "@/ui/components/form/InputField";
-import { SubscribeButton } from "@/ui/components/form/SubscribeButton";
 import { ProgramFormValues, programSchema } from "@/lib/schemas/programSchema";
+import {
+  Checkbox,
+  InputField,
+  NumberInput,
+  OptionsRadioInput,
+  SelectField,
+  SubscribeButton,
+  TextAreaInput,
+  TextAreaInputInline,
+} from "@/ui/components";
 
 //=============Form Context=============
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
@@ -103,7 +105,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
   });
 
   const degree = useStore(form.store, (state) => state.values.degree);
-  const field = useStore(form.store, (state) => state.values.fieldOfStudy);
+  //const field = useStore(form.store, (state) => state.values.fieldOfStudy);
 
   const { data: fields } = useQuery({
     queryKey: ["fields", degree],
@@ -114,18 +116,18 @@ export default function ProgramForm({ programId }: { programId?: number }) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fieldsWithoutDegree = fields?.map(({ degree, ...rest }) => rest);
 
-  const { data: specialities } = useQuery({
-    queryKey: ["specialities", field],
-    queryFn: () => getSpecialitiesByField(field?.code || ""),
-    enabled: isVisible,
-    refetchOnWindowFocus: false,
-  });
-  const { data: documents } = useQuery({
-    queryKey: ["documents", programId],
-    queryFn: () => getDocuments("Entry"),
-    enabled: isVisible,
-    refetchOnWindowFocus: false,
-  });
+  // const { data: specialities } = useQuery({
+  //   queryKey: ["specialities", field],
+  //   queryFn: () => getSpecialitiesByField(field?.code || ""),
+  //   enabled: isVisible,
+  //   refetchOnWindowFocus: false,
+  // });
+  // const { data: documents } = useQuery({
+  //   queryKey: ["documents", programId],
+  //   queryFn: () => getDocuments("Entry"),
+  //   enabled: isVisible,
+  //   refetchOnWindowFocus: false,
+  // });
 
   const mutation = useMutation({
     // mutationFn: (data: ProgramFormValues) =>
@@ -145,11 +147,10 @@ export default function ProgramForm({ programId }: { programId?: number }) {
   };
 
   return (
-    <div ref={observerRef} className="mx-auto flex w-full flex-1 flex-col">
+    <div ref={observerRef} className="mx-auto h-fit w-full">
       <form
         className="flex flex-col gap-2"
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={() => {
           console.log("Form submitted");
           form.handleSubmit();
         }}

@@ -1,5 +1,5 @@
 import { getAllNews } from "@/lib/api/news";
-import { NewsCardSmall } from "@/ui/components";
+import { Small } from "@/ui/components";
 
 export default async function NewsPage() {
   const news = await getAllNews();
@@ -9,7 +9,7 @@ export default async function NewsPage() {
       <h2 className="header">Усі новини</h2>
       <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {news.map((item) => (
-          <NewsCardSmall
+          <Small
             key={item.id}
             id={item.id}
             thumbnail={item.thumbnail}

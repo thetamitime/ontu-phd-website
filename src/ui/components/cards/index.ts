@@ -2,9 +2,9 @@
 //Small - card for displaying all news on page
 //Medium - rest news on main page
 //Large - first news on main page
-export { NewsCardSmall } from "./NewsCardSmall";
-export { NewsCardMedium } from "./NewsCardMedium";
-export { NewsCardLarge } from "./NewsCardLarge";
+export { Small } from "./NewsCard/Small";
+export { Medium } from "./NewsCard/Medium";
+export { Large } from "./NewsCard/Large";
 
 //Program-related cards
 //Small - display only available fields on main page

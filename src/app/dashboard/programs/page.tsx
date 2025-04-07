@@ -10,16 +10,19 @@ import ProgramForm from "@/app/dashboard/programs/form";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPrograms } from "@/lib/api/programs";
 import { useState } from "react";
+import { CreateModal } from "@/ui/dashboard/CreateModal";
 
 export default function ProgramsPage() {
   const [selectedProgramId, setSelectedProgramId] = useState<number>();
-  console.log(selectedProgramId);
+  const [isModalOpen, setModalOpen] = useState(false);
 
-  const programsQuery = useQuery({
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
+  const { data: programs } = useQuery({
     queryKey: ["programs"],
     queryFn: getAllPrograms,
   });
-  const programs = programsQuery.data || [];
 
   return (
     <Drawer>
@@ -27,12 +30,20 @@ export default function ProgramsPage() {
         <div>
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-bold">Програми</h2>
-            <button className="btn">
+            <button className="btn" onClick={openModal}>
               <PlusCircleIcon size={16} />
               Створити нову програму
             </button>
           </div>
-          <DataTable columns={columns(setSelectedProgramId)} data={programs} />
+          {isModalOpen && (
+            <CreateModal label={"нову програму"} onClose={closeModal}>
+              <ProgramForm />
+            </CreateModal>
+          )}
+          <DataTable
+            columns={columns(setSelectedProgramId)}
+            data={programs ?? []}
+          />
         </div>
       </PageContent>
       <SidebarContent>

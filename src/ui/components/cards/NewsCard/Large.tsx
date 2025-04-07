@@ -5,7 +5,7 @@ import Image from "next/image";
 
 type NewsCardLargeProps = LatestNews;
 
-export const NewsCardLarge: React.FC<NewsCardLargeProps> = ({
+export const Large: React.FC<NewsCardLargeProps> = ({
   id,
   title,
   mainTag,

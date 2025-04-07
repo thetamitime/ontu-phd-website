@@ -7,7 +7,7 @@ type NewsCardMediumProps = Pick<
   "id" | "title" | "summary" | "mainTag" | "date"
 >;
 
-export const NewsCardMedium: React.FC<NewsCardMediumProps> = ({
+export const Medium: React.FC<NewsCardMediumProps> = ({
   id,
   mainTag,
   title,

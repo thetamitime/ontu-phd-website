@@ -5,7 +5,7 @@ import Image from "next/image";
 
 type NewsCardSmallProps = Omit<LatestNews, "summary">;
 
-export const NewsCardSmall: React.FC<NewsCardSmallProps> = ({
+export const Small: React.FC<NewsCardSmallProps> = ({
   id,
   mainTag,
   title,
