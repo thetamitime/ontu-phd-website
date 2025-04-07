@@ -19,10 +19,11 @@ import { TextAreaInput } from "@/ui/components/form/TextAreaInput";
 import { TextAreaInputInline } from "@/ui/components/form/TextAreaInputInline";
 import { InputField } from "@/ui/components/form/InputField";
 import { SubscribeButton } from "@/ui/components/form/SubscribeButton";
+import { ProgramFormValues, programSchema } from "@/lib/schemas/programSchema";
 
+//=============Form Context=============
 export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
-
 const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
@@ -40,7 +41,11 @@ const { useAppForm } = createFormHook({
   },
 });
 
-export default function ProgramForm({ programId }: { programId: number }) {
+//=============Program Form (Edit and Create)=============
+export default function ProgramForm({ programId }: { programId?: number }) {
+  const isEdit = Boolean(programId); //set mode of program
+
+  //check if form is visible to perform fetch
   const [isVisible, setIsVisible] = useState(false);
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -65,71 +70,56 @@ export default function ProgramForm({ programId }: { programId: number }) {
 
   const { data: program } = useQuery({
     queryKey: ["program", programId],
-    queryFn: () => getProgramById(programId.toString()),
-    enabled: isVisible,
+    queryFn: () => getProgramById(programId!.toString()),
+    enabled: isEdit && isVisible,
     refetchOnWindowFocus: false,
   });
 
   const form = useAppForm({
     defaultValues: {
-      name: program?.name || "",
-      // nameCode: program?.nameCode || "",
-      degree: program?.degree || "phd",
-      accredited: program?.accredited || false,
-      fieldOfStudy: {
-        code: program?.fieldOfStudy?.code || "",
-        name: program?.fieldOfStudy?.name || "",
-      },
-      speciality: {
-        code: program?.speciality?.code || "",
-        name: program?.speciality?.name || "",
-        fieldCode: program?.fieldOfStudy?.code || "",
-      },
-      form: program?.form || ["очна (денна)"],
-      description: program?.description || "",
-      directions: program?.directions || [],
-      purpose: program?.purpose || "",
-      objects: program?.objects || "",
-      years: program?.years || 0,
-      credits: program?.credits || 0,
-      programCharacteristics: {
-        area: {
-          object: program?.programCharacteristics?.area?.object || "",
-          aim: program?.programCharacteristics?.area?.aim || "",
-          theory: program?.programCharacteristics?.area?.theory || "",
-          methods: program?.programCharacteristics?.area?.methods || "",
-          instruments: program?.programCharacteristics?.area?.instruments || "",
-        },
-        focus: program?.programCharacteristics?.focus || "",
-        features: program?.programCharacteristics?.features || [],
-      },
-      linkFaculty: program?.linkFaculty || "/",
-      // file: program?.linkFile || "/",
+      name: program?.name ?? "",
+      degree: program?.degree ?? "phd",
+      accredited: program?.accredited ?? false,
+      // fieldOfStudy: program?.fieldOfStudy ?? { code: "", name: "" },
+      // speciality: program?.speciality ?? { code: "", name: "", fieldCode: "" },
+      form: program?.form ?? [],
+      purpose: program?.purpose ?? "",
+      years: program?.years ?? 0,
+      credits: program?.credits ?? 0,
+      programCharacteristics: program?.programCharacteristics ?? undefined,
+      description: program?.description ?? "",
+      objects: program?.objects ?? "",
+      directions: program?.directions ?? [],
+      linkFaculty: program?.linkFaculty ?? "",
+      linkFile: program?.linkFile ?? "",
+    } as ProgramFormValues,
+    validators: {
+      onChange: programSchema,
     },
     onSubmit: ({ value }) => {
-      console.log("Submitted values: ", value);
+      console.log("onSubmit", value);
       handleFormSubmit(value);
     },
   });
 
   const degree = useStore(form.store, (state) => state.values.degree);
+  const field = useStore(form.store, (state) => state.values.fieldOfStudy);
+
   const { data: fields } = useQuery({
     queryKey: ["fields", degree],
     queryFn: () => getFieldsByDegree(degree || ""),
     enabled: isVisible,
     refetchOnWindowFocus: false,
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const fieldsWithoutDegree = fields?.map(({ degree, ...rest }) => rest);
 
-  const field = useStore(form.store, (state) => state.values.fieldOfStudy);
   const { data: specialities } = useQuery({
     queryKey: ["specialities", field],
     queryFn: () => getSpecialitiesByField(field?.code || ""),
     enabled: isVisible,
     refetchOnWindowFocus: false,
   });
-
   const { data: documents } = useQuery({
     queryKey: ["documents", programId],
     queryFn: () => getDocuments("Entry"),
@@ -138,23 +128,20 @@ export default function ProgramForm({ programId }: { programId: number }) {
   });
 
   const mutation = useMutation({
-    mutationFn: (updatedField) => updateProgram(programId, updatedField),
-    onSuccess: () => {
-      alert("Program updated successfully!");
-    },
-    onError: (error) => {
-      alert("Error updating program: " + error.message);
-    },
+    // mutationFn: (data: ProgramFormValues) =>
+    //   isEdit ? updateProgram(programId!, data) : createProgram(data),
+    mutationFn: (data: ProgramFormValues) => updateProgram(programId!, data),
+    onSuccess: () => alert(isEdit ? "Оновлено!" : "Створено!"),
+    onError: (err: Error) => alert("Помилка: " + err.message),
   });
 
-  const handleFormSubmit = async (formData) => {
+  const handleFormSubmit = async (values: ProgramFormValues) => {
     const updatedProgram = {
-      id: program.id,
-      ...formData,
+      id: programId,
+      ...values,
     };
-
-    console.log("Upfated values: ", updatedProgram);
-    mutation.mutate(updatedProgram);
+    console.log("Form submitted with values:", updatedProgram);
+    mutation.mutate(values);
   };
 
   return (
@@ -163,12 +150,17 @@ export default function ProgramForm({ programId }: { programId: number }) {
         className="flex flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
+          console.log("Form submitted");
           form.handleSubmit();
         }}
       >
         {/* Program name */}
         <form.AppField name={"name"}>
-          {(field) => <field.InputField label="Назва програми" type={"text"} />}
+          {(field) => (
+            <>
+              <field.InputField label="Назва програми" type={"text"} />
+            </>
+          )}
         </form.AppField>
 
         {/* Choose degree and check accreditation */}
@@ -178,11 +170,11 @@ export default function ProgramForm({ programId }: { programId: number }) {
             listeners={{
               onChange: ({ value }) => {
                 if (value === program?.degree) {
-                  form.setFieldValue("fieldOfStudy", program?.fieldOfStudy);
-                  form.setFieldValue("speciality", program?.speciality);
-                  //form.setFieldValue("purpose", program?.purpose || "");
+                  // form.setFieldValue("fieldOfStudy", program?.fieldOfStudy);
+                  // form.setFieldValue("speciality", program?.speciality);
+                  form.setFieldValue("purpose", program?.purpose || "");
                 } else {
-                  form.setFieldValue("fieldOfStudy", { code: "", name: "" });
+                  // form.setFieldValue("fieldOfStudy", { code: "", name: "" });
                   // form.setFieldValue("speciality", {
                   //   code: "",
                   //   name: "",
@@ -190,13 +182,13 @@ export default function ProgramForm({ programId }: { programId: number }) {
                   // });
                 }
 
-                // if (value === "doc") {
-                //   form.setFieldValue("years", 0);
-                //   form.setFieldValue("credits", 0);
-                // } else {
-                //   form.setFieldValue("years", program?.years || 1);
-                //   form.setFieldValue("credits", program?.credits || 1);
-                // }
+                if (value === "doc") {
+                  form.setFieldValue("years", 0);
+                  form.setFieldValue("credits", 0);
+                } else {
+                  form.setFieldValue("years", program?.years || 1);
+                  form.setFieldValue("credits", program?.credits || 1);
+                }
               },
             }}
           >
@@ -217,37 +209,37 @@ export default function ProgramForm({ programId }: { programId: number }) {
           </form.AppField>
         </div>
 
-        {/* Fields of study */}
-        <form.AppField
-          name={"fieldOfStudy"}
-          listeners={{
-            onChange: () => {
-              form.setFieldValue("speciality", {
-                code: "",
-                name: "",
-                fieldCode: form.getFieldValue("fieldOfStudy.code"),
-              });
-            },
-          }}
-        >
-          {(field) => (
-            <field.SelectField
-              label="Галузь знань"
-              options={fieldsWithoutDegree || []}
-            />
-          )}
-        </form.AppField>
+        {/*/!* Fields of study *!/*/}
+        {/*<form.AppField*/}
+        {/*  name={"fieldOfStudy"}*/}
+        {/*  listeners={{*/}
+        {/*    onChange: () => {*/}
+        {/*      form.setFieldValue("speciality", {*/}
+        {/*        code: "",*/}
+        {/*        name: "",*/}
+        {/*        fieldCode: form.getFieldValue("fieldOfStudy.code"),*/}
+        {/*      });*/}
+        {/*    },*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  {(field) => (*/}
+        {/*    <field.SelectField*/}
+        {/*      label="Галузь знань"*/}
+        {/*      options={fieldsWithoutDegree || []}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*</form.AppField>*/}
 
-        {/* Speciality */}
-        <form.AppField name={"speciality"}>
-          {(field) => (
-            <field.SelectField
-              label="Cпеціальність"
-              options={specialities || []}
-              disabled={form.getFieldValue("fieldOfStudy.code") === ""}
-            />
-          )}
-        </form.AppField>
+        {/*/!* Speciality *!/*/}
+        {/*<form.AppField name={"speciality"}>*/}
+        {/*  {(field) => (*/}
+        {/*    <field.SelectField*/}
+        {/*      label="Cпеціальність"*/}
+        {/*      options={specialities || []}*/}
+        {/*      disabled={form.getFieldValue("fieldOfStudy.code") === ""}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*</form.AppField>*/}
 
         {/*/!* Flex displaying form, years and credits *!/*/}
         <div className="flex flex-row gap-5">
@@ -425,7 +417,7 @@ export default function ProgramForm({ programId }: { programId: number }) {
                     <legend className="fieldset-legend text-base-content/50 font-medium">
                       Напрямки досліджень
                     </legend>
-                    {field.state.value.map((_, i) => {
+                    {field.state.value?.map((_, i) => {
                       return (
                         <form.AppField key={i} name={`directions[${i}]`}>
                           {(subField) => (

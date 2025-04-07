@@ -1,5 +1,5 @@
 import { useFieldContext } from "@/app/dashboard/programs/form";
-import { InputHTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -20,15 +20,21 @@ export const InputField: React.FC<InputFieldProps> = ({
       <legend className="fieldset-legend text-base-content/50 font-medium">
         {label}
       </legend>
-      <label className={"input w-full"}>
+      <label className={"input validator w-full"}>
         {icon}
         <input
           type={type}
           value={field.state.value}
+          required
           onChange={(e) => field.handleChange(e.target.value)}
           {...rest}
         />
       </label>
+      {field.state.meta.isTouched && field.state.meta.errors.length ? (
+        <div className="validator-hint mt-0 hidden">
+          {field.state.meta.errors.map((err) => err.message).join(",")}
+        </div>
+      ) : null}
     </fieldset>
   );
 };

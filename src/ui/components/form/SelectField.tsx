@@ -20,8 +20,6 @@ export const SelectField = ({
     {} as { [key: string]: string },
   );
 
-  console.log(field.state.value);
-
   return (
     <fieldset className="fieldset flex flex-row gap-2 text-base">
       <legend className="fieldset-legend text-base-content/50 font-medium">

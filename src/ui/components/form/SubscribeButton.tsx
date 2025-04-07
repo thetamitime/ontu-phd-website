@@ -5,7 +5,11 @@ export const SubscribeButton = ({ label }: { label: string }) => {
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (
-        <button className="btn btn-soft btn-primary" disabled={isSubmitting}>
+        <button
+          className="btn btn-soft btn-primary"
+          disabled={isSubmitting}
+          type="submit"
+        >
           {label}
         </button>
       )}

@@ -1,6 +1,6 @@
 export interface Program {
   id: number;
-  degree: string;
+  degree: "pdd" | "doc";
   name: string;
   nameCode?: string; //doc
   accredited: boolean;
