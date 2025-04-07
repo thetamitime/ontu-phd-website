@@ -16,7 +16,14 @@ export default async function ProgramPage({
       </h2>
       <div className="wrapper gap-6">
         {programsByDegree.map((program) => (
-          <ProgramCardLarge key={program.id} {...program}></ProgramCardLarge>
+          <ProgramCardLarge
+            key={program.id}
+            degree={degree}
+            id={program.id}
+            name={program.name}
+            fieldOfStudy={program.fieldOfStudy}
+            speciality={program.speciality}
+          />
         ))}
       </div>
     </>

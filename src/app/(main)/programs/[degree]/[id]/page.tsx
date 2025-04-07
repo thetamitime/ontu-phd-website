@@ -45,24 +45,21 @@ export default async function Page({
             </div>
             <ul className="menu w-full py-0 text-base" role="menu">
               <li>
-                <Link href={`#main`} replace>
-                  Головна інформація
-                </Link>
-              </li>
-              <li>
-                <Link href={"#characteristics"} replace>
-                  Характеристики програми
-                </Link>
-              </li>
-              <div className="divider m-0.5 px-2"></div>
-              <li>
-                <Link href={program.linkFaculty} target="_blank" role="button">
+                <Link
+                  href={`${program.linkFaculty}`}
+                  target="_blank"
+                  role="button"
+                >
                   Cайт кафедри
                   <ArrowUpRight />
                 </Link>
               </li>
               <li>
-                <Link href={program.linkFile} target="_blank" role="button">
+                <Link
+                  href={`${program.linkFile}`}
+                  target="_blank"
+                  role="button"
+                >
                   Документ програми
                   <FileDown size={22} />
                 </Link>
@@ -107,20 +104,17 @@ export default async function Page({
         <nav className="sticky top-0 col-start-2 self-start overflow-visible">
           <ul className="menu bg-base-200 rounded-box hidden text-base font-medium md:block [&_a]:px-4 [&_a]:py-3">
             <li>
-              <a href={"#main"}>Головна інформація</a>
-            </li>
-            <li>
-              <a href={"#characteristics"}>Характеристики програми</a>
-            </li>
-            <div className="divider m-0.5 px-2"></div>
-            <li>
-              <Link href={program.linkFaculty} target="_blank" role="button">
+              <Link
+                href={`${program.linkFaculty}`}
+                target="_blank"
+                role="button"
+              >
                 Cайт кафедри
                 <ArrowUpRight />
               </Link>
             </li>
             <li>
-              <Link href={program.linkFile} target="_blank" role="button">
+              <Link href={`${program.linkFile}`} target="_blank" role="button">
                 Документ програми
                 <FileDown size={22} />
               </Link>
