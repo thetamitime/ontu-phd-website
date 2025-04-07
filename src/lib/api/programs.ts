@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { ProgramField, Program, ProgramDegree } from "@/lib/types/programs";
 
 export async function getAllPrograms() {
-  const res = await fetch(`http://localhost:5124/api/programs`);
+  const res = await fetch(`http://192.168.0.160:5124/api/programs`);
 
   const programs: Program[] = await res.json();
   if (!programs) notFound();
@@ -11,7 +11,7 @@ export async function getAllPrograms() {
 
 export async function getProgramsByDegree(degree: string) {
   const res = await fetch(
-    `http://localhost:5124/api/programs/degrees?degree=${degree}`,
+    `http://192.168.0.160:5124/api/programs/degrees?degree=${degree}`,
   );
 
   const programs: ProgramDegree[] = await res.json();
@@ -20,7 +20,7 @@ export async function getProgramsByDegree(degree: string) {
 }
 
 export async function getProgramById(id: number) {
-  const res = await fetch(`http://localhost:5124/api/programs/${id}`);
+  const res = await fetch(`http://192.168.0.160:5124/api/programs/${id}`);
 
   const program: Program = await res.json();
   if (!program) notFound();
@@ -28,7 +28,7 @@ export async function getProgramById(id: number) {
 }
 
 export async function getProgramFields() {
-  const res = await fetch("http://localhost:5124/api/programs/fields");
+  const res = await fetch("http://192.168.0.160:5124/api/programs/fields");
 
   const field: ProgramField[] = await res.json();
   if (!field) notFound();

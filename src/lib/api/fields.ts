@@ -2,7 +2,7 @@ import { FieldOfStudy, ProgramField, Speciality } from "@/lib/types/programs";
 import { notFound } from "next/navigation";
 
 export async function getAllFields() {
-  const res = await fetch("http://localhost:5124/api/programs/fields");
+  const res = await fetch("http://192.168.0.160:5124/api/programs/fields");
 
   const field: ProgramField[] = await res.json();
   if (!field) notFound();
@@ -11,7 +11,7 @@ export async function getAllFields() {
 
 export async function getFieldsByDegree(degree: string) {
   const res = await fetch(
-    `http://localhost:5124/api/SpecialityNFields?degree=${degree}`,
+    `http://192.168.0.160:5124/api/SpecialityNFields?degree=${degree}`,
   );
 
   const fields: FieldOfStudy[] = await res.json();
@@ -21,7 +21,7 @@ export async function getFieldsByDegree(degree: string) {
 
 export async function getSpecialitiesByField(code: string) {
   const res = await fetch(
-    `http://localhost:5124/api/SpecialityNFields/${code}`,
+    `http://192.168.0.160:5124/api/SpecialityNFields/${code}`,
   );
 
   const specialities: Speciality[] = await res.json();

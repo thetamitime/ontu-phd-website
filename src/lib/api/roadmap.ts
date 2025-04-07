@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import { Roadmap } from "@/lib/types";
 
 export async function getRoadmap(type: string) {
-  const res = await fetch(`http://localhost:5124/api/roadmaps?type=${type}`);
+  const res = await fetch(
+    `http://192.168.0.160:5124/api/roadmaps?type=${type}`,
+  );
 
   const roadmap: Roadmap = await res.json();
   if (!roadmap) notFound();
