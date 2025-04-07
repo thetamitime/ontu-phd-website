@@ -19,7 +19,7 @@ export async function getProgramsByDegree(degree: string) {
   return programs;
 }
 
-export async function getProgramById(id: number) {
+export async function getProgramById(id: string) {
   const res = await fetch(`http://192.168.0.160:5124/api/programs/${id}`);
 
   const program: Program = await res.json();
