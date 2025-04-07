@@ -1,6 +1,15 @@
 import { useFieldContext } from "@/app/dashboard/programs/form";
+import { TextareaHTMLAttributes } from "react";
 
-export const TextAreaInputInline = ({ label }: { label: string }) => {
+interface TextAreaInputProps
+  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label: string;
+}
+
+export const TextAreaInputInline: React.FC<TextAreaInputProps> = ({
+  label,
+  ...rest
+}) => {
   const field = useFieldContext<string>();
 
   return (
@@ -12,6 +21,7 @@ export const TextAreaInputInline = ({ label }: { label: string }) => {
         onChange={(e) => {
           field.handleChange(e.target.value);
         }}
+        {...rest}
       />
     </label>
   );

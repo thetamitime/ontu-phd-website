@@ -6,8 +6,8 @@ import {
   createFormHookContexts,
   useStore,
 } from "@tanstack/react-form";
-import { useQuery } from "@tanstack/react-query";
-import { getProgramById } from "@/lib/api/programs";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getProgramById, updateProgram } from "@/lib/api/programs";
 import React, { useEffect, useRef, useState } from "react";
 import { OptionsRadioInput } from "@/ui/components/form/OptionsRadioInput";
 import { Checkbox } from "@/ui/components/form/Checkbox";
@@ -18,8 +18,9 @@ import { NumberInput } from "@/ui/components/form/NumberInput";
 import { TextAreaInput } from "@/ui/components/form/TextAreaInput";
 import { TextAreaInputInline } from "@/ui/components/form/TextAreaInputInline";
 import { InputField } from "@/ui/components/form/InputField";
+import { SubscribeButton } from "@/ui/components/form/SubscribeButton";
 
-export const { fieldContext, formContext, useFieldContext } =
+export const { fieldContext, formContext, useFieldContext, useFormContext } =
   createFormHookContexts();
 
 const { useAppForm } = createFormHook({
@@ -34,7 +35,9 @@ const { useAppForm } = createFormHook({
     TextAreaInput,
     TextAreaInputInline,
   },
-  formComponents: {},
+  formComponents: {
+    SubscribeButton,
+  },
 });
 
 export default function ProgramForm({ programId }: { programId: number }) {
@@ -62,7 +65,7 @@ export default function ProgramForm({ programId }: { programId: number }) {
 
   const { data: program } = useQuery({
     queryKey: ["program", programId],
-    queryFn: () => getProgramById(programId),
+    queryFn: () => getProgramById(programId.toString()),
     enabled: isVisible,
     refetchOnWindowFocus: false,
   });
@@ -70,20 +73,42 @@ export default function ProgramForm({ programId }: { programId: number }) {
   const form = useAppForm({
     defaultValues: {
       name: program?.name || "",
+      // nameCode: program?.nameCode || "",
       degree: program?.degree || "phd",
       accredited: program?.accredited || false,
-      fieldOfStudy: program?.fieldOfStudy || null,
-      speciality: program?.speciality || null,
+      fieldOfStudy: {
+        code: program?.fieldOfStudy?.code || "",
+        name: program?.fieldOfStudy?.name || "",
+      },
+      speciality: {
+        code: program?.speciality?.code || "",
+        name: program?.speciality?.name || "",
+        fieldCode: program?.fieldOfStudy?.code || "",
+      },
       form: program?.form || ["очна (денна)"],
+      description: program?.description || "",
+      directions: program?.directions || [],
+      purpose: program?.purpose || "",
+      objects: program?.objects || "",
       years: program?.years || 0,
       credits: program?.credits || 0,
-      purpose: program?.purpose || "",
-      programCharacteristics: program?.programCharacteristics || [],
+      programCharacteristics: {
+        area: {
+          object: program?.programCharacteristics?.area?.object || "",
+          aim: program?.programCharacteristics?.area?.aim || "",
+          theory: program?.programCharacteristics?.area?.theory || "",
+          methods: program?.programCharacteristics?.area?.methods || "",
+          instruments: program?.programCharacteristics?.area?.instruments || "",
+        },
+        focus: program?.programCharacteristics?.focus || "",
+        features: program?.programCharacteristics?.features || [],
+      },
       linkFaculty: program?.linkFaculty || "/",
-      linkFile: program?.linkFile || "/",
+      // file: program?.linkFile || "/",
     },
     onSubmit: ({ value }) => {
       console.log("Submitted values: ", value);
+      handleFormSubmit(value);
     },
   });
 
@@ -94,6 +119,8 @@ export default function ProgramForm({ programId }: { programId: number }) {
     enabled: isVisible,
     refetchOnWindowFocus: false,
   });
+
+  const fieldsWithoutDegree = fields?.map(({ degree, ...rest }) => rest);
 
   const field = useStore(form.store, (state) => state.values.fieldOfStudy);
   const { data: specialities } = useQuery({
@@ -110,17 +137,33 @@ export default function ProgramForm({ programId }: { programId: number }) {
     refetchOnWindowFocus: false,
   });
 
-  const met = useStore(
-    form.store,
-    (state) => state.values.programCharacteristics,
-  );
-  console.log("met", met);
+  const mutation = useMutation({
+    mutationFn: (updatedField) => updateProgram(programId, updatedField),
+    onSuccess: () => {
+      alert("Program updated successfully!");
+    },
+    onError: (error) => {
+      alert("Error updating program: " + error.message);
+    },
+  });
+
+  const handleFormSubmit = async (formData) => {
+    const updatedProgram = {
+      id: program.id,
+      ...formData,
+    };
+
+    console.log("Upfated values: ", updatedProgram);
+    mutation.mutate(updatedProgram);
+  };
+
   return (
     <div ref={observerRef} className="mx-auto flex w-full flex-1 flex-col">
       <form
         className="flex flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
+          form.handleSubmit();
         }}
       >
         {/* Program name */}
@@ -137,19 +180,23 @@ export default function ProgramForm({ programId }: { programId: number }) {
                 if (value === program?.degree) {
                   form.setFieldValue("fieldOfStudy", program?.fieldOfStudy);
                   form.setFieldValue("speciality", program?.speciality);
+                  //form.setFieldValue("purpose", program?.purpose || "");
                 } else {
-                  form.setFieldValue("fieldOfStudy", null);
-                  form.setFieldValue("speciality", null);
+                  form.setFieldValue("fieldOfStudy", { code: "", name: "" });
+                  // form.setFieldValue("speciality", {
+                  //   code: "",
+                  //   name: "",
+                  //   fieldCode: form.getFieldValue("fieldOfStudy.code"),
+                  // });
                 }
 
-                if (value === "doc") {
-                  form.setFieldValue("years", 0);
-                  form.setFieldValue("credits", 0);
-                  form.setFieldValue("purpose", "");
-                } else {
-                  form.setFieldValue("years", program?.years || 1);
-                  form.setFieldValue("credits", program?.credits || 1);
-                }
+                // if (value === "doc") {
+                //   form.setFieldValue("years", 0);
+                //   form.setFieldValue("credits", 0);
+                // } else {
+                //   form.setFieldValue("years", program?.years || 1);
+                //   form.setFieldValue("credits", program?.credits || 1);
+                // }
               },
             }}
           >
@@ -174,14 +221,20 @@ export default function ProgramForm({ programId }: { programId: number }) {
         <form.AppField
           name={"fieldOfStudy"}
           listeners={{
-            onChange: ({ value }) => {
-              console.log(`Speciality changed to: ${value}, resetting degree`);
-              form.setFieldValue("speciality", null);
+            onChange: () => {
+              form.setFieldValue("speciality", {
+                code: "",
+                name: "",
+                fieldCode: form.getFieldValue("fieldOfStudy.code"),
+              });
             },
           }}
         >
           {(field) => (
-            <field.SelectField label="Галузь знань" options={fields || []} />
+            <field.SelectField
+              label="Галузь знань"
+              options={fieldsWithoutDegree || []}
+            />
           )}
         </form.AppField>
 
@@ -191,15 +244,12 @@ export default function ProgramForm({ programId }: { programId: number }) {
             <field.SelectField
               label="Cпеціальність"
               options={specialities || []}
-              disabled={
-                form.getFieldValue("speciality") === null &&
-                form.getFieldValue("fieldOfStudy") === null
-              }
+              disabled={form.getFieldValue("fieldOfStudy.code") === ""}
             />
           )}
         </form.AppField>
 
-        {/* Flex displaying form, years and credits */}
+        {/*/!* Flex displaying form, years and credits *!/*/}
         <div className="flex flex-row gap-5">
           <fieldset className="fieldset flex flex-col gap-2 text-base">
             <legend className="fieldset-legend text-base-content/50 font-medium">
@@ -284,73 +334,121 @@ export default function ProgramForm({ programId }: { programId: number }) {
           </form.AppField>
         </div>
 
-        {/* Purpose of program */}
-        <form.AppField name={"purpose"}>
-          {(field) => (
-            <field.TextAreaInput label={"Основна мета"} className="h-40" />
-          )}
-        </form.AppField>
-
-        <fieldset className="fieldset gap-0 text-base">
-          <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">
-            Характеристики програми
-          </legend>
-
-          <fieldset className="fieldset text-base">
-            <legend className="fieldset-legend text-base-content/50 font-medium">
-              Предметна область
-            </legend>
-
-            {/* Area Fields */}
-            <form.AppField name="programCharacteristics.area.object">
+        {degree === "phd" ? (
+          <>
+            {/* Purpose of program */}
+            <form.AppField name={"purpose"}>
               {(field) => (
-                <field.TextAreaInputInline label={"Об'єкт вивчення"} />
+                <field.TextAreaInput label={"Основна мета"} className="h-40" />
               )}
             </form.AppField>
 
-            <form.AppField name="programCharacteristics.area.aim">
-              {(field) => <field.TextAreaInputInline label={"Цілі навчання"} />}
+            <fieldset className="fieldset gap-0 text-base">
+              <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">
+                Характеристики програми
+              </legend>
+
+              <fieldset className="fieldset text-base">
+                <legend className="fieldset-legend text-base-content/50 font-medium">
+                  Предметна область
+                </legend>
+
+                {/* Area Fields */}
+                <form.AppField name="programCharacteristics.area.object">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Об'єкт вивчення"} />
+                  )}
+                </form.AppField>
+
+                <form.AppField name="programCharacteristics.area.aim">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Цілі навчання"} />
+                  )}
+                </form.AppField>
+
+                <form.AppField name="programCharacteristics.area.theory">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Теоретичний зміст"} />
+                  )}
+                </form.AppField>
+
+                <form.AppField name="programCharacteristics.area.instruments">
+                  {(field) => (
+                    <field.TextAreaInputInline
+                      label={"Інструменти та обладнання"}
+                    />
+                  )}
+                </form.AppField>
+
+                <form.AppField name="programCharacteristics.area.methods">
+                  {(field) => (
+                    <field.TextAreaInputInline
+                      label={"Методи, методики та технології"}
+                    />
+                  )}
+                </form.AppField>
+              </fieldset>
+
+              <fieldset className="fieldset text-base">
+                <form.AppField name="programCharacteristics.focus">
+                  {(field) => (
+                    <field.TextAreaInput label={"Основний фокус програми"} />
+                  )}
+                </form.AppField>
+              </fieldset>
+
+              <fieldset className="fieldset text-base">
+                <form.AppField name="programCharacteristics.features">
+                  {(field) => (
+                    <field.TextAreaInput label={"Особливості програми"} />
+                  )}
+                </form.AppField>
+              </fieldset>
+            </fieldset>
+          </>
+        ) : (
+          <>
+            <form.AppField name={"description"}>
+              {(field) => <field.TextAreaInput label={"Опис"} />}
             </form.AppField>
 
-            <form.AppField name="programCharacteristics.area.theory">
+            <form.AppField name={"objects"}>
               {(field) => (
-                <field.TextAreaInputInline label={"Теоретичний зміст"} />
+                <field.TextAreaInput label={"Об'єкти спеціальності"} />
               )}
             </form.AppField>
 
-            <form.AppField name="programCharacteristics.area.instruments">
-              {(field) => (
-                <field.TextAreaInputInline
-                  label={"Інструменти та обладнання"}
-                />
-              )}
+            <form.AppField name="directions" mode="array">
+              {(field) => {
+                return (
+                  <>
+                    <legend className="fieldset-legend text-base-content/50 font-medium">
+                      Напрямки досліджень
+                    </legend>
+                    {field.state.value.map((_, i) => {
+                      return (
+                        <form.AppField key={i} name={`directions[${i}]`}>
+                          {(subField) => (
+                            <field.TextAreaInputInline
+                              label={`Напрям ${i}`}
+                              value={subField.state.value}
+                              onChange={(e) =>
+                                subField.handleChange(e.target.value)
+                              }
+                            />
+                          )}
+                        </form.AppField>
+                      );
+                    })}
+                    <button onClick={() => field.pushValue("")} type="button">
+                      Додати напрям
+                    </button>
+                  </>
+                );
+              }}
             </form.AppField>
-
-            <form.AppField name="programCharacteristics.area.methods">
-              {(field) => (
-                <field.TextAreaInputInline
-                  label={"Методи, методики та технології"}
-                />
-              )}
-            </form.AppField>
-          </fieldset>
-
-          <fieldset className="fieldset text-base">
-            <form.AppField name="programCharacteristics.focus">
-              {(field) => (
-                <field.TextAreaInput label={"Основний фокус програми"} />
-              )}
-            </form.AppField>
-          </fieldset>
-
-          <fieldset className="fieldset text-base">
-            <form.AppField name="programCharacteristics.features">
-              {(field) => (
-                <field.TextAreaInput label={"Особливості програми"} />
-              )}
-            </form.AppField>
-          </fieldset>
-        </fieldset>
+          </>
+        )}
 
         {/* Input for faculty link */}
         <form.AppField name={"linkFaculty"}>
@@ -364,15 +462,19 @@ export default function ProgramForm({ programId }: { programId: number }) {
           )}
         </form.AppField>
 
-        {/* File selection */}
-        <form.AppField name={"linkFile"}>
-          {(field) => (
-            <field.SelectField
-              label="Документ програми"
-              options={documents || []}
-            />
-          )}
-        </form.AppField>
+        {/*/!* File selection *!/*/}
+        {/*<form.AppField name={"linkFile"}>*/}
+        {/*  {(field) => (*/}
+        {/*    <field.SelectField*/}
+        {/*      label="Документ програми"*/}
+        {/*      options={documents || []}*/}
+        {/*    />*/}
+        {/*  )}*/}
+        {/*</form.AppField>*/}
+
+        <form.AppForm>
+          <form.SubscribeButton label="Submit" />
+        </form.AppForm>
       </form>
     </div>
   );

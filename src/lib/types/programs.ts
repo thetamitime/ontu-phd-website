@@ -25,12 +25,13 @@ export type ProgramDegree = Pick<
   "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
 >;
 
-export interface FieldOfStudy {
+interface FieldOfStudy {
   code: string;
   name: string;
 }
 
 export interface Speciality {
+  fieldCode: string;
   code: string;
   name: string;
 }

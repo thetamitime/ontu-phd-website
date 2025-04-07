@@ -1,10 +1,11 @@
-import { FieldOfStudy, ProgramField, Speciality } from "@/lib/types/programs";
+import { Speciality } from "@/lib/types/programs";
 import { notFound } from "next/navigation";
+import { Field } from "@/lib/types/fields";
 
 export async function getAllFields() {
   const res = await fetch("http://192.168.0.160:5124/api/programs/fields");
 
-  const field: ProgramField[] = await res.json();
+  const field: Field[] = await res.json();
   if (!field) notFound();
   return field;
 }
@@ -14,7 +15,7 @@ export async function getFieldsByDegree(degree: string) {
     `http://192.168.0.160:5124/api/SpecialityNFields?degree=${degree}`,
   );
 
-  const fields: FieldOfStudy[] = await res.json();
+  const fields: Field[] = await res.json();
   if (!fields) notFound();
   return fields;
 }

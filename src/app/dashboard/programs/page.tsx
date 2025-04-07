@@ -44,7 +44,6 @@ export default function ProgramsPage() {
           programId={selectedProgramId || 0}
         />
         <div className="mt-6 flex justify-end gap-4">
-          <button className="btn">Відмінити</button>
           <button className="btn btn-soft btn-primary">Зберегти зміни</button>
         </div>
       </SidebarContent>
