@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 type ProgramCardSmallProps = ProgramDegree;
 
-export const ProgramCardLarge: React.FC<ProgramCardSmallProps> = ({
+export const Large: React.FC<ProgramCardSmallProps> = ({
   id,
   degree,
   name,

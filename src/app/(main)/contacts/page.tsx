@@ -1,6 +1,6 @@
 import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
 import { ContactsMap } from "@/ui/components/ContactsMap";
-import { ContactCard } from "@/ui/components/ContactCard";
+import { ContactCard } from "@/ui/components/cards/ContactCard";
 import { Contact } from "@/lib/types";
 
 const contactsUniversity: Contact[] = [

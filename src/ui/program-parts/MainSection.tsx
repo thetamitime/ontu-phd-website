@@ -1,5 +1,5 @@
 import React from "react";
-import { SmallCardWithNumber } from "@/ui/components/SmallCardWithNumber";
+import { SmallCardWithNumber } from "@/ui/components/cards/SmallCardWithNumber";
 import { Program } from "@/lib/types/programs";
 import { InfoBox } from "@/ui/components/InfoBox";
 

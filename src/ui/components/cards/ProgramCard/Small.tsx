@@ -2,7 +2,7 @@ import { ProgramField } from "@/lib/types/programs";
 
 type ProgramCardSmallProps = ProgramField;
 
-export const ProgramCardSmall: React.FC<ProgramCardSmallProps> = ({
+export const Small: React.FC<ProgramCardSmallProps> = ({
   id,
   degree,
   fieldOfStudy,
