@@ -1,6 +1,7 @@
 import React from "react";
 import { FieldInfo } from "@/ui/components";
 import { useFieldContext } from "@/lib/hooks/useFieldContext";
+import { useStore } from "@tanstack/react-form";
 
 export const SelectField = ({
   label,
@@ -13,6 +14,8 @@ export const SelectField = ({
 }) => {
   const field = useFieldContext();
   const hasError = field.state.meta.errors.length > 0;
+  const errors = useStore(field.store, (state) => state.meta.errors);
+  console.log(errors);
 
   // create empty value of field.state
   const resetFieldState = Object.keys(field.state.value as object).reduce(

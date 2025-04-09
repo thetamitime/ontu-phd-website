@@ -2,8 +2,10 @@ import { Speciality } from "@/lib/types/programs";
 import { notFound } from "next/navigation";
 import { Field } from "@/lib/types/fields";
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function getAllFields() {
-  const res = await fetch("http://192.168.0.160:5124/api/SpecialityNFields");
+  const res = await fetch(`${API_BASE_URL}/api/SpecialityNFields`);
 
   const field: Field[] = await res.json();
   if (!field) notFound();
@@ -12,7 +14,7 @@ export async function getAllFields() {
 
 export async function getFieldsByDegree(degree: string) {
   const res = await fetch(
-    `http://192.168.0.160:5124/api/SpecialityNFields?degree=${degree}`,
+    `${API_BASE_URL}/api/SpecialityNFields?degree=${degree}`,
   );
 
   const fields: Field[] = await res.json();
@@ -21,9 +23,7 @@ export async function getFieldsByDegree(degree: string) {
 }
 
 export async function getSpecialitiesByField(code: string) {
-  const res = await fetch(
-    `http://192.168.0.160:5124/api/SpecialityNFields/${code}`,
-  );
+  const res = await fetch(`${API_BASE_URL}/api/SpecialityNFields/${code}`);
 
   const specialities: Speciality[] = await res.json();
   if (!specialities) notFound();

@@ -9,7 +9,6 @@ interface NumberInputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const NumberInput = ({ label, ...rest }: NumberInputProps) => {
   const field = useFieldContext<number | null>();
   const hasError = field.state.meta.errors.length > 0;
-  console.log("credits", field.state.value);
 
   return (
     <fieldset className="fieldset w-full gap-2 text-base">

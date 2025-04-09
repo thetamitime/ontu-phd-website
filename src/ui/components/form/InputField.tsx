@@ -1,6 +1,7 @@
 import React, { InputHTMLAttributes } from "react";
 import { FieldInfo } from "@/ui/components";
 import { useFieldContext } from "@/lib/hooks/useFieldContext";
+import { useStore } from "@tanstack/react-form";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -13,7 +14,8 @@ export const InputField: React.FC<InputFieldProps> = ({
   ...rest
 }) => {
   const field = useFieldContext<string>(); // Assuming the field state is a string
-  const hasError = field.state.meta.errors.length > 0;
+  const errors = useStore(field.store, (state) => state.meta.errors);
+  const hasError = errors.length > 0;
 
   return (
     <fieldset className="fieldset text-base">

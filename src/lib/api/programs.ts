@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
-import { Program, ProgramDegree, ProgramField } from "@/lib/types/programs";
+import { Program, ProgramDegree } from "@/lib/types/programs";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function getAllPrograms() {
-  const res = await fetch(`http://192.168.0.160:5124/api/programs`);
+  const res = await fetch(`${API_BASE_URL}/api/programs`);
 
   const programs: Program[] = await res.json();
   if (!programs) notFound();
@@ -11,7 +13,7 @@ export async function getAllPrograms() {
 
 export async function getProgramsByDegree(degree: string) {
   const res = await fetch(
-    `http://192.168.0.160:5124/api/programs/degrees?degree=${degree}`,
+    `${API_BASE_URL}/api/programs/degrees?degree=${degree}`,
   );
 
   const programs: ProgramDegree[] = await res.json();
@@ -20,7 +22,7 @@ export async function getProgramsByDegree(degree: string) {
 }
 
 export async function getProgramById(id: string) {
-  const res = await fetch(`http://192.168.0.160:5124/api/programs/${id}`);
+  const res = await fetch(`${API_BASE_URL}/api/programs/${id}`);
 
   const program: Program = await res.json();
   if (!program) notFound();
@@ -57,13 +59,10 @@ export async function updateProgram(id: number, updatedProgram: any) {
       }
     }
 
-    const response = await fetch(
-      `http://192.168.0.160:5124/api/programs/${id}`,
-      {
-        method: "PUT",
-        body: formData, // Use FormData directly
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/api/programs/${id}`, {
+      method: "PUT",
+      body: formData, // Use FormData directly
+    });
 
     // Check if response status is OK (2xx range)
     if (!response.ok) {
@@ -111,7 +110,7 @@ export async function createProgram(updatedProgram: any) {
     });
 
     const response = await fetch(
-      `http://192.168.0.160:5124/api/programs`, // POST request (no need for id in URL for POST)
+      `${API_BASE_URL}/api/programs`, // POST request (no need for id in URL for POST)
       {
         method: "POST", // Use POST for creating a new program or updating as a new entry
         body: formData, // Use FormData directly
@@ -137,7 +136,7 @@ export async function createProgram(updatedProgram: any) {
 }
 
 export async function deleteProgram(id: number) {
-  const response = await fetch(`http://192.168.0.160:5124/api/programs/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/api/programs/${id}`, {
     method: "DELETE", // Use DELETE request for deletion
   });
 
