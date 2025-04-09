@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { ProgramField, Program, ProgramDegree } from "@/lib/types/programs";
+import { Program, ProgramDegree, ProgramField } from "@/lib/types/programs";
 
 export async function getAllPrograms() {
   const res = await fetch(`http://192.168.0.160:5124/api/programs`);
@@ -27,35 +27,33 @@ export async function getProgramById(id: string) {
   return program;
 }
 
-export async function getProgramFields() {
-  const res = await fetch("http://192.168.0.160:5124/api/programs/fields");
-
-  const field: ProgramField[] = await res.json();
-  if (!field) notFound();
-  return field;
-}
-
 export async function updateProgram(id: number, updatedProgram: any) {
   try {
     const formData = new FormData();
 
-    // Iterate over the fields in updatedProgram and append to FormData
+    // Recursively flatten the object and append fields to FormData
+    function appendFormData(prefix: string, value: any) {
+      if (value && typeof value === "object" && !(value instanceof File)) {
+        // Handle nested objects by recursively flattening them
+        for (const subKey in value) {
+          if (value.hasOwnProperty(subKey)) {
+            appendFormData(`${prefix}[${subKey}]`, value[subKey]);
+          }
+        }
+      } else {
+        // Append simple key-value pair to FormData
+        formData.append(prefix, value);
+      }
+    }
+
+    // Iterate over the fields in updatedProgram and apply the recursive function
     for (const key in updatedProgram) {
       if (updatedProgram.hasOwnProperty(key)) {
         const value = updatedProgram[key];
+        if (value === undefined) continue;
+        console.log(value);
 
-        // Check if value is an object (like 'fieldOfStudy') and break it into subfields
-        if (value && typeof value === "object") {
-          for (const subKey in value) {
-            if (value.hasOwnProperty(subKey)) {
-              // Append subKey as a part of the parent key, like fieldOfStudy[code], fieldOfStudy[name]
-              formData.append(`${key}[${subKey}]`, value[subKey]);
-            }
-          }
-        } else {
-          // Otherwise, append the value as is
-          formData.append(key, value);
-        }
+        appendFormData(key, updatedProgram[key]);
       }
     }
 
@@ -69,23 +67,90 @@ export async function updateProgram(id: number, updatedProgram: any) {
 
     // Check if response status is OK (2xx range)
     if (!response.ok) {
-      // Log the response status and text for debugging
       const errorText = await response.text();
       console.error("Error response:", errorText);
-
-      // Throw error with status and body of the response
       throw new Error(
         `Failed to update program. Status: ${response.status}, Message: ${errorText}`,
       );
     }
 
-    // Return the response JSON if successful
     const result = await response.json();
-    console.log(result);
-    return response.json();
+    console.log("Відправлено:", result);
+    return result; // Return the parsed JSON result
   } catch (error: any) {
-    // Log error stack for debugging
     console.error("Error during update program:", error);
     throw new Error(`Failed to update program: ${error.message}`);
   }
+}
+
+export async function createProgram(updatedProgram: any) {
+  try {
+    const formData = new FormData();
+
+    // Recursively flatten the object and append fields to FormData
+    function appendFormData(prefix: string, value: any) {
+      if (value && typeof value === "object" && !(value instanceof File)) {
+        // Handle nested objects by recursively flattening them
+        for (const subKey in value) {
+          if (value.hasOwnProperty(subKey)) {
+            appendFormData(`${prefix}[${subKey}]`, value[subKey]);
+          }
+        }
+      } else {
+        // Append simple key-value pair to FormData
+        formData.append(prefix, value);
+      }
+    }
+
+    // Iterate over the fields in updatedProgram and apply the recursive function
+    Object.keys(updatedProgram).forEach((key) => {
+      const value = updatedProgram[key];
+      if (value !== undefined) {
+        appendFormData(key, value);
+      }
+    });
+
+    const response = await fetch(
+      `http://192.168.0.160:5124/api/programs`, // POST request (no need for id in URL for POST)
+      {
+        method: "POST", // Use POST for creating a new program or updating as a new entry
+        body: formData, // Use FormData directly
+      },
+    );
+
+    // Check if response status is OK (2xx range)
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response:", errorText);
+      throw new Error(
+        `Failed to create/update program. Status: ${response.status}, Message: ${errorText}`,
+      );
+    }
+
+    const result = await response.json();
+    console.log("Program updated/created successfully:", result);
+    return result; // Return the parsed JSON result
+  } catch (error: any) {
+    console.error("Error during program update/create:", error);
+    throw new Error(`Failed to update/create program: ${error.message}`);
+  }
+}
+
+export async function deleteProgram(id: number) {
+  const response = await fetch(`http://192.168.0.160:5124/api/programs/${id}`, {
+    method: "DELETE", // Use DELETE request for deletion
+  });
+
+  // Check if response status is OK (2xx range)
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error("Error response:", errorText);
+    throw new Error(
+      `Failed to delete program. Status: ${response.status}, Message: ${errorText}`,
+    );
+  }
+
+  const result = await response.json();
+  console.log("Program deleted successfully:", result);
+  return result; // Return the parsed JSON result
 }

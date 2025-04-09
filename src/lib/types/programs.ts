@@ -10,20 +10,20 @@ export interface Program {
   purpose?: string; //phd
   years?: number; //phd
   credits?: number; //phd
-  // programCharacteristics?: ProgramCharacteristics; //phd
-  // description?: string; //doc
-  // objects?: string; //doc
-  // directions?: string[]; //doc
+  programCharacteristics?: ProgramCharacteristics; //phd
+  descriptions?: string; //doc
+  objects?: string; //doc
+  directions?: string[]; //doc
   linkFaculty: string;
-  // linkFile: string;
+  programDocumentId: File;
 }
 
-// export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
-//
-// export type ProgramDegree = Pick<
-//   Program,
-//   "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
-// >;
+export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
+
+export type ProgramDegree = Pick<
+  Program,
+  "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
+>;
 
 interface FieldOfStudy {
   code: string;
@@ -35,16 +35,25 @@ export interface Speciality {
   name: string;
 }
 
-// interface ProgramCharacteristicsArea {
-//   object: string;
-//   aim: string;
-//   theory: string;
-//   methods: string;
-//   instruments: string;
+// interface ProgramDocumentId {
+//   id: number;
+//   filename: string;
+//   filepath: string;
+//   uploaddate: string;
+//   filesize: number;
+//   contenttype: string;
 // }
-//
-// export interface ProgramCharacteristics {
-//   area: ProgramCharacteristicsArea;
-//   focus: string;
-//   features: string;
-// }
+
+interface ProgramCharacteristicsArea {
+  object: string;
+  aim: string;
+  theory: string;
+  methods: string;
+  instruments: string;
+}
+
+export interface ProgramCharacteristics {
+  area: ProgramCharacteristicsArea;
+  focus: string;
+  features: string;
+}

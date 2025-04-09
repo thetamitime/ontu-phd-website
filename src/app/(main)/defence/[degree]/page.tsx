@@ -7,7 +7,7 @@ export default async function DefencePage({
   params: Promise<{ degree: string }>;
 }) {
   const { degree } = await params;
-  const defences = await getDefencesByDegree(degree);
+  const defences = await getDefencesByDegree(degree as "phd" | "doc");
 
   const dataWithDegree = defences.map((defence) => ({
     ...defence,

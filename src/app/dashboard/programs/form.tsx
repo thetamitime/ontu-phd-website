@@ -1,11 +1,7 @@
 "use client";
 
 import { LinkIcon } from "lucide-react";
-import {
-  createFormHook,
-  createFormHookContexts,
-  useStore,
-} from "@tanstack/react-form";
+import { createFormHook, useStore } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getProgramById, updateProgram } from "@/lib/api/programs";
 import React, { useEffect, useRef, useState } from "react";
@@ -24,10 +20,9 @@ import {
   TextAreaInputInline,
 } from "@/ui/components";
 import { getFieldsByDegree, getSpecialitiesByField } from "@/lib/api/fields";
+import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 
 //=============Form Context=============
-export const { fieldContext, formContext, useFieldContext, useFormContext } =
-  createFormHookContexts();
 const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
@@ -88,15 +83,25 @@ export default function ProgramForm({ programId }: { programId?: number }) {
       fieldOfStudy: program?.fieldOfStudy ?? { code: "", name: "" },
       speciality: program?.speciality ?? { code: "", name: "" },
       form: program?.form ?? ["очна (денна)"],
-      //purpose: program?.purpose ?? "",
-      // years: program?.years ?? null,
-      // credits: program?.credits ?? null,
-      // programCharacteristics: program?.programCharacteristics ?? undefined,
-      // description: program?.description ?? "",
-      // objects: program?.objects ?? "",
-      // directions: program?.directions ?? [],
-      linkFaculty: program?.linkFaculty ?? "",
-      // linkFile: program?.linkFile ?? "",
+      purpose: program?.purpose ?? undefined,
+      years: program?.years ?? undefined,
+      credits: program?.credits ?? undefined,
+      // programCharacteristics: program?.programCharacteristics ?? {
+      //   area: {
+      //     aim: "",
+      //     object: "",
+      //     methods: "",
+      //     instruments: "",
+      //     theory: "",
+      //   },
+      //   features: "",
+      //   focus: "",
+      // },
+      descriptions: program?.descriptions ?? undefined,
+      objects: program?.objects ?? undefined,
+      directions: program?.directions ?? undefined,
+      linkFaculty: program?.linkFaculty ?? undefined,
+      //programDocumentId: program?.programDocumentId ?? undefined,
     } as ProgramFormValues,
     validators: {
       onChange: programSchema,
@@ -119,10 +124,11 @@ export default function ProgramForm({ programId }: { programId?: number }) {
   const fieldsWithoutDegree = fields?.map(({ degree, ...rest }) => rest);
 
   const field = useStore(form.store, (state) => state.values.fieldOfStudy);
+
   const { data: specialities } = useQuery({
     queryKey: ["specialities", field],
     queryFn: () => getSpecialitiesByField(field?.code ?? ""),
-    enabled: isVisible,
+    enabled: field && isVisible,
     refetchOnWindowFocus: false,
   });
 
@@ -134,9 +140,8 @@ export default function ProgramForm({ programId }: { programId?: number }) {
   // });
 
   const mutation = useMutation({
-    // mutationFn: (data: ProgramFormValues) =>
-    //   isEdit ? updateProgram(programId!, data) : createProgram(data),
-    mutationFn: (data: ProgramFormValues) => updateProgram(programId!, data),
+    mutationFn: (data: ProgramFormValues) =>
+      isEdit ? updateProgram(programId!, data) : createProgram(data),
     onSuccess: () => alert(isEdit ? "Оновлено!" : "Створено!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
@@ -152,13 +157,13 @@ export default function ProgramForm({ programId }: { programId?: number }) {
     }
 
     // Proceed with the mutation if validation passes
-    const updatedProgram = {
-      id: programId,
-      ...values,
-    };
+    const updatedProgram = isEdit ? { id: programId, ...values } : values;
+
     console.log("Form submitted with values:", updatedProgram);
     mutation.mutate(values);
   };
+
+  console.log(form.state.values);
 
   return (
     <div ref={observerRef} className="mx-auto h-fit w-full">
@@ -166,7 +171,6 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         className="flex flex-col gap-2"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("Form submitted");
           form.handleSubmit();
         }}
       >
@@ -190,13 +194,36 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                 }
 
                 if (value === "doc") {
-                  //form.setFieldValue("purpose", "DOC");
-                  // form.setFieldValue("years", null);
-                  // form.setFieldValue("credits", null);
+                  form.setFieldValue("purpose", undefined);
+                  form.setFieldValue("years", undefined);
+                  form.setFieldValue("credits", undefined);
+
+                  form.setFieldValue(
+                    "descriptions",
+                    program?.descriptions ?? " ",
+                  );
+                  form.setFieldValue("objects", program?.objects ?? " ");
+                  form.setFieldValue("directions", program?.directions ?? []);
+                  //form.setFieldValue("programCharacteristics", undefined);
                 } else {
-                  form.setFieldValue("purpose", program?.purpose);
-                  // form.setFieldValue("years", program?.years ?? 1);
-                  // form.setFieldValue("credits", program?.credits ?? 1);
+                  form.setFieldValue("purpose", program?.purpose ?? " ");
+                  form.setFieldValue("years", program?.years ?? 4);
+                  form.setFieldValue("credits", program?.credits ?? 1);
+
+                  form.setFieldValue("descriptions", undefined);
+                  form.setFieldValue("objects", undefined);
+                  form.setFieldValue("directions", undefined);
+                  // form.setFieldValue("programCharacteristics", {
+                  //   area: {
+                  //     aim: "",
+                  //     object: "",
+                  //     methods: "",
+                  //     instruments: "",
+                  //     theory: "",
+                  //   },
+                  //   features: "",
+                  //   focus: "",
+                  // });
                 }
               },
             }}
@@ -316,142 +343,142 @@ export default function ProgramForm({ programId }: { programId?: number }) {
             </form.AppField>
           </fieldset>
 
-          {/*/!* Years *!/*/}
-          {/*{degree === "phd" && (*/}
-          {/*  <form.AppField name={"years"}>*/}
-          {/*    {(field) => <field.NumberInput label={"Кількість років"} />}*/}
-          {/*  </form.AppField>*/}
-          {/*)}*/}
+          {/* Years */}
+          {degree === "phd" && (
+            <form.AppField name={"years"}>
+              {(field) => <field.NumberInput label={"Кількість років"} />}
+            </form.AppField>
+          )}
 
-          {/*/!* Credits *!/*/}
-          {/*{degree === "phd" && (*/}
-          {/*  <form.AppField name={"credits"}>*/}
-          {/*    {(field) => <field.NumberInput label={"Кількість кредитів"} />}*/}
-          {/*  </form.AppField>*/}
-          {/*)}*/}
+          {/* Credits */}
+          {degree === "phd" && (
+            <form.AppField name={"credits"}>
+              {(field) => <field.NumberInput label={"Кількість кредитів"} />}
+            </form.AppField>
+          )}
         </div>
 
-        {/*{degree === "phd" ? (*/}
-        {/*  <>*/}
-        {/*    /!* Purpose of program *!/*/}
-        {/*    <form.AppField name={"purpose"}>*/}
-        {/*      {(field) => {*/}
-        {/*        console.log(field.state.value);*/}
-        {/*        return (*/}
-        {/*          <field.TextAreaInput*/}
-        {/*            label={"Основна мета"}*/}
-        {/*            className="h-40"*/}
-        {/*          />*/}
-        {/*        );*/}
-        {/*      }}*/}
-        {/*    </form.AppField>*/}
+        {degree === "phd" ? (
+          <>
+            {/* Purpose of program */}
+            <form.AppField name={"purpose"}>
+              {(field) => {
+                console.log(field.state.value);
+                return (
+                  <field.TextAreaInput
+                    label={"Основна мета"}
+                    className="h-40"
+                  />
+                );
+              }}
+            </form.AppField>
 
-        {/*<fieldset className="fieldset gap-0 text-base">*/}
-        {/*  <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">*/}
-        {/*    Характеристики програми*/}
-        {/*  </legend>*/}
+            {/*<fieldset className="fieldset gap-0 text-base">*/}
+            {/*  <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">*/}
+            {/*    Характеристики програми*/}
+            {/*  </legend>*/}
 
-        {/*  <fieldset className="fieldset text-base">*/}
-        {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-        {/*      Предметна область*/}
-        {/*    </legend>*/}
+            {/*  <fieldset className="fieldset text-base">*/}
+            {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
+            {/*      Предметна область*/}
+            {/*    </legend>*/}
 
-        {/*    /!* Area Fields *!/*/}
-        {/*    <form.AppField name="programCharacteristics.area.object">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInputInline label={"Об'єкт вивчення"} />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
+            {/*    /!* Area Fields *!/*/}
+            {/*    <form.AppField name="programCharacteristics.area.object">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInputInline label={"Об'єкт вивчення"} />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
 
-        {/*    <form.AppField name="programCharacteristics.area.aim">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInputInline label={"Цілі навчання"} />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
+            {/*    <form.AppField name="programCharacteristics.area.aim">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInputInline label={"Цілі навчання"} />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
 
-        {/*    <form.AppField name="programCharacteristics.area.theory">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInputInline label={"Теоретичний зміст"} />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
+            {/*    <form.AppField name="programCharacteristics.area.theory">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInputInline label={"Теоретичний зміст"} />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
 
-        {/*    <form.AppField name="programCharacteristics.area.instruments">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInputInline*/}
-        {/*          label={"Інструменти та обладнання"}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
+            {/*    <form.AppField name="programCharacteristics.area.instruments">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInputInline*/}
+            {/*          label={"Інструменти та обладнання"}*/}
+            {/*        />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
 
-        {/*    <form.AppField name="programCharacteristics.area.methods">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInputInline*/}
-        {/*          label={"Методи, методики та технології"}*/}
-        {/*        />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
-        {/*  </fieldset>*/}
+            {/*    <form.AppField name="programCharacteristics.area.methods">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInputInline*/}
+            {/*          label={"Методи, методики та технології"}*/}
+            {/*        />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
+            {/*  </fieldset>*/}
 
-        {/*  <fieldset className="fieldset text-base">*/}
-        {/*    <form.AppField name="programCharacteristics.focus">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInput label={"Основний фокус програми"} />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
-        {/*  </fieldset>*/}
+            {/*  <fieldset className="fieldset text-base">*/}
+            {/*    <form.AppField name="programCharacteristics.focus">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInput label={"Основний фокус програми"} />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
+            {/*  </fieldset>*/}
 
-        {/*  <fieldset className="fieldset text-base">*/}
-        {/*    <form.AppField name="programCharacteristics.features">*/}
-        {/*      {(field) => (*/}
-        {/*        <field.TextAreaInput label={"Особливості програми"} />*/}
-        {/*      )}*/}
-        {/*    </form.AppField>*/}
-        {/*  </fieldset>*/}
-        {/*</fieldset>*/}
-        {/*  </>*/}
-        {/*) : (*/}
-        {/*  <>*/}
-        {/*<form.AppField name={"description"}>*/}
-        {/*  {(field) => <field.TextAreaInput label={"Опис"} />}*/}
-        {/*</form.AppField>*/}
+            {/*  <fieldset className="fieldset text-base">*/}
+            {/*    <form.AppField name="programCharacteristics.features">*/}
+            {/*      {(field) => (*/}
+            {/*        <field.TextAreaInput label={"Особливості програми"} />*/}
+            {/*      )}*/}
+            {/*    </form.AppField>*/}
+            {/*  </fieldset>*/}
+            {/*</fieldset>*/}
+          </>
+        ) : (
+          <>
+            <form.AppField name={"descriptions"}>
+              {(field) => <field.TextAreaInput label={"Опис"} />}
+            </form.AppField>
 
-        {/*<form.AppField name={"objects"}>*/}
-        {/*  {(field) => (*/}
-        {/*    <field.TextAreaInput label={"Об'єкти спеціальності"} />*/}
-        {/*  )}*/}
-        {/*</form.AppField>*/}
+            <form.AppField name={"objects"}>
+              {(field) => (
+                <field.TextAreaInput label={"Об'єкти спеціальності"} />
+              )}
+            </form.AppField>
 
-        {/*<form.AppField name="directions" mode="array">*/}
-        {/*  {(field) => {*/}
-        {/*    return (*/}
-        {/*      <>*/}
-        {/*        <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-        {/*          Напрямки досліджень*/}
-        {/*        </legend>*/}
-        {/*        {field.state.value?.map((_, i) => {*/}
-        {/*          return (*/}
-        {/*            <form.AppField key={i} name={`directions[${i}]`}>*/}
-        {/*              {(subField) => (*/}
-        {/*                <field.TextAreaInputInline*/}
-        {/*                  label={`Напрям ${i}`}*/}
-        {/*                  value={subField.state.value}*/}
-        {/*                  onChange={(e) =>*/}
-        {/*                    subField.handleChange(e.target.value)*/}
-        {/*                  }*/}
-        {/*                />*/}
-        {/*              )}*/}
-        {/*            </form.AppField>*/}
-        {/*          );*/}
-        {/*        })}*/}
-        {/*        <button onClick={() => field.pushValue("")} type="button">*/}
-        {/*          Додати напрям*/}
-        {/*        </button>*/}
-        {/*      </>*/}
-        {/*    );*/}
-        {/*  }}*/}
-        {/*</form.AppField>*/}
-        {/*  </>*/}
-        {/*)}*/}
+            <form.AppField name="directions" mode="array">
+              {(field) => {
+                return (
+                  <>
+                    <legend className="fieldset-legend text-base-content/50 font-medium">
+                      Напрямки досліджень
+                    </legend>
+                    {field.state.value?.map((_, i) => {
+                      return (
+                        <form.AppField key={i} name={`directions[${i}]`}>
+                          {(subField) => (
+                            <field.TextAreaInputInline
+                              label={`Напрям ${i}`}
+                              value={subField.state.value}
+                              onChange={(e) =>
+                                subField.handleChange(e.target.value)
+                              }
+                            />
+                          )}
+                        </form.AppField>
+                      );
+                    })}
+                    <button onClick={() => field.pushValue("")} type="button">
+                      Додати напрям
+                    </button>
+                  </>
+                );
+              }}
+            </form.AppField>
+          </>
+        )}
 
         {/* Input for faculty link */}
         <form.AppField name={"linkFaculty"}>
@@ -466,13 +493,22 @@ export default function ProgramForm({ programId }: { programId?: number }) {
           }}
         </form.AppField>
 
-        {/*/!* File selection *!/*/}
-        {/*<form.AppField name={"linkFile"}>*/}
+        {/* File selection */}
+        {/*<form.AppField name={"programDocumentId"}>*/}
         {/*  {(field) => (*/}
-        {/*    <field.SelectField*/}
-        {/*      label="Документ програми"*/}
-        {/*      options={documents || []}*/}
+        {/*    <input*/}
+        {/*      type="file"*/}
+        {/*      className="file-input"*/}
+        {/*      onChange={(e) => {*/}
+        {/*        const file = e.target.files ? e.target.files[0] : null;*/}
+        {/*        console.log(file);*/}
+        {/*        form.setFieldValue("programDocumentId", file);*/}
+        {/*      }}*/}
         {/*    />*/}
+        {/*    // <field.SelectField*/}
+        {/*    //   label="Документ програми"*/}
+        {/*    //   options={documents || []}*/}
+        {/*    // />*/}
         {/*  )}*/}
         {/*</form.AppField>*/}
 

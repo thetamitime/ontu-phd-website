@@ -1,19 +1,15 @@
-import { ProgramField } from "@/lib/types/programs";
+import { Field } from "@/lib/types/fields";
 
-type ProgramCardSmallProps = ProgramField;
+type ProgramCardSmallProps = Omit<Field, "code">;
 
-export const Small: React.FC<ProgramCardSmallProps> = ({
-  id,
-  degree,
-  fieldOfStudy,
-}) => {
+export const Small: React.FC<ProgramCardSmallProps> = ({ degree, name }) => {
   return (
-    <div className="card card-border border-base-300 bg-base-100 w-78" key={id}>
+    <div className="card card-border border-base-300 bg-base-100 w-78">
       <div className="card-body">
         <p className="text-base-content/80 grow-0 text-base">
           {degree === "phd" ? "Доктор філософії" : "Доктор наук"}
         </p>
-        <h4 className="card-title font-semibold">{fieldOfStudy.name}</h4>
+        <h4 className="card-title font-semibold">{name}</h4>
       </div>
     </div>
   );

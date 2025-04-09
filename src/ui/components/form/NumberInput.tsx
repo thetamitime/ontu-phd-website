@@ -1,6 +1,6 @@
-import { useFieldContext } from "@/app/dashboard/programs/form";
 import React, { InputHTMLAttributes } from "react";
 import { FieldInfo } from "@/ui/components";
+import { useFieldContext } from "@/lib/hooks/useFieldContext";
 
 interface NumberInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;

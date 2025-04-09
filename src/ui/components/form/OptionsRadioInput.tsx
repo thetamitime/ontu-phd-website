@@ -1,4 +1,4 @@
-import { useFieldContext } from "@/app/dashboard/programs/form";
+import { useFieldContext } from "@/lib/hooks/useFieldContext";
 
 interface DegreeRadioGroupProps {
   label: string;

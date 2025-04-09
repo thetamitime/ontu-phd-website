@@ -1,5 +1,6 @@
-import { useFieldContext } from "@/app/dashboard/programs/form";
-import { TextareaHTMLAttributes } from "react";
+import { useFieldContext } from "@/lib/hooks/useFieldContext";
+import React, { TextareaHTMLAttributes } from "react";
+import { FieldInfo } from "@/ui/components";
 
 interface TextAreaInputProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -11,18 +12,28 @@ export const TextAreaInputInline: React.FC<TextAreaInputProps> = ({
   ...rest
 }) => {
   const field = useFieldContext<string>();
+  const hasError = field.state.meta.errors.length > 0;
 
   return (
-    <label className="text-base-content/50 flex w-full items-center justify-center gap-2 text-sm font-medium">
-      <span className="w-36">{label}</span>
-      <textarea
-        value={field.state.value}
-        className="textarea text-base-content w-full font-normal"
-        onChange={(e) => {
-          field.handleChange(e.target.value);
-        }}
-        {...rest}
-      />
+    <label className="text-base-content/50 flex w-full items-center justify-center gap-2 text-sm">
+      <span className="w-36 font-medium">{label}</span>
+
+      <div className="flex w-full flex-col gap-1.5">
+        <textarea
+          value={field.state.value}
+          className={`${hasError && "textarea-error"} textarea text-base-content w-full font-normal`}
+          onChange={(e) => {
+            field.handleChange(e.target.value);
+          }}
+          {...rest}
+        />
+
+        {hasError
+          ? field.state.meta.errors
+              .map((err) => err.message)
+              .map((mess, i) => <FieldInfo key={i} message={mess} />)
+          : null}
+      </div>
     </label>
   );
 };

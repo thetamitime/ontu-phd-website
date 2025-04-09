@@ -1,6 +1,5 @@
 import { FacultyCard } from "@/ui/components/cards/FacultyCard";
 import Link from "next/link";
-import { getProgramFields } from "@/lib/api/programs";
 import { getLatestNews } from "@/lib/api/news";
 import { getAllEmployees } from "@/lib/api/employees";
 import {
@@ -8,15 +7,18 @@ import {
   NewsCardLarge,
   NewsCardMedium,
 } from "@/ui/components";
+import { getAllFields } from "@/lib/api/fields";
 
 export default async function Home() {
   const photoUrl =
     "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
-  const programFields = await getProgramFields();
+  const programFields = await getAllFields();
   const employees = await getAllEmployees();
   const latestNews = await getLatestNews();
   const [firstLatestNews, ...restLatestNews] = latestNews;
+
+  console.log(programFields);
 
   return (
     <main className="bg-base-200 min-h-full">
@@ -48,12 +50,11 @@ export default async function Home() {
         {/* Programs Section */}
         <section className="section mt-0">
           <div className="wrapper gap-6">
-            {programFields.map((field) => (
+            {programFields.map((field, index) => (
               <ProgramCardSmall
-                key={field.id}
-                id={field.id}
+                key={index}
                 degree={field.degree}
-                fieldOfStudy={field.fieldOfStudy}
+                name={field.name}
               />
             ))}
           </div>

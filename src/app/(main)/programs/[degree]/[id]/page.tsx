@@ -85,7 +85,7 @@ export default async function Page({
                   credits: program.credits,
                 }
               : {
-                  description: program.description,
+                  description: program.descriptions,
                   objects: program.objects,
                   purpose: program.purpose,
                 })}

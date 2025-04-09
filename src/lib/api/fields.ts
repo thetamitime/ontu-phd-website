@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Field } from "@/lib/types/fields";
 
 export async function getAllFields() {
-  const res = await fetch("http://192.168.0.160:5124/api/programs/fields");
+  const res = await fetch("http://192.168.0.160:5124/api/SpecialityNFields");
 
   const field: Field[] = await res.json();
   if (!field) notFound();

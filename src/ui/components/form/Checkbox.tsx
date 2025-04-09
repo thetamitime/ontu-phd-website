@@ -1,5 +1,5 @@
 import React from "react";
-import { useFieldContext } from "@/app/dashboard/programs/form";
+import { useFieldContext } from "@/lib/hooks/useFieldContext";
 
 export const Checkbox = ({ title }: { title: string }) => {
   const field = useFieldContext<boolean>();

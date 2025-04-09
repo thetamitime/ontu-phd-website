@@ -9,9 +9,9 @@ export const getAllDefences = async () => {
   return defences;
 };
 
-export const getDefencesByDegree = async (degree: string) => {
+export const getDefencesByDegree = async (degree: "phd" | "doc") => {
   const res = await fetch(
-    `http://192.168.0.160:5124/api/defence/degree?degree=${degree}`,
+    `http://192.168.0.160:5124/api/Defense/degree?degree=${degree}`,
   );
 
   const defences: DefenseEvent[] = await res.json();

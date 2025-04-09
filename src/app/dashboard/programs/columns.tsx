@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ProgramDegree } from "@/lib/types/programs";
 import { SortableHeader } from "@/ui/components/tables/SortableHeader";
 import { ProgramActions } from "@/ui/components/tables/Actions";
+import { deleteProgram } from "@/lib/api/programs";
+import { useMutation } from "@tanstack/react-query";
 
 type ProgramsColumn = ProgramDegree;
 
@@ -43,19 +45,34 @@ export const columns = (
   {
     id: "actions",
     header: "Дії",
-    cell: ({ row }) => (
-      <ProgramActions
-        program={row.original}
-        onEditAction={() => {
-          const drawerCheckbox = document.getElementById("my-drawer");
-          if (drawerCheckbox) {
-            (drawerCheckbox as HTMLInputElement).checked = true;
-          }
-          // Call the setSelectedProgramId function passed from the parent
-          setSelectedProgramId(row.original.id);
-        }}
-        onDeleteAction={(id) => console.log("Delete", id)}
-      />
-    ),
+    cell: ({ row }) => {
+      return (
+        <ProgramActions
+          program={row.original}
+          onEditAction={() => {
+            const drawerCheckbox = document.getElementById("my-drawer");
+            if (drawerCheckbox) {
+              (drawerCheckbox as HTMLInputElement).checked = true;
+            }
+            // Call the setSelectedProgramId function passed from the parent
+            setSelectedProgramId(row.original.id);
+          }}
+          onDeleteAction={(id) => {
+            const { mutateAsync: deleteMutation } = useMutation({
+              mutationFn: deleteProgram,
+              onSuccess: () => {
+                alert("Програму успішно видалено!");
+                // Optionally trigger a table refresh or state update here
+              },
+              onError: (err: Error) => {
+                alert("Помилка при видаленні програми: " + err.message);
+              },
+            });
+
+            deleteMutation(id);
+          }}
+        />
+      );
+    },
   },
 ];
