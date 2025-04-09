@@ -1,4 +1,6 @@
 import { useFieldContext } from "@/app/dashboard/programs/form";
+import React from "react";
+import { FieldInfo } from "@/ui/components";
 
 export const SelectField = ({
   label,
@@ -10,6 +12,7 @@ export const SelectField = ({
   disabled?: boolean;
 }) => {
   const field = useFieldContext();
+  const hasError = field.state.meta.errors.length > 0;
 
   // create empty value of field.state
   const resetFieldState = Object.keys(field.state.value as object).reduce(
@@ -21,17 +24,18 @@ export const SelectField = ({
   );
 
   return (
-    <fieldset className="fieldset flex flex-row gap-2 text-base">
+    <fieldset className="fieldset gap-2 text-base">
       <legend className="fieldset-legend text-base-content/50 font-medium">
         {label}
       </legend>
 
       <select
-        className="select select-bordered w-full"
+        className={`select select-bordered w-full ${hasError && "border-error"}`}
         name={field.name}
         value={field.state.value ? JSON.stringify(field.state.value) : ""}
         onChange={(e) => field.handleChange(JSON.parse(e.target.value))}
         disabled={disabled}
+        required
       >
         <option value={JSON.stringify(resetFieldState)} disabled>
           Оберіть {label.toLowerCase()}
@@ -43,6 +47,12 @@ export const SelectField = ({
           </option>
         ))}
       </select>
+
+      {!disabled && hasError
+        ? field.state.meta.errors
+            .map((err) => err.message)
+            .map((mess, i) => <FieldInfo key={i} message={mess} />)
+        : null}
     </fieldset>
   );
 };

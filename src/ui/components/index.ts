@@ -24,3 +24,4 @@ export { SelectField } from "./form/SelectField";
 export { SubscribeButton } from "./form/SubscribeButton";
 export { TextAreaInput } from "./form/TextAreaInput";
 export { TextAreaInputInline } from "./form/TextAreaInputInline";
+export { FieldInfo } from "./form/FieldInfo";

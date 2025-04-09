@@ -1,8 +1,8 @@
 export interface Program {
   id: number;
-  degree: "pdd" | "doc";
+  degree: "phd" | "doc";
   name: string;
-  nameCode?: string; //doc
+  // nameCode?: string; //doc
   accredited: boolean;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
@@ -10,20 +10,20 @@ export interface Program {
   purpose?: string; //phd
   years?: number; //phd
   credits?: number; //phd
-  programCharacteristics?: ProgramCharacteristics; //phd
-  description?: string; //doc
-  objects?: string; //doc
-  directions?: string[]; //doc
+  // programCharacteristics?: ProgramCharacteristics; //phd
+  // description?: string; //doc
+  // objects?: string; //doc
+  // directions?: string[]; //doc
   linkFaculty: string;
-  linkFile: string;
+  // linkFile: string;
 }
 
-export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
-
-export type ProgramDegree = Pick<
-  Program,
-  "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
->;
+// export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
+//
+// export type ProgramDegree = Pick<
+//   Program,
+//   "id" | "degree" | "name" | "fieldOfStudy" | "speciality"
+// >;
 
 interface FieldOfStudy {
   code: string;
@@ -31,21 +31,20 @@ interface FieldOfStudy {
 }
 
 export interface Speciality {
-  fieldCode: string;
   code: string;
   name: string;
 }
 
-interface ProgramCharacteristicsArea {
-  object: string;
-  aim: string;
-  theory: string;
-  methods: string;
-  instruments: string;
-}
-
-export interface ProgramCharacteristics {
-  area: ProgramCharacteristicsArea;
-  focus: string;
-  features: string[];
-}
+// interface ProgramCharacteristicsArea {
+//   object: string;
+//   aim: string;
+//   theory: string;
+//   methods: string;
+//   instruments: string;
+// }
+//
+// export interface ProgramCharacteristics {
+//   area: ProgramCharacteristicsArea;
+//   focus: string;
+//   features: string;
+// }
