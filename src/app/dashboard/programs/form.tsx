@@ -3,7 +3,11 @@
 import { LinkIcon } from "lucide-react";
 import { createFormHook, useStore } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getProgramById, updateProgram } from "@/lib/api/programs";
+import {
+  createProgram,
+  getProgramById,
+  updateProgram,
+} from "@/lib/api/programs";
 import React, { useEffect, useRef, useState } from "react";
 // import { getFieldsByDegree, getSpecialitiesByField } from "@/lib/api/fields";
 // import { getDocuments } from "@/lib/api/documents";
@@ -86,22 +90,12 @@ export default function ProgramForm({ programId }: { programId?: number }) {
       purpose: program?.purpose ?? undefined,
       years: program?.years ?? undefined,
       credits: program?.credits ?? undefined,
-      // programCharacteristics: program?.programCharacteristics ?? {
-      //   area: {
-      //     aim: "",
-      //     object: "",
-      //     methods: "",
-      //     instruments: "",
-      //     theory: "",
-      //   },
-      //   features: "",
-      //   focus: "",
-      // },
+      programCharacteristics: program?.programCharacteristics ?? undefined,
       descriptions: program?.descriptions ?? undefined,
       objects: program?.objects ?? undefined,
       directions: program?.directions ?? undefined,
       linkFaculty: program?.linkFaculty ?? undefined,
-      //programDocumentId: program?.programDocumentId ?? undefined,
+      programDocumentId: program?.programDocumentId ?? undefined,
     } as ProgramFormValues,
     validators: {
       onChange: programSchema,
@@ -204,26 +198,26 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                   );
                   form.setFieldValue("objects", program?.objects ?? " ");
                   form.setFieldValue("directions", program?.directions ?? []);
-                  //form.setFieldValue("programCharacteristics", undefined);
+                  form.setFieldValue("programCharacteristics", undefined);
                 } else {
                   form.setFieldValue("purpose", program?.purpose ?? " ");
                   form.setFieldValue("years", program?.years ?? 4);
                   form.setFieldValue("credits", program?.credits ?? 1);
+                  form.setFieldValue("programCharacteristics", {
+                    area: {
+                      aim: " ",
+                      object: " ",
+                      methods: " ",
+                      instruments: " ",
+                      theory: " ",
+                    },
+                    features: " ",
+                    focus: " ",
+                  });
 
                   form.setFieldValue("descriptions", undefined);
                   form.setFieldValue("objects", undefined);
                   form.setFieldValue("directions", undefined);
-                  // form.setFieldValue("programCharacteristics", {
-                  //   area: {
-                  //     aim: "",
-                  //     object: "",
-                  //     methods: "",
-                  //     instruments: "",
-                  //     theory: "",
-                  //   },
-                  //   features: "",
-                  //   focus: "",
-                  // });
                 }
               },
             }}
@@ -373,68 +367,68 @@ export default function ProgramForm({ programId }: { programId?: number }) {
               }}
             </form.AppField>
 
-            {/*<fieldset className="fieldset gap-0 text-base">*/}
-            {/*  <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">*/}
-            {/*    Характеристики програми*/}
-            {/*  </legend>*/}
+            <fieldset className="fieldset gap-0 text-base">
+              <legend className="fieldset-legend text-base-content/50 pb-0 font-medium">
+                Характеристики програми
+              </legend>
 
-            {/*  <fieldset className="fieldset text-base">*/}
-            {/*    <legend className="fieldset-legend text-base-content/50 font-medium">*/}
-            {/*      Предметна область*/}
-            {/*    </legend>*/}
+              <fieldset className="fieldset text-base">
+                <legend className="fieldset-legend text-base-content/50 font-medium">
+                  Предметна область
+                </legend>
 
-            {/*    /!* Area Fields *!/*/}
-            {/*    <form.AppField name="programCharacteristics.area.object">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInputInline label={"Об'єкт вивчення"} />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
+                {/* Area Fields */}
+                <form.AppField name="programCharacteristics.area.object">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Об'єкт вивчення"} />
+                  )}
+                </form.AppField>
 
-            {/*    <form.AppField name="programCharacteristics.area.aim">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInputInline label={"Цілі навчання"} />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
+                <form.AppField name="programCharacteristics.area.aim">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Цілі навчання"} />
+                  )}
+                </form.AppField>
 
-            {/*    <form.AppField name="programCharacteristics.area.theory">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInputInline label={"Теоретичний зміст"} />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
+                <form.AppField name="programCharacteristics.area.theory">
+                  {(field) => (
+                    <field.TextAreaInputInline label={"Теоретичний зміст"} />
+                  )}
+                </form.AppField>
 
-            {/*    <form.AppField name="programCharacteristics.area.instruments">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInputInline*/}
-            {/*          label={"Інструменти та обладнання"}*/}
-            {/*        />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
+                <form.AppField name="programCharacteristics.area.instruments">
+                  {(field) => (
+                    <field.TextAreaInputInline
+                      label={"Інструменти та обладнання"}
+                    />
+                  )}
+                </form.AppField>
 
-            {/*    <form.AppField name="programCharacteristics.area.methods">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInputInline*/}
-            {/*          label={"Методи, методики та технології"}*/}
-            {/*        />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
-            {/*  </fieldset>*/}
+                <form.AppField name="programCharacteristics.area.methods">
+                  {(field) => (
+                    <field.TextAreaInputInline
+                      label={"Методи, методики та технології"}
+                    />
+                  )}
+                </form.AppField>
+              </fieldset>
 
-            {/*  <fieldset className="fieldset text-base">*/}
-            {/*    <form.AppField name="programCharacteristics.focus">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInput label={"Основний фокус програми"} />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
-            {/*  </fieldset>*/}
+              <fieldset className="fieldset text-base">
+                <form.AppField name="programCharacteristics.focus">
+                  {(field) => (
+                    <field.TextAreaInput label={"Основний фокус програми"} />
+                  )}
+                </form.AppField>
+              </fieldset>
 
-            {/*  <fieldset className="fieldset text-base">*/}
-            {/*    <form.AppField name="programCharacteristics.features">*/}
-            {/*      {(field) => (*/}
-            {/*        <field.TextAreaInput label={"Особливості програми"} />*/}
-            {/*      )}*/}
-            {/*    </form.AppField>*/}
-            {/*  </fieldset>*/}
-            {/*</fieldset>*/}
+              <fieldset className="fieldset text-base">
+                <form.AppField name="programCharacteristics.features">
+                  {(field) => (
+                    <field.TextAreaInput label={"Особливості програми"} />
+                  )}
+                </form.AppField>
+              </fieldset>
+            </fieldset>
           </>
         ) : (
           <>
@@ -494,23 +488,23 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         </form.AppField>
 
         {/* File selection */}
-        {/*<form.AppField name={"programDocumentId"}>*/}
-        {/*  {(field) => (*/}
-        {/*    <input*/}
-        {/*      type="file"*/}
-        {/*      className="file-input"*/}
-        {/*      onChange={(e) => {*/}
-        {/*        const file = e.target.files ? e.target.files[0] : null;*/}
-        {/*        console.log(file);*/}
-        {/*        form.setFieldValue("programDocumentId", file);*/}
-        {/*      }}*/}
-        {/*    />*/}
-        {/*    // <field.SelectField*/}
-        {/*    //   label="Документ програми"*/}
-        {/*    //   options={documents || []}*/}
-        {/*    // />*/}
-        {/*  )}*/}
-        {/*</form.AppField>*/}
+        <form.AppField name={"programDocumentId"}>
+          {(field) => (
+            <input
+              type="file"
+              className="file-input"
+              onChange={(e) => {
+                const file = e.target.files ? e.target.files[0] : null;
+                console.log(file);
+                form.setFieldValue("programDocumentId", file);
+              }}
+            />
+            // <field.SelectField
+            //   label="Документ програми"
+            //   options={documents || []}
+            // />
+          )}
+        </form.AppField>
 
         <form.AppForm>
           <form.SubscribeButton label="Submit" />

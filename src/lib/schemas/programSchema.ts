@@ -19,17 +19,31 @@ const specialitySchema = z.object({
 //   contenttype: z.string(),
 // });
 
-// const programCharacteristicsSchema = z.object({
-//   area: z.object({
-//     object: z.string().min(1, "Введіть об'єкт програми"),
-//     aim: z.string().min(1, "Введіть ціль програми"),
-//     theory: z.string().min(1, "Введіть теоретичний зміст програми"),
-//     methods: z.string().min(1, "Введіть методи програми"),
-//     instruments: z.string().min(1, "Введіть інструменти програми"),
-//   }),
-//   focus: z.string().min(1, "Введіть фокус програми"),
-//   features: z.string().min(1, "Введіть особливості програми"),
-// });
+const programCharacteristicsSchema = z.object({
+  area: z.object({
+    object: z.string().refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    }),
+    aim: z.string().refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    }),
+    theory: z.string().refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    }),
+    methods: z.string().refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    }),
+    instruments: z.string().refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    }),
+  }),
+  focus: z.string().refine((string) => string.trim().length > 0, {
+    message: "Введіть об'єкти",
+  }),
+  features: z.string().refine((string) => string.trim().length > 0, {
+    message: "Введіть об'єкти",
+  }),
+});
 
 export const programSchema = z.object({
   name: z.string().min(1, "Обов'язкове поле"),
@@ -50,7 +64,12 @@ export const programSchema = z.object({
   form: z.array(z.string()).refine((arr) => arr.length > 0, {
     message: "Обов'язкове поле",
   }),
-  purpose: z.string().min(1, "Введіть мету програми").optional(),
+  purpose: z
+    .string()
+    .refine((string) => string.trim().length > 0, {
+      message: "Введіть об'єкти",
+    })
+    .optional(),
   years: z
     .number()
     .min(1, "Такого не може бути")
@@ -61,7 +80,7 @@ export const programSchema = z.object({
     .min(1, "Такого не може бути")
     .max(500, "Такого не може бути")
     .optional(),
-  //programCharacteristics: programCharacteristicsSchema.optional(),
+  programCharacteristics: programCharacteristicsSchema.optional(),
   descriptions: z
     .string()
     .refine((string) => string.trim().length > 0, {
@@ -76,7 +95,7 @@ export const programSchema = z.object({
     .optional(),
   directions: z.array(z.string()).optional(),
   linkFaculty: z.string().url("Введіть валідну URL"),
-  //programDocumentId: z.instanceof(File),
+  programDocumentId: z.instanceof(File),
 });
 
 export type ProgramFormValues = z.infer<typeof programSchema>;

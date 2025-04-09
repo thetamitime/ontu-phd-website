@@ -35,15 +35,6 @@ export interface Speciality {
   name: string;
 }
 
-// interface ProgramDocumentId {
-//   id: number;
-//   filename: string;
-//   filepath: string;
-//   uploaddate: string;
-//   filesize: number;
-//   contenttype: string;
-// }
-
 interface ProgramCharacteristicsArea {
   object: string;
   aim: string;
