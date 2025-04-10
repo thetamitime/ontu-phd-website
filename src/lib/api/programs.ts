@@ -53,8 +53,6 @@ export async function updateProgram(id: number, updatedProgram: any) {
       if (updatedProgram.hasOwnProperty(key)) {
         const value = updatedProgram[key];
         if (value === undefined) continue;
-        console.log(value);
-
         appendFormData(key, updatedProgram[key]);
       }
     }
@@ -88,15 +86,17 @@ export async function createProgram(updatedProgram: any) {
 
     // Recursively flatten the object and append fields to FormData
     function appendFormData(prefix: string, value: any) {
-      if (value && typeof value === "object" && !(value instanceof File)) {
-        // Handle nested objects by recursively flattening them
+      if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+          appendFormData(`${prefix}[${index}]`, item);
+        });
+      } else if (typeof value === "object" && value !== null) {
         for (const subKey in value) {
-          if (value.hasOwnProperty(subKey)) {
-            appendFormData(`${prefix}[${subKey}]`, value[subKey]);
+          if (Object.hasOwnProperty.call(value, subKey)) {
+            appendFormData(`${prefix}.${subKey}`, value[subKey]);
           }
         }
-      } else {
-        // Append simple key-value pair to FormData
+      } else if (value !== undefined && value !== null) {
         formData.append(prefix, value);
       }
     }
@@ -105,6 +105,7 @@ export async function createProgram(updatedProgram: any) {
     Object.keys(updatedProgram).forEach((key) => {
       const value = updatedProgram[key];
       if (value !== undefined) {
+        console.log("data", updatedProgram[key]);
         appendFormData(key, value);
       }
     });

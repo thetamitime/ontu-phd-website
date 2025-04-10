@@ -21,28 +21,14 @@ const specialitySchema = z.object({
 
 const programCharacteristicsSchema = z.object({
   area: z.object({
-    object: z.string().refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    }),
-    aim: z.string().refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    }),
-    theory: z.string().refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    }),
-    methods: z.string().refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    }),
-    instruments: z.string().refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    }),
+    object: z.string().min(1, "Обов'язкове поле"),
+    aim: z.string().min(1, "Обов'язкове поле"),
+    theory: z.string().min(1, "Обов'язкове поле"),
+    methods: z.string().min(1, "Обов'язкове поле"),
+    instruments: z.string().min(1, "Обов'язкове поле"),
   }),
-  focus: z.string().refine((string) => string.trim().length > 0, {
-    message: "Введіть об'єкти",
-  }),
-  features: z.string().refine((string) => string.trim().length > 0, {
-    message: "Введіть об'єкти",
-  }),
+  focus: z.string().min(1, "Обов'язкове поле"),
+  features: z.string().min(1, "Обов'язкове поле"),
 });
 
 export const programSchema = z.object({
@@ -64,38 +50,23 @@ export const programSchema = z.object({
   form: z.array(z.string()).refine((arr) => arr.length > 0, {
     message: "Обов'язкове поле",
   }),
-  purpose: z
-    .string()
-    .refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    })
-    .optional(),
+  purpose: z.string().min(1, "Обов'язкове поле").optional(),
   years: z
     .number()
-    .min(1, "Такого не може бути")
-    .max(5, "Такого не може бути")
+    .min(1, "Число має бути більше 0")
+    .max(5, "Число не може бути більше 5")
     .optional(),
   credits: z
     .number()
-    .min(1, "Такого не може бути")
-    .max(500, "Такого не може бути")
+    .min(1, "Число має бути більше 0")
+    .max(1000, "Завелика кількість кредитів")
     .optional(),
   programCharacteristics: programCharacteristicsSchema.optional(),
-  descriptions: z
-    .string()
-    .refine((string) => string.trim().length > 0, {
-      message: "Введіть опис",
-    })
-    .optional(),
-  objects: z
-    .string()
-    .refine((string) => string.trim().length > 0, {
-      message: "Введіть об'єкти",
-    })
-    .optional(),
-  directions: z.array(z.string()).optional(),
+  descriptions: z.string().min(2, "Обов'язкове поле").optional(), //workaround of stupid bug
+  objects: z.string().min(1, "Обов'язкове поле").optional(),
+  directions: z.array(z.string().min(1, "Обов'язкове поле")).optional(),
   linkFaculty: z.string().url("Введіть валідну URL"),
-  programDocumentId: z.instanceof(File),
+  // programDocumentId: z.instanceof(File),
 });
 
 export type ProgramFormValues = z.infer<typeof programSchema>;

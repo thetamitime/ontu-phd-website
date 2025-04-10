@@ -27,7 +27,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         {icon}
         <input
           type="text"
-          value={field.state.value}
+          value={field.state.value ?? ""}
           onChange={(e) => field.handleChange(e.target.value)}
           {...rest}
         />
