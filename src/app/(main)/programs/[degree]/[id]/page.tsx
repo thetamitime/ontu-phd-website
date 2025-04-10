@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowUpRight, FileDown, SquareMenu, X } from "lucide-react";
+import { ArrowUpRight, SquareMenu, X } from "lucide-react";
 import Link from "next/link";
 import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getProgramById } from "@/lib/api/programs";

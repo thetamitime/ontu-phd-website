@@ -51,7 +51,7 @@ export const SelectField = ({
       </select>
 
       {!disabled && hasError
-        ? field.state.meta.errors
+        ? errors
             .map((err) => err.message)
             .map((mess, i) => <FieldInfo key={i} message={mess} />)
         : null}
