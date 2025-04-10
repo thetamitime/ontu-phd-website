@@ -1,21 +1,21 @@
 export interface Program {
   id: number;
-  degree: string;
+  degree: "phd" | "doc";
   name: string;
-  nameCode?: string;
+  // nameCode?: string; //doc
   accredited: boolean;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
   form: string[];
-  purpose?: string;
-  years?: number;
-  credits?: number;
-  programCharacteristics?: ProgramCharacteristics;
-  description?: string;
-  objects?: string;
-  directions?: string[];
+  purpose?: string; //phd
+  years?: number; //phd
+  credits?: number; //phd
+  programCharacteristics?: ProgramCharacteristics; //phd
+  descriptions?: string; //doc
+  objects?: string; //doc
+  directions?: string[]; //doc
   linkFaculty: string;
-  linkFile: string;
+  programDocumentId: File;
 }
 
 export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
@@ -30,7 +30,7 @@ interface FieldOfStudy {
   name: string;
 }
 
-interface Speciality {
+export interface Speciality {
   code: string;
   name: string;
 }
@@ -43,8 +43,8 @@ interface ProgramCharacteristicsArea {
   instruments: string;
 }
 
-interface ProgramCharacteristics {
+export interface ProgramCharacteristics {
   area: ProgramCharacteristicsArea;
   focus: string;
-  features: string[];
+  features: string;
 }

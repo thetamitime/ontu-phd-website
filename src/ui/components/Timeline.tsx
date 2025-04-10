@@ -87,6 +87,7 @@ const TimelineItem = ({
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
   // format date field correctly
+  console.log(dataStart, dataEnd);
   const dateStart = new Date(dataStart).toLocaleDateString("uk-UA", {
     year: "numeric",
     month: "long",
@@ -100,7 +101,7 @@ const TimelineItem = ({
       day: "numeric",
     });
   const extraTime = additionalTime ? `(${additionalTime})` : "";
-  const fullDate = `${dateStart} ${dateEnd !== null ? `- ${dateEnd}` : ""} ${extraTime}`;
+  const fullDate = `${dateStart} ${dateEnd !== undefined ? `- ${dateEnd}` : ""} ${extraTime}`;
 
   return (
     <li

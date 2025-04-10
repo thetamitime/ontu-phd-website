@@ -1,5 +1,5 @@
 import React from "react";
-import { SmallCardWithNumber } from "@/ui/components/SmallCardWithNumber";
+import { SmallCardWithNumber } from "@/ui/components/cards/SmallCardWithNumber";
 import { Program } from "@/lib/types/programs";
 import { InfoBox } from "@/ui/components/InfoBox";
 
@@ -10,7 +10,7 @@ type MainSectionProps = Omit<
   | "programCharacteristics"
   | "directions"
   | "linkFaculty"
-  | "linkFile"
+  | "programDocumentId"
 >;
 
 export const MainSection: React.FC<MainSectionProps> = ({
@@ -22,7 +22,7 @@ export const MainSection: React.FC<MainSectionProps> = ({
   purpose,
   years,
   credits,
-  description,
+  descriptions,
   objects,
   accredited,
 }) => {
@@ -59,7 +59,7 @@ export const MainSection: React.FC<MainSectionProps> = ({
       {degree === "phd" ? (
         <PhdView purpose={purpose} credits={credits || 0} years={years || 0} />
       ) : (
-        <DocView description={description} objects={objects} />
+        <DocView descriptions={descriptions} objects={objects} />
       )}
     </section>
   );
@@ -86,14 +86,14 @@ const PhdView = ({ purpose, years, credits }: PhdViewProps) => {
   );
 };
 
-type DocViewProps = Pick<Program, "description" | "objects">;
+type DocViewProps = Pick<Program, "descriptions" | "objects">;
 
-const DocView = ({ description, objects }: DocViewProps) => {
+const DocView = ({ descriptions, objects }: DocViewProps) => {
   return (
     <>
       <p>
         <span className="inline font-bold">Oпис: </span>
-        <span className="inline font-normal lowercase">{description}</span>
+        <span className="inline font-normal lowercase">{descriptions}</span>
       </p>
       <p>
         <span className="inline font-bold">Об&#39;єкти спеціальності: </span>

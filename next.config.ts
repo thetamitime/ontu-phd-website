@@ -15,6 +15,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "http://localhost:5124/api/:path*", // The backend API URL
+  //     },
+  //   ];
+  // },
   async redirects() {
     return [
       {

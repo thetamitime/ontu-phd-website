@@ -45,9 +45,7 @@ const PhdView: React.FC<{
         </div>
         <div>
           <h4 className="title">Особливості програми</h4>
-          {characteristics?.features?.map((feature, index) => (
-            <p key={index}>{feature}</p>
-          ))}
+          <p>{characteristics?.features}</p>
         </div>
       </div>
     </>
