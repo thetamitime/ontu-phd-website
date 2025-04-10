@@ -54,16 +54,16 @@ export default async function Page({
                   <ArrowUpRight />
                 </Link>
               </li>
-              <li>
-                <Link
-                  href={`${program.linkFile}`}
-                  target="_blank"
-                  role="button"
-                >
-                  Документ програми
-                  <FileDown size={22} />
-                </Link>
-              </li>
+              {/*<li>*/}
+              {/*  <Link*/}
+              {/*    href={`${program.linkFile}`}*/}
+              {/*    target="_blank"*/}
+              {/*    role="button"*/}
+              {/*  >*/}
+              {/*    Документ програми*/}
+              {/*    <FileDown size={22} />*/}
+              {/*  </Link>*/}
+              {/*</li>*/}
             </ul>
           </div>
         </nav>
@@ -113,12 +113,12 @@ export default async function Page({
                 <ArrowUpRight />
               </Link>
             </li>
-            <li>
-              <Link href={`${program.linkFile}`} target="_blank" role="button">
-                Документ програми
-                <FileDown size={22} />
-              </Link>
-            </li>
+            {/*<li>*/}
+            {/*  <Link href={`${program.linkFile}`} target="_blank" role="button">*/}
+            {/*    Документ програми*/}
+            {/*    <FileDown size={22} />*/}
+            {/*  </Link>*/}
+            {/*</li>*/}
           </ul>
         </nav>
       </div>
