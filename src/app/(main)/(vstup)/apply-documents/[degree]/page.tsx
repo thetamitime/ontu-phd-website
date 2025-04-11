@@ -13,7 +13,7 @@ export default async function DocumentsPage({
   const document = applyDocuments[0];
 
   return (
-    <article className="">
+    <article>
       <p>{document.description}</p>
       <p className="my-4">
         Особи, які вступають до аспірантури, подають особисто наступні

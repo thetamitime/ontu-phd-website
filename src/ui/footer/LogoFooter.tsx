@@ -27,7 +27,7 @@ export function LogoFooter() {
         </div>
       </aside>
       <nav>
-        <h3 className="footer-title uppercase">Університет</h3>
+        <p className="footer-title uppercase">Університет</p>
         <Link
           className="link link-hover"
           href="https://ontu.edu.ua/aspirantura_history"
@@ -46,7 +46,7 @@ export function LogoFooter() {
         </Link>
       </nav>
       <nav>
-        <h3 className="footer-title uppercase">Вступ</h3>
+        <p className="footer-title uppercase">Вступ</p>
         <Link className="link link-hover" href="/programs/phd">
           Аспірантура
         </Link>
@@ -61,7 +61,7 @@ export function LogoFooter() {
         </Link>
       </nav>
       <nav>
-        <h3 className="footer-title">Соціальні мережі</h3>
+        <p className="footer-title">Соціальні мережі</p>
         <div className="grid grid-flow-col gap-4">
           {/* Instagram Icon */}
           <Link

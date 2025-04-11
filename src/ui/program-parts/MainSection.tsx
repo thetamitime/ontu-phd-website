@@ -27,11 +27,11 @@ export const MainSection: React.FC<MainSectionProps> = ({
   accredited,
 }) => {
   return (
-    <section id="main">
-      {/* Program Name */}
-      <h2 className="header mt-2 mb-0 text-start md:w-[80%]">{name}</h2>
+    <section>
+      {/* Program name */}
+      <h2 className="header mb-0 text-start md:w-[80%]">{name}</h2>
 
-      {/* Field and Specialty Badges */}
+      {/* Field and Specialty badges */}
       <div className="flex flex-wrap gap-2 pt-2 pb-6">
         <div className="badge badge-lg badge-primary badge-soft h-fit">
           {`${fieldOfStudy.code} ${fieldOfStudy.name}`}

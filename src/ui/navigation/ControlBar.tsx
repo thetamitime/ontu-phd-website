@@ -1,11 +1,10 @@
 "use client";
 
-import { FC } from "react";
 import { UserRound } from "lucide-react";
 import Link from "next/link";
 import { ThemeToggle } from "@/ui/components/ThemeToggle";
 
-export const ControlBar: FC = () => {
+export const ControlBar = () => {
   return (
     <div className="bg-neutral flex items-center justify-end gap-2 sm:px-0 md:px-10">
       <ThemeToggle />

@@ -8,8 +8,10 @@ export default function RoadmapLayout({
   return (
     <>
       <h2 className="header mb-4">Етапи вступу</h2>
-      <Tabs />
-      {children}
+      <div className="flex flex-col items-center justify-center">
+        <Tabs />
+        {children}
+      </div>
     </>
   );
 }

@@ -5,6 +5,7 @@ export default function DefenceLayout({
 }: {
   children: React.ReactNode;
 }) {
+  //TODO: fix styling
   return (
     <main className="bg-base-200 px-6 md:px-10 lg:px-20">
       <div className="container mb-0 flex flex-col items-center xl:px-20">

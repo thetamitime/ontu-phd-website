@@ -7,7 +7,7 @@ export default async function NewsPage() {
   return (
     <>
       <h2 className="header">Усі новини</h2>
-      <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {news.map((item) => (
           <NewsCardSmall
             key={item.id}
