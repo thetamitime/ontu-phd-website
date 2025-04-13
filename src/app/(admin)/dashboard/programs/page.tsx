@@ -1,12 +1,12 @@
 "use client";
 
-import { columns } from "@/app/dashboard/programs/columns";
+import { columns } from "@/app/(admin)/dashboard/programs/columns";
 import { DataTable } from "@/ui/components/tables/DataTable";
 import { PlusCircleIcon, X } from "lucide-react";
 import { Drawer } from "@/ui/components/drawer/Drawer";
 import { SidebarContent } from "@/ui/components/drawer/SidebarContent";
 import { PageContent } from "@/ui/components/drawer/PageContent";
-import ProgramForm from "@/app/dashboard/programs/form";
+import ProgramForm from "@/app/(admin)/dashboard/programs/form";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPrograms } from "@/lib/api/programs";
 import { useState } from "react";

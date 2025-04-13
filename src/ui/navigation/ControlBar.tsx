@@ -16,7 +16,7 @@ export const ControlBar = () => {
 const LoginLink = () => {
   return (
     <Link
-      href="/dashboard"
+      href="/login"
       className="btn btn-soft btn-xs text-base-content flex items-center gap-2 rounded-none px-3 py-2 text-xs"
     >
       <UserRound className="md:size-4" />
