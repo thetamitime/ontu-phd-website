@@ -11,7 +11,7 @@ export default function LoginPage() {
   const form = useForm({
     defaultValues: {
       email: "",
-      name: "",
+      password: "",
     },
     onSubmit: async ({ value }) => {
       try {
@@ -54,7 +54,7 @@ export default function LoginPage() {
           </form.Field>
         </div>
         <div>
-          <form.Field name="name">
+          <form.Field name="password">
             {(field) => {
               return (
                 <>

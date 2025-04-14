@@ -5,14 +5,16 @@ import { TodoList } from "@/ui/dashboard/TodoList";
 import { LogList } from "@/ui/dashboard/LogList";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
+import NewAdminForm from "@/app/(admin)/dashboard/add-admin-form";
 
 export default function DashboardPage() {
-  const { token, getStats } = useAuth();
+  const { getStats, isAuthenticated } = useAuth();
 
+  console.log("Logged in:", isAuthenticated);
   const { data: stats } = useQuery({
-    queryKey: ["stats", token],
+    queryKey: ["stats"],
     queryFn: async () => await getStats(),
-    enabled: !!token,
+    enabled: isAuthenticated,
   });
 
   return (
@@ -61,7 +63,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-      <TodoList className="row-span-2 self-start" />
+      <NewAdminForm className="row-span-2 self-start" />
       <LogList />
     </div>
   );

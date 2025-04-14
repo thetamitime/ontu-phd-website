@@ -5,15 +5,18 @@ import React, {
   useContext,
   useEffect,
   useLayoutEffect,
+  useState,
+  useRef,
 } from "react";
 import axios from "axios";
 
 type AuthContextType = {
-  token: string | null;
-  setToken: React.Dispatch<React.SetStateAction<string | null>>;
   login: (credentials: any) => Promise<void>;
   logout: () => void;
   getStats: () => Promise<any>;
+  getAdmins: () => Promise<any>;
+  createAdmin: (credentials: any) => Promise<void>;
+  isAuthenticated: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,60 +34,119 @@ export const useAuth = () => {
 axios.defaults.withCredentials = true;
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = React.useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // track if auth check is in progress
+  const authCheckInProgress = useRef(false);
+  // track if initial auth check has happened
+  const initialAuthCheckDone = useRef(false);
 
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
-        );
-        setToken(response.data.token);
-      } catch {
-        setToken(null);
+  const checkAuth = async () => {
+    // prevent concurrent auth checks
+    if (authCheckInProgress.current) {
+      return false;
+    }
+
+    try {
+      authCheckInProgress.current = true;
+      await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`);
+      setIsAuthenticated(true);
+      initialAuthCheckDone.current = true;
+      return true;
+    } catch (error) {
+      if (error.response?.status === 401) {
+        try {
+          // Try to refresh the token
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
+          );
+
+          // Check if refresh worked by calling me endpoint again
+          await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`);
+          setIsAuthenticated(true);
+          initialAuthCheckDone.current = true;
+          return true;
+        } catch (refreshError) {
+          console.error("Refresh token failed:", refreshError);
+          setIsAuthenticated(false);
+          initialAuthCheckDone.current = true;
+          return false;
+        }
+      } else {
+        console.error("Auth check failed:", error);
+        setIsAuthenticated(false);
+        initialAuthCheckDone.current = true;
+        return false;
       }
-    };
+    } finally {
+      authCheckInProgress.current = false;
+    }
+  };
 
-    fetchMe();
+  // Initial auth check - only run once
+  useEffect(() => {
+    if (!initialAuthCheckDone.current) {
+      checkAuth();
+    }
   }, []);
 
+  // Axios interceptor for handling token refresh
   useLayoutEffect(() => {
-    const authInterceptor = axios.interceptors.request.use((config) => {
-      config.headers.Authorization =
-        !config._retry && token
-          ? `Bearer ${token}`
-          : config.headers.Authorization;
-      return config;
-    });
+    // Flag to track if a refresh is currently in progress
+    let isRefreshing = false;
+    // Store original requests that failed due to 401
+    let failedQueue = [];
 
-    return () => {
-      axios.interceptors.request.eject(authInterceptor);
+    // Process failed queue - either resolve or reject based on refreshSuccess
+    const processQueue = (error, refreshSuccess = true) => {
+      failedQueue.forEach((promise) => {
+        if (refreshSuccess) {
+          promise.resolve();
+        } else {
+          promise.reject(error);
+        }
+      });
+
+      failedQueue = [];
     };
-  }, [token]);
 
-  useLayoutEffect(() => {
     const refreshInterceptor = axios.interceptors.response.use(
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
 
-        if (
-          error.response?.status === 401 &&
-          error.response?.data?.message === "Unauthorized"
-        ) {
+        // If the error is 401 and we haven't retried yet
+        if (error.response?.status === 401 && !originalRequest._retry) {
+          if (isRefreshing) {
+            // If refresh is in progress, add this request to queue
+            return new Promise((resolve, reject) => {
+              failedQueue.push({ resolve, reject });
+            })
+              .then(() => {
+                return axios(originalRequest);
+              })
+              .catch((err) => {
+                return Promise.reject(err);
+              });
+          }
+
+          originalRequest._retry = true;
+          isRefreshing = true;
+
           try {
-            const response = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_URL}api/auth/refresh`,
+            await axios.post(
+              `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
             );
 
-            setToken(response.data.accessToken);
-
-            originalRequest.headers.Authorization = `Bearer ${response.data.accessToken}`;
-            originalRequest._retry = true;
-
+            // Mark refresh as successful and process queue
+            processQueue(null, true);
             return axios(originalRequest);
-          } catch {
-            setToken(null);
+          } catch (refreshError) {
+            setIsAuthenticated(false);
+            // Mark refresh as failed and process queue
+            processQueue(refreshError, false);
+            return Promise.reject(refreshError);
+          } finally {
+            isRefreshing = false;
           }
         }
 
@@ -98,26 +160,79 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const login = async (credentials) => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`,
-      credentials,
-    );
-    setToken(response.data.accessToken);
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`,
+        credentials,
+      );
+      console.log("Logged user:", res.data);
+      setIsAuthenticated(true);
+      return res.data;
+    } catch (error) {
+      console.error("Login failed:", error);
+      setIsAuthenticated(false);
+      throw error;
+    }
   };
 
-  const logout = () => {
-    setToken(null);
+  const logout = async () => {
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signout`);
+    } finally {
+      // Always set as logged out, even if the signout request fails
+      setIsAuthenticated(false);
+    }
   };
 
   const getStats = async () => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/stats`,
-    );
-    return response.data;
+    try {
+      // Just make the request - the interceptor will handle auth issues
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/stats`,
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+      throw error;
+    }
+  };
+
+  const getAdmins = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/admins`,
+      );
+      return response.data.admins;
+    } catch (error) {
+      console.error("Error fetching admins:", error);
+      throw error;
+    }
+  };
+  const createAdmin = async (credentials) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/create-admin`,
+        credentials,
+      );
+      console.log("Created admin:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("New admin failed:", error);
+      throw error;
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ token, setToken, login, logout, getStats }}>
+    <AuthContext.Provider
+      value={{
+        login,
+        logout,
+        getStats,
+        getAdmins,
+        createAdmin,
+        isAuthenticated,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
