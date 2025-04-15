@@ -55,7 +55,7 @@ export default function Sidebar({ isSidebarOpen }: SidebarProps) {
           <li key={item.href}>
             <Link
               onClick={item.label === "Вийти" ? logout : undefined}
-              href={""}
+              href={item.label === "Вийти" ? "" : item.href}
               className={`py-2 ${pathname === item.href ? "menu-active" : ""}`}
             >
               <LayoutTemplate size={20} />

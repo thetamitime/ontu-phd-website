@@ -18,7 +18,7 @@ export default function DashboardPage() {
   });
 
   return (
-    <div className="grid h-full grid-cols-[1.6fr_1fr] grid-rows-[auto_1fr] gap-5">
+    <div className="grid h-full grid-cols-[1fr_0.4fr] grid-rows-[auto_1fr] gap-5">
       <div className="flex gap-5">
         <div className="stats border-base-300 bg-base-100 w-full border">
           <div className="stat">

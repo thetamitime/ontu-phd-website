@@ -18,6 +18,8 @@ type AuthContextType = {
   getAdmins: () => Promise<any>;
   createAdmin: (credentials: any) => Promise<void>;
   changePassword: (credentials: any) => Promise<void>;
+  getUser: () => Promise<any>;
+  uploadAvatar: (value: any) => Promise<any>;
   isAuthenticated: boolean;
   mustChangePassword: boolean;
 };
@@ -201,9 +203,39 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  };
+  const uploadAvatar = async (value) => {
+    const formData = new FormData();
+    formData.append("file", value.file);
+
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/upload-avatar`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+    } catch (error) {
+      console.error("Error updating:", error);
+      throw error;
+    }
+  };
+
   const getStats = async () => {
     try {
-      // Just make the request - the interceptor will handle auth issues
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/stats`,
       );
@@ -231,6 +263,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/create-admin`,
         credentials,
       );
+      router.refresh();
       console.log("Created admin:", res.data);
       return res.data;
     } catch (error) {
@@ -261,6 +294,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         getAdmins,
         createAdmin,
         changePassword,
+        getUser,
+        uploadAvatar,
         isAuthenticated,
         mustChangePassword,
       }}

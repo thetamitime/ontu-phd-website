@@ -1,12 +1,17 @@
 "use client";
 
-import { createFormHook } from "@tanstack/react-form";
+import { createFormHook, useStore } from "@tanstack/react-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createProgram } from "@/lib/api/programs";
 import React from "react";
 import { FieldInfo, InputField, SubscribeButton } from "@/ui/components";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 import { useAuth } from "@/lib/utils/AuthProvider";
+import {
+  adminValue,
+  newAdminSchema,
+  NewAdminValues,
+} from "@/lib/schemas/newAdminSchema";
+import { AdminCard } from "@/ui/components/cards/AdminCard";
 
 //=============Form Context=============
 const { useAppForm } = createFormHook({
@@ -31,64 +36,56 @@ export default function NewAdminForm({ className }: { className: string }) {
     enabled: isAuthenticated,
   });
 
-  console.log(admins);
-
   const form = useAppForm({
     defaultValues: {
-      admins: [{ email: "", name: "" }],
+      admins: null,
+    } as NewAdminValues,
+    validators: {
+      onSubmit: newAdminSchema,
     },
     onSubmit: ({ value }) => {
-      console.log("onSubmit", value);
-      value.admins.map((admin) => {
+      value.admins?.map((admin) => {
         mutation.mutate({ email: admin.email, name: admin.name });
       });
+      window.location.reload(); //router doesnt work
     },
   });
 
+  const newAdmins = useStore(form.store, (state) => state.values.admins);
+
   const mutation = useMutation({
-    mutationFn: (data) => createAdmin(data),
+    mutationFn: (data: adminValue) => createAdmin(data),
     onSuccess: () => alert("Додано нового адміністратора!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
 
   return (
     <div className={`${className} card bg-base-100 border-base-300 border`}>
-      <form
-        className="card-body"
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("Form current", form.state.values);
-          form.handleSubmit();
-        }}
-      >
-        <form.AppField name="admins" mode="array">
-          {(field) => (
-            <>
-              <legend className="card-title mb-3">Адміністратори</legend>
-              {admins &&
-                admins.map((admin, index) => (
-                  <div key={index}>{admin.email}</div>
-                ))}
-              {field.state.value?.map((_, i) => (
-                <form.AppField key={i} name={`admins[${i}]`} mode="object">
-                  {(adminField) => (
-                    <div className="mb-4 rounded border p-3">
-                      <form.AppField name={`admins[${i}].email`}>
-                        {(emailField) => (
-                          <field.InputField
-                            label="Email"
-                            value={emailField.state.value}
-                            onChange={(e) =>
-                              emailField.handleChange(e.target.value)
-                            }
-                          />
-                        )}
-                      </form.AppField>
+      <div className="card-body gap-4">
+        <legend className="card-title mb-3">Адміністратори</legend>
 
+        {admins && <AdminCard admins={admins} />}
+
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+        >
+          <form.AppField name="admins" mode="array">
+            {(field) => (
+              <>
+                {field.state.value?.map((_, i) => {
+                  return (
+                    <div
+                      className="card-body border-base-300 bg-base-200 rounded-2xl border py-2 pb-5.5"
+                      key={i}
+                    >
                       <form.AppField name={`admins[${i}].name`}>
                         {(nameField) => (
                           <field.InputField
-                            label="Ім'я"
+                            label="Ім'я адміністратора"
                             value={nameField.state.value}
                             onChange={(e) =>
                               nameField.handleChange(e.target.value)
@@ -97,32 +94,46 @@ export default function NewAdminForm({ className }: { className: string }) {
                         )}
                       </form.AppField>
 
+                      <form.AppField name={`admins[${i}].email`}>
+                        {(emailField) => (
+                          <field.InputField
+                            label="Пошта адміністратора"
+                            value={emailField.state.value}
+                            onChange={(e) =>
+                              emailField.handleChange(e.target.value)
+                            }
+                          />
+                        )}
+                      </form.AppField>
+
                       <button
-                        type="button"
-                        className="mt-2 text-red-500"
                         onClick={() => field.removeValue(i)}
+                        type="button"
+                        className="btn btn-soft btn-error mt-3 w-fit self-end"
                       >
                         Видалити
                       </button>
                     </div>
-                  )}
-                </form.AppField>
-              ))}
+                  );
+                })}
+                <button
+                  onClick={() => field.pushValue({ email: "", name: "" })}
+                  type="button"
+                  className="btn btn-soft"
+                >
+                  Додати адміністратора
+                </button>
+              </>
+            )}
+          </form.AppField>
 
-              <button
-                onClick={() => field.pushValue({ email: "", name: "" })}
-                type="button"
-              >
-                Додати напрям
-              </button>
-            </>
+          {newAdmins && newAdmins?.length > 0 && (
+            <form.AppForm>
+              <form.SubscribeButton label="Зберегти" />
+            </form.AppForm>
           )}
-        </form.AppField>
-
-        <form.AppForm>
-          <form.SubscribeButton label="Submit" />
-        </form.AppForm>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }
