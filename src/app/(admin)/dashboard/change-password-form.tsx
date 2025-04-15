@@ -6,7 +6,10 @@ import React from "react";
 import { FieldInfo, InputField, SubscribeButton } from "@/ui/components";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 import { useAuth } from "@/lib/utils/AuthProvider";
-import { useRouter } from "next/navigation";
+import {
+  changePasswordSchema,
+  ChangePasswordValues,
+} from "@/lib/schemas/changePasswordSchema";
 
 //=============Form Context=============
 const { useAppForm } = createFormHook({
@@ -23,22 +26,24 @@ const { useAppForm } = createFormHook({
 
 //=============Program Form (Edit and Create)=============
 export default function ChangePasswordForm() {
-  const { changePassword, logout } = useAuth();
+  const { changePassword, mustChangePassword, logout } = useAuth();
 
   const form = useAppForm({
     defaultValues: {
-      oldPassword: "admin",
+      oldPassword: mustChangePassword ? "admin" : "",
       newPassword: "",
+    } as ChangePasswordValues,
+    validators: {
+      onSubmit: changePasswordSchema,
     },
     onSubmit: ({ value }) => {
-      console.log("onSubmit", value);
       mutation.mutate(value);
       logout();
     },
   });
 
   const mutation = useMutation({
-    mutationFn: (data) => changePassword(data),
+    mutationFn: (data: ChangePasswordValues) => changePassword(data),
     onSuccess: () => alert("Пароль успішно змінено!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
@@ -52,11 +57,19 @@ export default function ChangePasswordForm() {
       }}
     >
       <form.AppField name="oldPassword">
-        {(field) => <field.InputField label={"Старий пароль"} />}
+        {(field) => (
+          <field.InputField
+            label={"Старий пароль"}
+            disabled={mustChangePassword}
+            type="password"
+          />
+        )}
       </form.AppField>
 
       <form.AppField name="newPassword">
-        {(field) => <field.InputField label={"Старий пароль"} />}
+        {(field) => (
+          <field.InputField label={"Старий пароль"} type="password" />
+        )}
       </form.AppField>
 
       <form.AppForm>

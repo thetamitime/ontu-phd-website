@@ -7,6 +7,7 @@ import { QueryClient } from "@tanstack/query-core";
 import { QueryClientProvider } from "@tanstack/react-query";
 import ChangePasswordForm from "@/app/(admin)/dashboard/change-password-form";
 import { Modal } from "@/ui/dashboard/Modal";
+import { useAuth } from "@/lib/utils/AuthProvider";
 
 const queryClient = new QueryClient();
 
@@ -16,22 +17,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [mustChangePassword, setMustChangePassword] = useState(false);
+  const { mustChangePassword } = useAuth();
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
-  useEffect(() => {
-    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
-    const mustChangeCookie = cookies.find((c) =>
-      c.startsWith("mustChangePassword="),
-    );
-    if (mustChangeCookie) {
-      const value = mustChangeCookie.split("=")[1];
-      setMustChangePassword(value === "true");
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

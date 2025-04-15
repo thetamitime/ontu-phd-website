@@ -19,6 +19,7 @@ type AuthContextType = {
   createAdmin: (credentials: any) => Promise<void>;
   changePassword: (credentials: any) => Promise<void>;
   isAuthenticated: boolean;
+  mustChangePassword: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,6 +38,7 @@ axios.defaults.withCredentials = true;
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [mustChangePassword, setMustChangePassword] = useState(false);
   // track if auth check is in progress
   const authCheckInProgress = useRef(false);
   // track if initial auth check has happened
@@ -170,6 +172,18 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       console.log("Logged user:", res.data);
       setIsAuthenticated(true);
+
+      const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
+      const mustChangeCookie = cookies.find((c) =>
+        c.startsWith("mustChangePassword="),
+      );
+      if (mustChangeCookie) {
+        const value = mustChangeCookie.split("=")[1];
+        setMustChangePassword(value === "true");
+      }
+
+      console.log("mustChangeCookie:", mustChangeCookie);
+
       return res.data;
     } catch (error) {
       console.error("Login failed:", error);
@@ -231,7 +245,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`,
         credentials,
       );
-      console.log("Changed password:", res.data);
       return res.data;
     } catch (error) {
       console.error("Change password failed:", error);
@@ -249,6 +262,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         createAdmin,
         changePassword,
         isAuthenticated,
+        mustChangePassword,
       }}
     >
       {children}
