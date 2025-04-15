@@ -9,6 +9,7 @@ import React, {
   useRef,
 } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   login: (credentials: any) => Promise<void>;
@@ -16,6 +17,7 @@ type AuthContextType = {
   getStats: () => Promise<any>;
   getAdmins: () => Promise<any>;
   createAdmin: (credentials: any) => Promise<void>;
+  changePassword: (credentials: any) => Promise<void>;
   isAuthenticated: boolean;
 };
 
@@ -39,6 +41,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const authCheckInProgress = useRef(false);
   // track if initial auth check has happened
   const initialAuthCheckDone = useRef(false);
+  const router = useRouter();
 
   const checkAuth = async () => {
     // prevent concurrent auth checks
@@ -178,8 +181,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signout`);
+      router.refresh();
     } finally {
-      // Always set as logged out, even if the signout request fails
       setIsAuthenticated(false);
     }
   };
@@ -222,6 +225,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const changePassword = async (credentials) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`,
+        credentials,
+      );
+      console.log("Changed password:", res.data);
+      return res.data;
+    } catch (error) {
+      console.error("Change password failed:", error);
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -230,6 +247,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         getStats,
         getAdmins,
         createAdmin,
+        changePassword,
         isAuthenticated,
       }}
     >

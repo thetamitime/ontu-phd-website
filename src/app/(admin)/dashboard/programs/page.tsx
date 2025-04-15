@@ -10,7 +10,7 @@ import ProgramForm from "@/app/(admin)/dashboard/programs/form";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPrograms } from "@/lib/api/programs";
 import { useState } from "react";
-import { CreateModal } from "@/ui/dashboard/CreateModal";
+import { Modal } from "@/ui/dashboard/Modal";
 
 export default function ProgramsPage() {
   const [selectedProgramId, setSelectedProgramId] = useState<number>();
@@ -36,9 +36,9 @@ export default function ProgramsPage() {
             </button>
           </div>
           {isModalOpen && (
-            <CreateModal label={"нову програму"} onClose={closeModal}>
+            <Modal label={"Створити нову програму"} onClose={closeModal}>
               <ProgramForm />
-            </CreateModal>
+            </Modal>
           )}
           <DataTable
             columns={columns(setSelectedProgramId)}

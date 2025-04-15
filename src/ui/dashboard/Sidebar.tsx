@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LayoutTemplate } from "lucide-react";
+import { useAuth } from "@/lib/utils/AuthProvider";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -10,6 +11,8 @@ interface SidebarProps {
 
 export default function Sidebar({ isSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
+  const { logout } = useAuth();
+  const router = useRouter();
 
   const menuItems = [
     { href: "/dashboard", label: "Панель керування" },
@@ -51,7 +54,8 @@ export default function Sidebar({ isSidebarOpen }: SidebarProps) {
         {restMenuItems.map((item) => (
           <li key={item.href}>
             <Link
-              href={item.href}
+              onClick={item.label === "Вийти" ? logout : undefined}
+              href={""}
               className={`py-2 ${pathname === item.href ? "menu-active" : ""}`}
             >
               <LayoutTemplate size={20} />
