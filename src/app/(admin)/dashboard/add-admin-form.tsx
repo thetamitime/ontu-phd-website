@@ -7,7 +7,7 @@ import { FieldInfo, InputField, SubscribeButton } from "@/ui/components";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import {
-  adminValue,
+  AdminCredentials,
   newAdminSchema,
   NewAdminValues,
 } from "@/lib/schemas/newAdminSchema";
@@ -28,13 +28,21 @@ const { useAppForm } = createFormHook({
 
 //=============Program Form (Edit and Create)=============
 export default function NewAdminForm({ className }: { className: string }) {
-  const { isAuthenticated, getAdmins, createAdmin } = useAuth();
+  const { getUser, isAuthenticated, getAdmins, createAdmin } = useAuth();
 
   const { data: admins } = useQuery({
     queryKey: ["admins"],
     queryFn: async () => await getAdmins(),
     enabled: isAuthenticated,
   });
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => await getUser(),
+    enabled: isAuthenticated,
+  });
+  const adminsWithoutUser =
+    admins &&
+    admins.filter((admin: AdminCredentials) => admin.name !== user.name);
 
   const form = useAppForm({
     defaultValues: {
@@ -54,7 +62,7 @@ export default function NewAdminForm({ className }: { className: string }) {
   const newAdmins = useStore(form.store, (state) => state.values.admins);
 
   const mutation = useMutation({
-    mutationFn: (data: adminValue) => createAdmin(data),
+    mutationFn: (data: AdminCredentials) => createAdmin(data),
     onSuccess: () => alert("Додано нового адміністратора!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
@@ -64,7 +72,7 @@ export default function NewAdminForm({ className }: { className: string }) {
       <div className="card-body gap-4">
         <legend className="card-title mb-3">Адміністратори</legend>
 
-        {admins && <AdminCard admins={admins} />}
+        {admins && <AdminCard admins={adminsWithoutUser} />}
 
         <form
           className="flex flex-col gap-4"

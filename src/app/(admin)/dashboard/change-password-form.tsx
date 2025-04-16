@@ -8,7 +8,7 @@ import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import {
   changePasswordSchema,
-  ChangePasswordValues,
+  ChangePassword,
 } from "@/lib/schemas/changePasswordSchema";
 
 //=============Form Context=============
@@ -32,7 +32,7 @@ export default function ChangePasswordForm() {
     defaultValues: {
       oldPassword: mustChangePassword ? "admin" : "",
       newPassword: "",
-    } as ChangePasswordValues,
+    } as ChangePassword,
     validators: {
       onSubmit: changePasswordSchema,
     },
@@ -43,7 +43,7 @@ export default function ChangePasswordForm() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: ChangePasswordValues) => changePassword(data),
+    mutationFn: (data: ChangePassword) => changePassword(data),
     onSuccess: () => alert("Пароль успішно змінено!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });

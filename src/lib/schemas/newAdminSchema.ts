@@ -13,4 +13,4 @@ export const newAdminSchema = z.object({
 });
 
 export type NewAdminValues = z.infer<typeof newAdminSchema>;
-export type adminValue = z.infer<typeof adminSchema>;
+export type AdminCredentials = z.infer<typeof adminSchema>;

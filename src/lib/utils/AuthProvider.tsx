@@ -8,18 +8,23 @@ import React, {
   useState,
   useRef,
 } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { Credentials } from "@/lib/schemas/loginSchema";
+import { AdminCredentials } from "@/lib/schemas/newAdminSchema";
+import { ChangePassword } from "@/lib/schemas/changePasswordSchema";
+import { Stats, User } from "@/lib/types/dashboard";
 
 type AuthContextType = {
-  login: (credentials: any) => Promise<void>;
+  login: (credentials: Credentials) => Promise<void>;
   logout: () => void;
-  getStats: () => Promise<any>;
-  getAdmins: () => Promise<any>;
-  createAdmin: (credentials: any) => Promise<void>;
-  changePassword: (credentials: any) => Promise<void>;
-  getUser: () => Promise<any>;
-  uploadAvatar: (value: any) => Promise<any>;
+  getStats: () => Promise<Stats>;
+  getAdmins: () => Promise<User[]>;
+  createAdmin: (credentials: AdminCredentials) => Promise<void>;
+  deleteAdmin: (id: string) => Promise<void>;
+  changePassword: (credentials: ChangePassword) => Promise<void>;
+  getUser: () => Promise<User>;
+  uploadAvatar: (file: File) => Promise<void>;
   isAuthenticated: boolean;
   mustChangePassword: boolean;
 };
@@ -60,7 +65,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       initialAuthCheckDone.current = true;
       return true;
     } catch (error) {
-      if (error.response?.status === 401) {
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
         try {
           // Try to refresh the token
           await axios.post(
@@ -89,22 +94,25 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Initial auth check - only run once
+  // initial auth check - only run once
   useEffect(() => {
     if (!initialAuthCheckDone.current) {
       checkAuth();
     }
   }, []);
 
-  // Axios interceptor for handling token refresh
+  // handling token refresh
   useLayoutEffect(() => {
-    // Flag to track if a refresh is currently in progress
+    // flag to track if a refresh is currently in progress
     let isRefreshing = false;
-    // Store original requests that failed due to 401
-    let failedQueue = [];
+    // store original requests that failed due to 401
+    let failedQueue: {
+      resolve: (value?: unknown) => void;
+      reject: (error: AxiosError | unknown) => void;
+    }[] = [];
 
-    // Process failed queue - either resolve or reject based on refreshSuccess
-    const processQueue = (error, refreshSuccess = true) => {
+    // process failed queue - either resolve or reject based on refreshSuccess
+    const processQueue = (error: unknown, refreshSuccess = true) => {
       failedQueue.forEach((promise) => {
         if (refreshSuccess) {
           promise.resolve();
@@ -121,10 +129,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       async (error) => {
         const originalRequest = error.config;
 
-        // If the error is 401 and we haven't retried yet
+        // if the error is 401 and we haven't retried yet
         if (error.response?.status === 401 && !originalRequest._retry) {
           if (isRefreshing) {
-            // If refresh is in progress, add this request to queue
+            // if refresh is in progress, add this request to queue
             return new Promise((resolve, reject) => {
               failedQueue.push({ resolve, reject });
             })
@@ -144,12 +152,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               `${process.env.NEXT_PUBLIC_API_URL}/api/auth/refresh`,
             );
 
-            // Mark refresh as successful and process queue
+            // mark refresh as successful and process queue
             processQueue(null, true);
             return axios(originalRequest);
           } catch (refreshError) {
             setIsAuthenticated(false);
-            // Mark refresh as failed and process queue
+            // mark refresh as failed and process queue
             processQueue(refreshError, false);
             return Promise.reject(refreshError);
           } finally {
@@ -166,34 +174,30 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, []);
 
-  const login = async (credentials) => {
+  const login = async (credentials: Credentials) => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`,
         credentials,
       );
-      console.log("Logged user:", res.data);
       setIsAuthenticated(true);
 
       const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
       const mustChangeCookie = cookies.find((c) =>
         c.startsWith("mustChangePassword="),
       );
+
       if (mustChangeCookie) {
         const value = mustChangeCookie.split("=")[1];
         setMustChangePassword(value === "true");
       }
 
-      console.log("mustChangeCookie:", mustChangeCookie);
-
       return res.data;
     } catch (error) {
-      console.error("Login failed:", error);
       setIsAuthenticated(false);
       throw error;
     }
   };
-
   const logout = async () => {
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signout`);
@@ -210,13 +214,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       return response.data;
     } catch (error) {
-      console.error("Error fetching user:", error);
       throw error;
     }
   };
-  const uploadAvatar = async (value) => {
+  const uploadAvatar = async (file: File) => {
     const formData = new FormData();
-    formData.append("file", value.file);
+    formData.append("file", file);
 
     try {
       await axios.post(
@@ -229,7 +232,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         },
       );
     } catch (error) {
-      console.error("Error updating:", error);
       throw error;
     }
   };
@@ -241,7 +243,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       return response.data;
     } catch (error) {
-      console.error("Error fetching stats:", error);
       throw error;
     }
   };
@@ -253,26 +254,33 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       return response.data.admins;
     } catch (error) {
-      console.error("Error fetching admins:", error);
       throw error;
     }
   };
-  const createAdmin = async (credentials) => {
+  const createAdmin = async (credentials: AdminCredentials) => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/create-admin`,
         credentials,
       );
       router.refresh();
-      console.log("Created admin:", res.data);
       return res.data;
     } catch (error) {
-      console.error("New admin failed:", error);
+      throw error;
+    }
+  };
+  const deleteAdmin = async (id: string) => {
+    try {
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/delete-admin/${id}`,
+      );
+      router.refresh();
+    } catch (error) {
       throw error;
     }
   };
 
-  const changePassword = async (credentials) => {
+  const changePassword = async (credentials: ChangePassword) => {
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/change-password`,
@@ -280,7 +288,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       return res.data;
     } catch (error) {
-      console.error("Change password failed:", error);
       throw error;
     }
   };
@@ -293,6 +300,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         getStats,
         getAdmins,
         createAdmin,
+        deleteAdmin,
         changePassword,
         getUser,
         uploadAvatar,

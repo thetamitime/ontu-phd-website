@@ -1,10 +1,11 @@
 "use client";
 
 import { useAuth } from "@/lib/utils/AuthProvider";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { createFormHook, useStore } from "@tanstack/react-form";
+import { useMutation } from "@tanstack/react-query";
+import { createFormHook } from "@tanstack/react-form";
 import { SubscribeButton } from "@/ui/components";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
+import { ProfilePicture } from "@/lib/types/dashboard";
 
 //=============Form Context=============
 const { useAppForm } = createFormHook({
@@ -17,32 +18,32 @@ const { useAppForm } = createFormHook({
 });
 
 export default function SettingsPage() {
-  const { isAuthenticated, getUser, uploadAvatar } = useAuth();
-
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => await getUser(),
-    enabled: isAuthenticated,
-  });
+  const { uploadAvatar } = useAuth();
 
   const form = useAppForm({
     defaultValues: {
       file: null,
-    },
+    } as ProfilePicture,
     onSubmit: ({ value }) => {
-      mutation.mutate(value);
+      if (value.file) mutation.mutate(value.file);
       window.location.reload(); //router doesnt work
     },
   });
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      form.setFieldValue("file", files[0]);
+    } else {
+      form.setFieldValue("file", null);
+    }
+  };
+
   const mutation = useMutation({
-    mutationFn: (data) => uploadAvatar(data),
+    mutationFn: (data: File) => uploadAvatar(data),
     onSuccess: () => alert("Додано аватар!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
-
-  const file = useStore(form.store, (state) => state.values.file);
-  console.log(file);
 
   return (
     <form
@@ -52,13 +53,13 @@ export default function SettingsPage() {
       }}
     >
       <form.AppField name="file">
-        {(field) => (
+        {() => (
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Pick a file</legend>
             <input
               type="file"
               className="file-input"
-              onChange={(e) => field.handleChange(e.target.files[0])}
+              onChange={handleFileChange}
             />
             <label className="fieldset-label">Max size 2MB</label>
           </fieldset>

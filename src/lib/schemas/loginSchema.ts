@@ -12,4 +12,4 @@ export const loginSchema = z.object({
   // .regex(/[\W_]/, "Пароль має містити хоча б один спеціальний знак"),
 });
 
-export type LoginFormValues = z.infer<typeof loginSchema>;
+export type Credentials = z.infer<typeof loginSchema>;

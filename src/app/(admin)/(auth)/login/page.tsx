@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { InputField, SubscribeButton } from "@/ui/components";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
 import React from "react";
-import { LoginFormValues, loginSchema } from "@/lib/schemas/loginSchema";
+import { Credentials, loginSchema } from "@/lib/schemas/loginSchema";
 
 //=============Form Context=============
 const { useAppForm } = createFormHook({
@@ -29,7 +29,7 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
-    } as LoginFormValues,
+    } as Credentials,
     validators: {
       onSubmit: loginSchema,
       onChange: loginSchema,
@@ -40,7 +40,7 @@ export default function LoginPage() {
           setLoginSuccess(true);
           router.push("/dashboard");
         });
-      } catch (error) {
+      } catch {
         setLoginSuccess(false);
       }
     },
