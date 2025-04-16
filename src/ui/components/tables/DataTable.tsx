@@ -10,7 +10,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { useState } from "react";
-import { Pagination } from "@/ui/components/Pagination";
+import { Pagination } from "@/ui/components/misc/Pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];

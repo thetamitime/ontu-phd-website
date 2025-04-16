@@ -1,6 +1,5 @@
 import { getProgramsByDegree } from "@/lib/api/programs";
-import { Title } from "@/ui/components/Title";
-import { ProgramCardLarge } from "@/ui/components";
+import { Title, ProgramCardLarge } from "@/ui/components";
 
 export default async function ProgramsPage() {
   const programsPhd = await getProgramsByDegree("phd");

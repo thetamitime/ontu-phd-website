@@ -1,7 +1,7 @@
 import React from "react";
 import { getApplyDocuments } from "@/lib/api/applyDocuments";
-import { RequiredDocument } from "@/ui/components/RequiredDocument";
 import { Info } from "lucide-react";
+import { RequiredDocument } from "@/ui/components";
 
 export default async function DocumentsPage({
   params,

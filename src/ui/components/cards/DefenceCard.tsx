@@ -3,8 +3,11 @@ import { FileSymlink, SquareArrowOutUpRight } from "lucide-react";
 import React from "react";
 import { RadaCard } from "@/ui/components";
 import { DefenseEvent } from "@/lib/types/defences";
-import { formattedDate, formattedDateWithHours } from "@/lib/functions";
-import { InfoBox } from "@/ui/components/InfoBox";
+import {
+  formattedDate,
+  formattedDateWithHours,
+} from "@/lib/utils/date-formatting";
+import { InfoBox } from "@/ui/components/misc/InfoBox";
 
 export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
   candidateNameSurname,

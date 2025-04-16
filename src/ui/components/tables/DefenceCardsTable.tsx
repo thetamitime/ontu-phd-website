@@ -10,7 +10,7 @@ import {
 import { DefenseEvent } from "@/lib/types/defences";
 import React, { useEffect } from "react";
 import { DefenceCard } from "@/ui/components";
-import { Pagination } from "@/ui/components/Pagination";
+import { Pagination } from "@/ui/components/misc/Pagination";
 
 type CardRow = DefenseEvent & { degree: string };
 

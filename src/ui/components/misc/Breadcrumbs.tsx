@@ -19,7 +19,7 @@ export const Breadcrumbs = ({ degree, forPath, title }: BreadcrumbsProps) => {
     <div className="breadcrumbs -mt-10 mb-2 max-w-[88svw] py-4 lg:max-w-full">
       <ul>
         <li>
-          <Link href="/">Головна</Link>
+          <Link href="/public">Головна</Link>
         </li>
         <li>
           <Link href={degree ? forPath + `/${degree}` : forPath}>

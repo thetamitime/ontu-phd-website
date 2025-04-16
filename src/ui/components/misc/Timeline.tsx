@@ -1,8 +1,9 @@
 "use client";
 
 import { v4 as uuidv4 } from "uuid";
-import { Roadmap, RoadmapItem } from "@/lib/types";
+
 import React from "react";
+import { Roadmap, RoadmapItem } from "@/lib/types/roadmap";
 
 //custom query to get window size
 const useMediaQuery = (query: string) => {
@@ -22,7 +23,7 @@ const useMediaQuery = (query: string) => {
   return matches;
 };
 
-export default function Timeline({ roadmap }: { roadmap: Roadmap }) {
+export const Timeline = ({ roadmap }: { roadmap: Roadmap }) => {
   const isLargeScreen = useMediaQuery("(min-width: 1024px)");
 
   // check current status for children styling
@@ -70,7 +71,7 @@ export default function Timeline({ roadmap }: { roadmap: Roadmap }) {
       })}
     </ul>
   );
-}
+};
 
 type TimelineItemProps = Pick<
   RoadmapItem,

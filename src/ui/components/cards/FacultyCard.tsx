@@ -1,5 +1,5 @@
 //import Image from "next/image";
-import { Employee } from "@/lib/types";
+import { Employee } from "@/lib/types/employees";
 
 export const FacultyCard: React.FC<Employee> = ({
   id,

@@ -1,4 +1,4 @@
-export default function ProgramLayout({
+export default function AllNewsLayout({
   children,
 }: {
   children: React.ReactNode;

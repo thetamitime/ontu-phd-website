@@ -1,7 +1,7 @@
 import { LatestNews } from "@/lib/types/news";
 import Link from "next/link";
-import { formattedDate } from "@/lib/functions";
 import Image from "next/image";
+import { formattedDate } from "@/lib/utils/date-formatting";
 
 type NewsCardSmallProps = Omit<LatestNews, "summary">;
 

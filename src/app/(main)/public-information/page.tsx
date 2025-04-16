@@ -1,7 +1,7 @@
 import { getDocuments } from "@/lib/api/documents";
 import { FileSymlink } from "lucide-react";
 import Link from "next/link";
-import { Title } from "@/ui/components/Title";
+import { Title } from "@/ui/components";
 
 export default async function PublicInformationPage() {
   const documents = await getDocuments("Normative");

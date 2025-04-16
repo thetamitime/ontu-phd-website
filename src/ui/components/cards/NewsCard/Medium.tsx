@@ -1,6 +1,6 @@
 import { News } from "@/lib/types/news";
 import Link from "next/link";
-import { formattedDate } from "@/lib/functions";
+import { formattedDate } from "@/lib/utils/date-formatting";
 
 type NewsCardMediumProps = Pick<
   News,

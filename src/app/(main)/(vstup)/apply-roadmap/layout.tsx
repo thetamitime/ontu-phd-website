@@ -1,4 +1,4 @@
-import { Tabs } from "@/ui/components/Tabs";
+import { Tabs } from "@/ui/components";
 
 export default function RoadmapLayout({
   children,

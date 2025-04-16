@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Employees } from "@/lib/types";
+import { Employees } from "@/lib/types/employees";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

@@ -1,6 +1,6 @@
 import { ArrowRightFromLine, Menu } from "lucide-react";
 import Image from "next/image";
-import { ThemeToggle } from "@/ui/components/ThemeToggle";
+import { ThemeToggle } from "@/ui/components/misc/ThemeToggle";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 

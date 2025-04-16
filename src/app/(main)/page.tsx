@@ -1,13 +1,13 @@
-import { FacultyCard } from "@/ui/components/cards/FacultyCard";
 import Link from "next/link";
 import { getLatestNews } from "@/lib/api/news";
 import { getAllEmployees } from "@/lib/api/employees";
+import { getAllFields } from "@/lib/api/fields";
 import {
-  ProgramCardSmall,
+  FacultyCard,
   NewsCardLarge,
   NewsCardMedium,
+  ProgramCardSmall,
 } from "@/ui/components";
-import { getAllFields } from "@/lib/api/fields";
 
 export default async function Home() {
   const photoUrl =

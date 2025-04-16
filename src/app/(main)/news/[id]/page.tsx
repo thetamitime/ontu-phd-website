@@ -1,11 +1,10 @@
 import React from "react";
-import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
+import { Breadcrumbs, Carousel } from "@/ui/components/";
 import { getNewsById } from "@/lib/api/news";
-import { Carousel } from "@/ui/components/Carousel";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export default async function Page({
+export default async function NewsPage({
   params,
 }: {
   params: Promise<{ id: string }>;

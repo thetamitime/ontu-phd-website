@@ -2,7 +2,7 @@
 
 import { AArrowDown, AArrowUp, UserRound } from "lucide-react";
 import Link from "next/link";
-import { ThemeToggle } from "@/ui/components/ThemeToggle";
+import { ThemeToggle } from "@/ui/components/misc/ThemeToggle";
 import { useState } from "react";
 
 export const ControlBar = () => {

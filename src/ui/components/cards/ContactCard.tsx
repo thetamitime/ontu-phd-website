@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
-import { Contact } from "@/lib/types";
+import { Contact } from "@/lib/types/contact";
 
 interface ContactCardProps {
   title: string;

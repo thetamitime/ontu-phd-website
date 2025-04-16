@@ -1,8 +1,8 @@
-import { Tabs } from "@/ui/components/Tabs";
 import Link from "next/link";
 import React from "react";
 import { getDocuments } from "@/lib/api/documents";
 import { FileSymlink } from "lucide-react";
+import { Tabs } from "@/ui/components/";
 
 const contacts: { name: string; caption: string }[] = [
   {

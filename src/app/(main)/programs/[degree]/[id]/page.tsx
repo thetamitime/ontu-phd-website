@@ -1,9 +1,9 @@
 import React from "react";
 import { ArrowUpRight, SquareMenu, X } from "lucide-react";
 import Link from "next/link";
-import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
 import { getProgramById } from "@/lib/api/programs";
 import { MainSection, Section } from "@/ui/program-parts";
+import { Breadcrumbs } from "@/ui/components";
 
 export default async function Page({
   params,

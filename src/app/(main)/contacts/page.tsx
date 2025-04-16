@@ -1,7 +1,6 @@
 import { ExternalLink, Mail, MapPin, Phone } from "lucide-react";
-import { ContactsMap } from "@/ui/components/ContactsMap";
-import { ContactCard } from "@/ui/components/cards/ContactCard";
-import { Contact } from "@/lib/types";
+import { ContactsMap, ContactCard } from "@/ui/components";
+import { Contact } from "@/lib/types/contact";
 
 const contactsUniversity: Contact[] = [
   { icon: <Mail />, title: "Пошта", caption: "phddoc.ontu@gmail.com" },

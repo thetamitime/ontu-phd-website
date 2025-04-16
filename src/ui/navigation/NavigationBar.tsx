@@ -47,7 +47,7 @@ export const NavigationBar = () => {
         },
         {
           title: "Необхідні документи",
-          path: "/apply-public-information",
+          path: "/apply-documents",
         },
       ],
     },
@@ -57,7 +57,7 @@ export const NavigationBar = () => {
     },
     {
       title: "Публічна інформація",
-      path: "/c",
+      path: "/public-information",
     },
     {
       title: "Новини",
