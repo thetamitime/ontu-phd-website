@@ -1,7 +1,7 @@
 export interface Stats {
   programsCount: number;
   employeesCount: number;
-  defencesCount: number;
+  defensesCount: number;
 }
 
 export interface User {

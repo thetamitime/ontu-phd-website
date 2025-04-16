@@ -15,7 +15,7 @@ export interface Program {
   objects?: string; //doc
   directions?: string[]; //doc
   linkFaculty: string;
-  programDocumentId: File;
+  //programDocumentId: File;
 }
 
 export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;

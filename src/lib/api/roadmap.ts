@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Roadmap } from "@/lib/types/employees";
+import { Roadmap } from "@/lib/types/roadmap";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 

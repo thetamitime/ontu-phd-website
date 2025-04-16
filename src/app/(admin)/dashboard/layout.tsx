@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Sidebar from "@/ui/dashboard/Sidebar";
 import Navbar from "@/ui/dashboard/Navbar";
 import { QueryClient } from "@tanstack/query-core";

@@ -246,6 +246,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
             <field.SelectField
               label="Галузь знань"
               options={fieldsWithoutDegree ?? [{ code: "", name: "" }]}
+              getOptionLabel={(option) => `${option.code} ${option.name}`}
             />
           )}
         </form.AppField>
@@ -257,6 +258,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
               label="Cпеціальність"
               options={specialities || [{ code: "", name: "" }]}
               disabled={form.getFieldValue("fieldOfStudy.code") === ""}
+              getOptionLabel={(option) => `${option.code} ${option.name}`}
             />
           )}
         </form.AppField>

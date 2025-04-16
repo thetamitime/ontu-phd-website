@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { Program, ProgramDegree } from "@/lib/types/programs";
+import { appendToFormData } from "@/lib/utils/append-data";
+import { ProgramFormValues } from "@/lib/schemas/programSchema";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -29,96 +31,21 @@ export async function getProgramById(id: string) {
   return program;
 }
 
-export async function updateProgram(id: number, updatedProgram: any) {
+export async function createProgram(updatedProgram: ProgramFormValues) {
   try {
     const formData = new FormData();
 
-    // Recursively flatten the object and append fields to FormData
-    function appendFormData(prefix: string, value: any) {
-      if (value && typeof value === "object" && !(value instanceof File)) {
-        // Handle nested objects by recursively flattening them
-        for (const subKey in value) {
-          if (value.hasOwnProperty(subKey)) {
-            appendFormData(`${prefix}[${subKey}]`, value[subKey]);
-          }
-        }
-      } else {
-        // Append simple key-value pair to FormData
-        formData.append(prefix, value);
-      }
-    }
-
-    // Iterate over the fields in updatedProgram and apply the recursive function
-    for (const key in updatedProgram) {
-      if (updatedProgram.hasOwnProperty(key)) {
-        const value = updatedProgram[key];
-        if (value === undefined) continue;
-        appendFormData(key, updatedProgram[key]);
-      }
-    }
-
-    const response = await fetch(`${API_BASE_URL}/api/programs/${id}`, {
-      method: "PUT",
-      body: formData, // Use FormData directly
-    });
-
-    // Check if response status is OK (2xx range)
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("Error response:", errorText);
-      throw new Error(
-        `Failed to update program. Status: ${response.status}, Message: ${errorText}`,
-      );
-    }
-
-    const result = await response.json();
-    console.log("Відправлено:", result);
-    return result; // Return the parsed JSON result
-  } catch (error: any) {
-    console.error("Error during update program:", error);
-    throw new Error(`Failed to update program: ${error.message}`);
-  }
-}
-
-export async function createProgram(updatedProgram: any) {
-  try {
-    const formData = new FormData();
-
-    // Recursively flatten the object and append fields to FormData
-    function appendFormData(prefix: string, value: any) {
-      if (Array.isArray(value)) {
-        value.forEach((item, index) => {
-          appendFormData(`${prefix}[${index}]`, item);
-        });
-      } else if (typeof value === "object" && value !== null) {
-        for (const subKey in value) {
-          if (Object.hasOwnProperty.call(value, subKey)) {
-            appendFormData(`${prefix}.${subKey}`, value[subKey]);
-          }
-        }
-      } else if (value !== undefined && value !== null) {
-        formData.append(prefix, value);
-      }
-    }
-
-    // Iterate over the fields in updatedProgram and apply the recursive function
-    Object.keys(updatedProgram).forEach((key) => {
-      const value = updatedProgram[key];
+    Object.entries(updatedProgram).forEach(([key, value]) => {
       if (value !== undefined) {
-        console.log("data", updatedProgram[key]);
-        appendFormData(key, value);
+        appendToFormData(formData, key, value);
       }
     });
 
-    const response = await fetch(
-      `${API_BASE_URL}/api/programs`, // POST request (no need for id in URL for POST)
-      {
-        method: "POST", // Use POST for creating a new program or updating as a new entry
-        body: formData, // Use FormData directly
-      },
-    );
+    const response = await fetch(`${API_BASE_URL}/api/programs`, {
+      method: "POST",
+      body: formData,
+    });
 
-    // Check if response status is OK (2xx range)
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Error response:", errorText);
@@ -129,10 +56,49 @@ export async function createProgram(updatedProgram: any) {
 
     const result = await response.json();
     console.log("Program updated/created successfully:", result);
-    return result; // Return the parsed JSON result
-  } catch (error: any) {
+    return result;
+  } catch (error: unknown) {
     console.error("Error during program update/create:", error);
-    throw new Error(`Failed to update/create program: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`Failed to update/create program: ${error.message}`);
+    }
+  }
+}
+
+export async function updateProgram(
+  id: number,
+  updatedProgram: ProgramFormValues,
+) {
+  try {
+    const formData = new FormData();
+
+    Object.entries(updatedProgram).forEach(([key, value]) => {
+      if (value !== undefined) {
+        appendToFormData(formData, key, value);
+      }
+    });
+
+    const response = await fetch(`${API_BASE_URL}/api/programs/${id}`, {
+      method: "PUT",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error response:", errorText);
+      throw new Error(
+        `Failed to update program. Status: ${response.status}, Message: ${errorText}`,
+      );
+    }
+
+    const result = await response.json();
+    console.log("Відправлено:", result);
+    return result;
+  } catch (error: unknown) {
+    console.error("Error during update program:", error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to update program: ${error.message}`);
+    }
   }
 }
 

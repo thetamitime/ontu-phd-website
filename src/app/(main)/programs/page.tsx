@@ -1,5 +1,6 @@
 import { getProgramsByDegree } from "@/lib/api/programs";
 import { Title, ProgramCardLarge } from "@/ui/components";
+import { Suspense } from "react";
 
 export default async function ProgramsPage() {
   const programsPhd = await getProgramsByDegree("phd");
@@ -12,9 +13,11 @@ export default async function ProgramsPage() {
         <div className="mb-5">
           <Title text="Аспірантура" />
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {programsPhd.map((item) => (
-              <ProgramCardLarge key={item.id} {...item} />
-            ))}
+            <Suspense fallback={<p>Loading feed...</p>}>
+              {programsPhd.map((item) => (
+                <ProgramCardLarge key={item.id} {...item} />
+              ))}
+            </Suspense>
           </div>
         </div>
       </div>

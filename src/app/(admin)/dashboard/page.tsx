@@ -57,7 +57,7 @@ export default function DashboardPage() {
             </div>
             <div className="stat-title">Дисертації</div>
             <div className="stat-value">
-              {stats ? stats.defencesCount : null}
+              {stats ? stats.defensesCount : null}
             </div>
           </div>
         </div>
