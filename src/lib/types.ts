@@ -48,7 +48,7 @@ export interface Employee {
   id: number;
   name: string;
   position: string;
-  photo: string;
+  photoPath: string;
 }
 
 export type Employees = Employee[];

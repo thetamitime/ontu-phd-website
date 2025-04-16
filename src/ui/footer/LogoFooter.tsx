@@ -35,11 +35,15 @@ export function LogoFooter() {
         >
           Про нас
         </Link>
-        <Link className="link link-hover" href="/news">
-          Новини
+        <Link
+          className="link link-hover"
+          href="https://library.ontu.edu.ua"
+          target="_blank"
+        >
+          Науково-технічна бібліотека
         </Link>
-        <Link className="link link-hover" href="/documents">
-          Документи
+        <Link className="link link-hover" href="/">
+          Наукові видання
         </Link>
         <Link className="link link-hover" href="/contacts">
           Контакти

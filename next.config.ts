@@ -24,8 +24,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/apply-documents",
-        destination: "/apply-documents/phd",
+        source: "/apply-public-information",
+        destination: "/apply-public-information/phd",
         permanent: true,
       },
       {

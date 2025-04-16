@@ -76,7 +76,7 @@ export default async function Home() {
                 key={worker.id}
                 id={worker.id}
                 name={worker.name}
-                photo={worker.photo}
+                photoPath={worker.photoPath}
                 position={worker.position}
               />
             ))}

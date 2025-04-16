@@ -8,7 +8,7 @@ const contactsUniversity: Contact[] = [
   { icon: <Phone />, title: "Телефон", caption: "048-712-41-56" },
   {
     icon: <ExternalLink />,
-    title: "Телеграм-канал",
+    title: "Ватсап-канал",
     caption: "Аспірантура-Вступ 2024 ОНТУ",
     href: "https://t.me/+G8MXnXUvKWI2ODVi",
   },

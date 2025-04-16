@@ -42,10 +42,10 @@ export const DefenceCardsTable = ({ data }: { data: CardRow[] }) => {
   }, [pageIndex]);
 
   return (
-    <div className="w-full">
+    <div className="flex w-full flex-col items-end justify-center">
       <Pagination table={table} />
 
-      <div className="space-y-10">
+      <div className="w-full">
         {table.getRowModel().rows.map((row) => (
           <div key={row.id}>
             {row.getVisibleCells().map((cell) => (

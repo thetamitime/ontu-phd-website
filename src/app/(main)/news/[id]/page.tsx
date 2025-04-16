@@ -12,7 +12,7 @@ export default async function Page({
 }) {
   const { id } = await params;
   const news = await getNewsById(id);
-  const formattedDate = new Date(news.date).toLocaleString("uk-UA", {
+  const formattedDate = new Date(news.publicationDate).toLocaleString("uk-UA", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -40,7 +40,7 @@ export default async function Page({
         <p className="text-base-content/60 mt-2">{formattedDate}</p>
 
         {/* Photos */}
-        <Carousel images={news.photos} />
+        <Carousel images={news.photoPaths} />
 
         <div>
           <Markdown remarkPlugins={[remarkGfm]}>{news.body}</Markdown>

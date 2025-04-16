@@ -6,8 +6,11 @@ export function CopyrightFooter() {
           Copyright © {new Date().getFullYear()} PhD ONTU. При використанні
           матеріалів сайту гіперпосилання на ресурс обов&#39;язкове.
         </p>
-        <p className="text-base-content/70 dark:text-base-content/60">
-          {"Made with <3"}
+        <p className="text-base-content/70 dark:text-base-content/60 text-right">
+          Розроблено з любов&#39;ю у рамках кваліфікаційної роботи - Сергій
+          Прізвище, Зігура Таміла
+          <br />
+          Авторка ідеї - Ольга Ольшевська
         </p>
       </aside>
     </div>

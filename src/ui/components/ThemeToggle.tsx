@@ -21,12 +21,18 @@ export const ThemeToggle = () => {
   if (!mounted) return null;
 
   return theme === "dracula" ? (
-    <div onClick={toggleTheme}>
-      <SunMedium className="text-neutral-content cursor-pointer sm:size-6 md:size-5" />
-    </div>
+    <button
+      onClick={toggleTheme}
+      className="btn btn-ghost btn-xs join-item text-neutral-content hover:text-base-content rounded-none"
+    >
+      <SunMedium className="sm:size-6 md:size-5" />
+    </button>
   ) : (
-    <div onClick={toggleTheme}>
-      <Moon className="text-neutral-content cursor-pointer sm:size-6 md:size-5" />
-    </div>
+    <button
+      onClick={toggleTheme}
+      className="btn btn-ghost btn-xs join-item text-neutral-content hover:text-base-content rounded-none"
+    >
+      <Moon className="sm:size-6 md:size-5" />
+    </button>
   );
 };

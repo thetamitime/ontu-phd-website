@@ -18,7 +18,7 @@ export default function Sidebar({ isSidebarOpen }: SidebarProps) {
     { href: "/dashboard/programs", label: "Програми" },
     { href: "/dashboard/defence", label: "Захист" },
     { href: "/dashboard/news", label: "Новини" },
-    { href: "/dashboard/documents", label: "Документи" },
+    { href: "/dashboard/public-information", label: "Документи" },
     { href: "/dashboard/faculty", label: "Співробітники" },
     { href: "/dashboard/settings", label: "Налаштування" },
     { href: "/dashboard/logout", label: "Вийти" },

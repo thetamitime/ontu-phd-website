@@ -12,9 +12,7 @@ export const getAllDefences = async () => {
 };
 
 export const getDefencesByDegree = async (degree: "phd" | "doc") => {
-  const res = await fetch(
-    `${API_BASE_URL}/api/Defense/degree?degree=${degree}`,
-  );
+  const res = await fetch(`${API_BASE_URL}/api/Defenses/degree/${degree}`);
 
   const defences: DefenseEvent[] = await res.json();
   if (!defences) notFound();

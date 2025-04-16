@@ -4,7 +4,7 @@ import { Documents } from "@/lib/types";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function getDocuments(type: string) {
-  const res = await fetch(`${API_BASE_URL}/api/documents?type=${type}`);
+  const res = await fetch(`${API_BASE_URL}/api/documents/type/${type}`);
 
   const documents: Documents = await res.json();
   if (!documents) notFound();

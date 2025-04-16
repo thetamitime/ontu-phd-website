@@ -482,7 +482,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         {/*      />*/}
         {/*      // <field.SelectField*/}
         {/*      //   label="Документ програми"*/}
-        {/*      //   options={documents || []}*/}
+        {/*      //   options={public-information || []}*/}
         {/*      // />*/}
         {/*    )}*/}
         {/*  </form.AppField>*/}

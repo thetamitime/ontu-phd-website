@@ -13,8 +13,6 @@ export const Carousel: React.FC<{ images: string[] }> = ({ images }) => {
     );
   };
 
-  console.log(index);
-
   const nextSlide = () => {
     setIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1,
@@ -27,7 +25,7 @@ export const Carousel: React.FC<{ images: string[] }> = ({ images }) => {
         {images.map((src, i) => (
           <div key={i} className={`${i === index ? "block" : "hidden"}`}>
             <Image
-              src={`/${src}`}
+              src={src}
               className="h-[35vh] w-full rounded-lg object-cover md:h-[45vh] lg:h-[55vh] xl:h-[65vh]"
               alt="Slide"
               width={1280}

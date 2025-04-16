@@ -6,7 +6,7 @@ export interface News {
   publicationDate: string;
   thumbnailPath: string;
   otherTags: string[];
-  photos: string[];
+  photoPaths: string[];
   body: string;
 }
 
