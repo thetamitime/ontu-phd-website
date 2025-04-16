@@ -1,7 +1,6 @@
 "use client";
 
 import { NotebookTabs } from "lucide-react";
-import { TodoList } from "@/ui/dashboard/TodoList";
 import { LogList } from "@/ui/dashboard/LogList";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
