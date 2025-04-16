@@ -9,9 +9,6 @@ export const AdminCard = ({ admins }: { admins: User[] }) => {
   const { deleteAdmin } = useAuth();
   const src = `${process.env.NEXT_PUBLIC_API_URL}/files/uploads/users/`;
 
-  {
-    /*TODO: fix delete admin*/
-  }
   const mutation = useMutation({
     mutationFn: async (id: string) => deleteAdmin(id),
     onSuccess: () => alert("Адміністратора видалено!"),
@@ -39,7 +36,7 @@ export const AdminCard = ({ admins }: { admins: User[] }) => {
           <button
             role="button"
             className="btn btn-square"
-            onClick={() => mutation.mutate(index.toString())} //TODO: change to fit admin.id
+            onClick={() => mutation.mutate(admin.id)}
           >
             <Trash2 size={16} className="text-red-500" />
           </button>

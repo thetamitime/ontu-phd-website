@@ -274,7 +274,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/delete-admin/${id}`,
       );
-      router.refresh();
+      window.document.location.reload();
     } catch (error) {
       throw error;
     }
