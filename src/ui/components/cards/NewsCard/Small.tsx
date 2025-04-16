@@ -9,10 +9,11 @@ export const Small: React.FC<NewsCardSmallProps> = ({
   id,
   mainTag,
   title,
-  thumbnail,
-  date,
+  thumbnailPath,
+  publicationDate,
 }) => {
-  const displayDate = formattedDate(date);
+  const displayDate = formattedDate(publicationDate);
+  const src = process.env.NEXT_PUBLIC_API_URL + thumbnailPath;
 
   return (
     <div
@@ -21,7 +22,7 @@ export const Small: React.FC<NewsCardSmallProps> = ({
     >
       <figure>
         <Image
-          src={`/${thumbnail}`}
+          src={src}
           alt="Thumbnail"
           className="h-64 w-full object-cover"
           width={1000}

@@ -3,8 +3,8 @@ export interface News {
   title: string;
   summary: string;
   mainTag: string;
-  date: string;
-  thumbnail: string;
+  publicationDate: string;
+  thumbnailPath: string;
   otherTags: string[];
   photos: string[];
   body: string;
@@ -12,7 +12,7 @@ export interface News {
 
 export type LatestNews = Pick<
   News,
-  "id" | "title" | "mainTag" | "summary" | "date" | "thumbnail"
+  "id" | "title" | "mainTag" | "summary" | "publicationDate" | "thumbnailPath"
 >;
 
-export type NewsBody = Omit<News, "summary" | "thumbnail">;
+export type NewsBody = Omit<News, "summary" | "thumbnailPath">;

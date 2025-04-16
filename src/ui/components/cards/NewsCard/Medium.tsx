@@ -4,7 +4,7 @@ import { formattedDate } from "@/lib/functions";
 
 type NewsCardMediumProps = Pick<
   News,
-  "id" | "title" | "summary" | "mainTag" | "date"
+  "id" | "title" | "summary" | "mainTag" | "publicationDate"
 >;
 
 export const Medium: React.FC<NewsCardMediumProps> = ({
@@ -12,9 +12,9 @@ export const Medium: React.FC<NewsCardMediumProps> = ({
   mainTag,
   title,
   summary,
-  date,
+  publicationDate,
 }) => {
-  const displayDate = formattedDate(date);
+  const displayDate = formattedDate(publicationDate);
 
   return (
     <div className="card card-border border-base-300 bg-base-100" key={id}>

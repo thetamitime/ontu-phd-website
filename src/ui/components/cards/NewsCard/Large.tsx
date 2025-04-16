@@ -9,11 +9,12 @@ export const Large: React.FC<NewsCardLargeProps> = ({
   id,
   title,
   mainTag,
-  date,
-  thumbnail,
+  publicationDate,
+  thumbnailPath,
   summary,
 }) => {
-  const displayDate = formattedDate(date);
+  const displayDate = formattedDate(publicationDate);
+  const src = process.env.NEXT_PUBLIC_API_URL + thumbnailPath;
 
   return (
     <div
@@ -26,7 +27,7 @@ export const Large: React.FC<NewsCardLargeProps> = ({
       </div>
       <figure>
         <Image
-          src={`/${thumbnail}`}
+          src={src}
           alt={`Новина за тегом ${mainTag} - ${title}`}
           className="max-h-[26rem] w-full object-cover"
           width={1000}

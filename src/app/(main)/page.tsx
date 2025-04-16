@@ -94,8 +94,8 @@ export default async function Home() {
                 title={firstLatestNews.title}
                 summary={firstLatestNews.summary}
                 mainTag={firstLatestNews.mainTag}
-                thumbnail={firstLatestNews.thumbnail}
-                date={firstLatestNews.date}
+                thumbnailPath={firstLatestNews.thumbnailPath}
+                publicationDate={firstLatestNews.publicationDate}
               />
             </div>
             {/* Other latest news */}
@@ -104,7 +104,7 @@ export default async function Home() {
                 key={newsCard.id}
                 id={newsCard.id}
                 summary={newsCard.summary}
-                date={newsCard.date}
+                publicationDate={newsCard.publicationDate}
                 title={newsCard.title}
                 mainTag={newsCard.mainTag}
               />
