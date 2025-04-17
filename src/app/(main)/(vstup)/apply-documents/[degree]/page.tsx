@@ -9,8 +9,7 @@ export default async function DocumentsPage({
   params: Promise<{ degree: string }>;
 }) {
   const { degree } = await params;
-  const applyDocuments = await getApplyDocuments(degree);
-  const document = applyDocuments[0];
+  const document = await getApplyDocuments(degree);
 
   return (
     <article>

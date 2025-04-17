@@ -4,13 +4,13 @@ import Image from "next/image";
 import { useAuth } from "@/lib/utils/AuthProvider";
 import { useMutation } from "@tanstack/react-query";
 import { User } from "@/lib/types/dashboard";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 export const AdminCard = ({ admins }: { admins: User[] }) => {
   const { deleteAdmin } = useAuth();
-  const src = `${process.env.NEXT_PUBLIC_API_URL}/files/uploads/users/`;
 
   const mutation = useMutation({
-    mutationFn: async (id: string) => deleteAdmin(id),
+    mutationFn: async (id: number) => deleteAdmin(id),
     onSuccess: () => alert("Адміністратора видалено!"),
     onError: (err: Error) => alert("Помилка: " + err.message),
   });
@@ -21,7 +21,7 @@ export const AdminCard = ({ admins }: { admins: User[] }) => {
         <div className="avatar">
           <div className="w-12 rounded-full">
             <Image
-              src={`${src}${admin.name}/${admin.image}`}
+              src={createImagePath("Users", admin.id, admin.image)}
               alt={admin.name + "картинка профілю"}
               width={500}
               height={500}

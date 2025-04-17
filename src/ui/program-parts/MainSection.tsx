@@ -59,7 +59,11 @@ export const MainSection: React.FC<MainSectionProps> = ({
       {degree === "phd" ? (
         <PhdView purpose={purpose} credits={credits || 0} years={years || 0} />
       ) : (
-        <DocView descriptions={descriptions} objects={objects} />
+        <DocView
+          descriptions={descriptions}
+          objects={objects}
+          fieldOfStudy={fieldOfStudy}
+        />
       )}
     </section>
   );
@@ -81,14 +85,34 @@ const PhdView = ({ purpose, years, credits }: PhdViewProps) => {
         <SmallCardWithNumber num={years} caption="тривалість навчання" />
         {/* Credits */}
         <SmallCardWithNumber num={credits} caption="кількість кредитів" />
+        {/* Qualification */}
+        <div className="card card-sm card-border border-base-300 overflow-hidden md:col-span-2">
+          <div className="card-body bg-base-100 items-center px-8 pb-2">
+            <p className="text-base">
+              Після завершення навчання вам буде присуджено науковий ступінь
+              <strong> доктора філософії</strong>.
+            </p>
+          </div>
+        </div>
       </div>
     </>
   );
 };
 
-type DocViewProps = Pick<Program, "descriptions" | "objects">;
+type DocViewProps = Pick<Program, "descriptions" | "objects" | "fieldOfStudy">;
 
-const DocView = ({ descriptions, objects }: DocViewProps) => {
+const DocView = ({ descriptions, objects, fieldOfStudy }: DocViewProps) => {
+  const getDegreeLabel = () => {
+    if (fieldOfStudy.name.includes("Економічні науки")) {
+      return "економічних наук";
+    } else if (fieldOfStudy.name.includes("Технічні науки")) {
+      return "технічних наук";
+    }
+    return "";
+  };
+
+  const degreeLabel = getDegreeLabel();
+
   return (
     <>
       <p>
@@ -99,6 +123,15 @@ const DocView = ({ descriptions, objects }: DocViewProps) => {
         <span className="inline font-bold">Об&#39;єкти спеціальності: </span>
         <span className="inline font-normal lowercase">{objects}</span>
       </p>
+      {/* Qualification */}
+      <div className="card card-sm card-border border-base-300 mt-10 overflow-hidden md:col-span-2">
+        <div className="card-body bg-base-100 items-center px-8 pb-2">
+          <p className="text-base">
+            Після завершення навчання вам буде присуджено науковий ступінь
+            <strong> доктора {degreeLabel ? ` ${degreeLabel}.` : ""}</strong>
+          </p>
+        </div>
+      </div>
     </>
   );
 };

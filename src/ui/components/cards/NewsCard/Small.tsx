@@ -2,6 +2,7 @@ import { LatestNews } from "@/lib/types/news";
 import Link from "next/link";
 import Image from "next/image";
 import { formattedDate } from "@/lib/utils/date-formatting";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 type NewsCardSmallProps = Omit<LatestNews, "summary">;
 
@@ -13,7 +14,7 @@ export const Small: React.FC<NewsCardSmallProps> = ({
   publicationDate,
 }) => {
   const displayDate = formattedDate(publicationDate);
-  const src = process.env.NEXT_PUBLIC_API_URL + thumbnailPath;
+  const thumb = createImagePath("news", id, thumbnailPath);
 
   return (
     <div
@@ -22,7 +23,7 @@ export const Small: React.FC<NewsCardSmallProps> = ({
     >
       <figure>
         <Image
-          src={src}
+          src={thumb}
           alt="Thumbnail"
           className="h-64 w-full object-cover"
           width={1000}

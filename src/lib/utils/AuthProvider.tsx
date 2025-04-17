@@ -21,7 +21,7 @@ type AuthContextType = {
   getStats: () => Promise<Stats>;
   getAdmins: () => Promise<User[]>;
   createAdmin: (credentials: AdminCredentials) => Promise<void>;
-  deleteAdmin: (id: string) => Promise<void>;
+  deleteAdmin: (id: number) => Promise<void>;
   changePassword: (credentials: ChangePassword) => Promise<void>;
   getUser: () => Promise<User>;
   uploadAvatar: (file: File) => Promise<void>;
@@ -269,7 +269,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       throw error;
     }
   };
-  const deleteAdmin = async (id: string) => {
+  const deleteAdmin = async (id: number) => {
     try {
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/delete-admin/${id}`,

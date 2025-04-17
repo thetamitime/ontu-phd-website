@@ -3,15 +3,13 @@ interface Requirement {
   description: string;
 }
 
-interface ApplyDocument {
+export interface ApplyDocument {
   id: number;
   name: string;
   description: string;
   requirements: Requirement[];
   originalsRequired: Requirement[];
 }
-
-export type ApplyDocuments = ApplyDocument[];
 
 interface Document {
   id: number;

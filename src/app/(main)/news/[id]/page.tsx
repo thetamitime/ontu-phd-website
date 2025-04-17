@@ -3,6 +3,8 @@ import { Breadcrumbs, Carousel } from "@/ui/components/";
 import { getNewsById } from "@/lib/api/news";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import * as perf_hooks from "node:perf_hooks";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 export default async function NewsPage({
   params,
@@ -11,10 +13,16 @@ export default async function NewsPage({
 }) {
   const { id } = await params;
   const news = await getNewsById(id);
+
   const formattedDate = new Date(news.publicationDate).toLocaleString("uk-UA", {
     year: "numeric",
     month: "long",
     day: "numeric",
+  });
+
+  const photos = news.photoPaths.map((photo) => {
+    photo = createImagePath("News", news.id, photo);
+    return photo;
   });
 
   return (
@@ -39,7 +47,7 @@ export default async function NewsPage({
         <p className="text-base-content/60 mt-2">{formattedDate}</p>
 
         {/* Photos */}
-        <Carousel images={news.photoPaths} />
+        <Carousel images={photos} />
 
         <div>
           <Markdown remarkPlugins={[remarkGfm]}>{news.body}</Markdown>

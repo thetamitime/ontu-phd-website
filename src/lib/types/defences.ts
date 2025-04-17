@@ -26,6 +26,7 @@ export interface Member {
   position: string;
   members: {
     nameSurname: string;
+    title: string;
     toolTip: string;
   }[];
 }

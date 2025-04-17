@@ -5,7 +5,7 @@ export interface Stats {
 }
 
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   image: string;

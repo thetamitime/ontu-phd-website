@@ -1,5 +1,6 @@
-//import Image from "next/image";
+import Image from "next/image";
 import { Employee } from "@/lib/types/employees";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 export const FacultyCard: React.FC<Employee> = ({
   id,
@@ -7,9 +8,7 @@ export const FacultyCard: React.FC<Employee> = ({
   photoPath,
   position,
 }) => {
-  //TODO: fix path in api
-  //const src = process.env.NEXT_PUBLIC_API_URL + "/" + photoPath;
-  console.log(photoPath);
+  const photo = createImagePath("Employees", id, photoPath);
 
   return (
     <div
@@ -17,13 +16,13 @@ export const FacultyCard: React.FC<Employee> = ({
       key={id}
     >
       <figure className="relative h-64 w-full">
-        {/*<Image*/}
-        {/*  src={src}*/}
-        {/*  alt={`${name} - Фото`}*/}
-        {/*  className="size-full object-cover"*/}
-        {/*  width={300}*/}
-        {/*  height={300}*/}
-        {/*/>*/}
+        <Image
+          src={photo}
+          alt={`${name} - Фото`}
+          className="size-full object-cover"
+          width={300}
+          height={300}
+        />
       </figure>
       <div className="card-body">
         <h4 className="card-title font-semibold"> {name} </h4>
