@@ -15,7 +15,7 @@ export const TextAreaInputInline: React.FC<TextAreaInputProps> = ({
   const hasError = field.state.meta.errors.length > 0;
 
   return (
-    <label className="text-base-content/50 flex w-full items-center justify-center gap-2 text-sm">
+    <label className="text-base-content/50 mb-2 flex w-full items-center justify-center gap-2 text-sm">
       <span className="w-36 font-medium">{label}</span>
 
       <div className="flex w-full flex-col gap-1.5">
