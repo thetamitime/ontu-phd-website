@@ -21,7 +21,7 @@ export default async function Page({
         title={program.name}
       />
 
-      <div className="lg:grid lg:grid-cols-[auto_auto] lg:gap-10">
+      <div className="lg:grid lg:grid-cols-[0.8fr_0.2fr] lg:gap-10">
         {/* Mobile menu */}
         <nav className="fixed right-3 bottom-3 z-50">
           <input type="checkbox" id="menu-toggle" className="peer hidden" />

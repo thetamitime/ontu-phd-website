@@ -5,11 +5,13 @@ import { useStore } from "@tanstack/react-form";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
+  labelStyle?: string;
   icon?: React.ReactNode;
 }
 
 export const InputField: React.FC<InputFieldProps> = ({
   label,
+  labelStyle,
   icon,
   ...rest
 }) => {
@@ -19,7 +21,9 @@ export const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <fieldset className="fieldset text-base">
-      <legend className="fieldset-legend text-base-content/50 font-medium">
+      <legend
+        className={`${labelStyle} fieldset-legend text-base-content/50 font-medium`}
+      >
         {label}
       </legend>
 

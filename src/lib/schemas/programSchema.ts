@@ -10,6 +10,16 @@ const specialitySchema = z.object({
   name: z.string().min(1),
 });
 
+const instituteSchema = z.object({
+  id: z.number(),
+  name: z.string().min(1),
+});
+
+const linkSchema = z.object({
+  name: z.string().min(1, "Обов'язкове поле"),
+  link: z.string().url("Введіть валідне посилання"),
+});
+
 // const ProgramDocumentId = z.object({
 //   id: z.number(),
 //   filename: z.string(),
@@ -35,6 +45,7 @@ export const programSchema = z.object({
   name: z.string().min(1, "Обов'язкове поле"),
   degree: z.enum(["phd", "doc"]),
   accredited: z.boolean(),
+  institute: instituteSchema,
   fieldOfStudy: fieldOfStudySchema.refine(
     (data) => data.code !== "" && data.name !== "",
     {
@@ -64,8 +75,11 @@ export const programSchema = z.object({
   programCharacteristics: programCharacteristicsSchema.optional(),
   descriptions: z.string().min(2, "Обов'язкове поле").optional(), //workaround of stupid bug
   objects: z.string().min(1, "Обов'язкове поле").optional(),
-  directions: z.array(z.string().min(1, "Обов'язкове поле")).optional(),
-  linkFaculty: z.string().url("Введіть валідну URL"),
+  directions: z
+    .array(z.string().min(1, "Обов'язкове поле"))
+    .min(1, "Додайте хоча б один напрям!")
+    .optional(),
+  linkFaculties: z.array(linkSchema),
   // programDocumentId: z.instanceof(File),
 });
 

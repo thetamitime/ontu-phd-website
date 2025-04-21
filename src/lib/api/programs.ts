@@ -33,17 +33,14 @@ export async function getProgramById(id: string) {
 
 export async function createProgram(updatedProgram: ProgramFormValues) {
   try {
-    const formData = new FormData();
-
-    Object.entries(updatedProgram).forEach(([key, value]) => {
-      if (value !== undefined) {
-        appendToFormData(formData, key, value);
-      }
-    });
+    console.log("Program before POST", updatedProgram);
 
     const response = await fetch(`${API_BASE_URL}/api/programs`, {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProgram),
     });
 
     if (!response.ok) {
@@ -70,17 +67,12 @@ export async function updateProgram(
   updatedProgram: ProgramFormValues,
 ) {
   try {
-    const formData = new FormData();
-
-    Object.entries(updatedProgram).forEach(([key, value]) => {
-      if (value !== undefined) {
-        appendToFormData(formData, key, value);
-      }
-    });
-
     const response = await fetch(`${API_BASE_URL}/api/programs/${id}`, {
       method: "PUT",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProgram),
     });
 
     if (!response.ok) {

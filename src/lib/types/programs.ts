@@ -4,6 +4,7 @@ export interface Program {
   name: string;
   // nameCode?: string; //doc
   accredited: boolean;
+  institute: Institute | string;
   fieldOfStudy: FieldOfStudy;
   speciality: Speciality;
   form: string[];
@@ -14,7 +15,7 @@ export interface Program {
   descriptions?: string; //doc
   objects?: string; //doc
   directions?: string[]; //doc
-  linkFaculty: string;
+  linkFaculties: LinkFaculty[];
   //programDocumentId: File;
 }
 
@@ -35,6 +36,11 @@ export interface Speciality {
   name: string;
 }
 
+interface Institute {
+  id: string;
+  name: string;
+}
+
 interface ProgramCharacteristicsArea {
   object: string;
   aim: string;
@@ -47,4 +53,9 @@ export interface ProgramCharacteristics {
   area: ProgramCharacteristicsArea;
   focus: string;
   features: string;
+}
+
+interface LinkFaculty {
+  name: string;
+  link: string;
 }
