@@ -18,8 +18,6 @@ export default async function Home() {
   const latestNews = await getLatestNews();
   const [firstLatestNews, ...restLatestNews] = latestNews;
 
-  console.log(programFields);
-
   return (
     <>
       {/* Banner */}

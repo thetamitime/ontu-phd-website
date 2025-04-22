@@ -124,7 +124,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
     onSubmit: ({ value }) => {
       console.log("onSubmit", value);
       handleFormSubmit(value);
-      //window.location.reload();
+      window.location.reload();
     },
   });
 
@@ -551,7 +551,10 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         {/*    )}*/}
         {/*  </form.AppField>*/}
         <form.AppForm>
-          <form.SubscribeButton label="Submit" />
+          <form.SubscribeButton
+            label="Зберегти"
+            className="btn btn-soft mt-2 self-end"
+          />
         </form.AppForm>
       </form>
     </div>

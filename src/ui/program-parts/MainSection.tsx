@@ -7,9 +7,10 @@ type MainSectionProps = Omit<
   Program,
   | "id"
   | "nameCode"
+  | "institute"
   | "programCharacteristics"
   | "directions"
-  | "linkFaculty"
+  | "linkFaculties"
   | "programDocumentId"
 >;
 

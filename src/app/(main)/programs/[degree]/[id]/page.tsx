@@ -13,6 +13,8 @@ export default async function Page({
   const { id } = await params;
   const program = await getProgramById(id);
 
+  console.log(program.linkFaculties);
+
   return (
     <>
       <Breadcrumbs
@@ -44,26 +46,14 @@ export default async function Page({
               </label>
             </div>
             <ul className="menu w-full py-0 text-base" role="menu">
-              <li>
-                <Link
-                  href={`${program.linkFaculty}`}
-                  target="_blank"
-                  role="button"
-                >
-                  Сайт кафедри
-                  <ArrowUpRight />
-                </Link>
-              </li>
-              {/*<li>*/}
-              {/*  <Link*/}
-              {/*    href={`${program.linkFile}`}*/}
-              {/*    target="_blank"*/}
-              {/*    role="button"*/}
-              {/*  >*/}
-              {/*    Документ програми*/}
-              {/*    <FileDown size={22} />*/}
-              {/*  </Link>*/}
-              {/*</li>*/}
+              {program.linkFaculties.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.link} target="_blank" role="button">
+                    {link.name}
+                    <ArrowUpRight />
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </nav>
@@ -102,16 +92,20 @@ export default async function Page({
 
         {/*Side menu*/}
         <nav className="sticky top-0 col-start-2 self-start overflow-visible">
-          <ul className="menu bg-base-200 rounded-box hidden text-base font-medium md:block [&_a]:px-4 [&_a]:py-3">
-            {/*
-            //TODO: add array support
-            */}
-            <li>
-              <Link href={program.linkFaculty} target="_blank" role="button">
-                Сайт кафедри
-                <ArrowUpRight />
-              </Link>
-            </li>
+          <ul className="menu bg-base-200 rounded-box hidden w-full text-base font-medium md:block [&_a]:px-4 [&_a]:py-2">
+            {program.linkFaculties.map((link) => (
+              <li key={link.name}>
+                <Link
+                  href={link.link}
+                  target="_blank"
+                  role="button"
+                  className="justify-between"
+                >
+                  <p className="w-full">{link.name}</p>
+                  <ArrowUpRight />
+                </Link>
+              </li>
+            ))}
 
             {/*
             //TODO: implement for files and map as array
