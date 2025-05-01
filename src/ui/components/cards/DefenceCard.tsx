@@ -26,12 +26,15 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
   const displayDateOfDefense = formattedDateWithHours(defenseDate);
   const displayDateOfPublication = formattedDate(publicationDate);
 
+  console.log(files);
+
   const radaFile = files.find(({ type }) => type === "Rada");
   const filesAndLivesFiles = files.filter(
-    ({ type }) => type === "Live" || type === "Defense",
+    ({ type }) =>
+      type === "Live" || type === "DefenceFile" || type === "Thesis",
   );
   const digitalSignatureFiles = files.filter(
-    ({ type }) => type === "DES" || type === "Feedback",
+    ({ type }) => type === "ESK" || type === "Feedback",
   );
 
   return (

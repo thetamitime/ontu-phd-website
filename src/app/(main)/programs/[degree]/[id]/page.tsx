@@ -13,7 +13,7 @@ export default async function Page({
   const { id } = await params;
   const program = await getProgramById(id);
 
-  console.log(program.linkFaculties);
+  console.log("program", program);
 
   return (
     <>
@@ -75,7 +75,7 @@ export default async function Page({
                   credits: program.credits,
                 }
               : {
-                  description: program.descriptions,
+                  descriptions: program.descriptions,
                   objects: program.objects,
                   purpose: program.purpose,
                 })}

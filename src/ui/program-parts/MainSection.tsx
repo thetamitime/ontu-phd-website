@@ -52,9 +52,11 @@ export const MainSection: React.FC<MainSectionProps> = ({
       )}
 
       {/* Form of study */}
-      <p>
-        <b>Форма навчання:</b> {form.length > 1 ? form.join(" та ") : form[0]}
-      </p>
+      {form && (
+        <p>
+          <b>Форма навчання:</b> {form.length > 1 ? form.join(" та ") : form[0]}
+        </p>
+      )}
 
       {/* Basic info based on degree */}
       {degree === "phd" ? (
@@ -120,12 +122,15 @@ const DocView = ({ descriptions, objects, fieldOfStudy }: DocViewProps) => {
         <span className="inline font-bold">Oпис: </span>
         <span className="inline font-normal lowercase">{descriptions}</span>
       </p>
-      <p>
-        <span className="inline font-bold">Об&#39;єкти спеціальності: </span>
-        <span className="inline font-normal lowercase">{objects}</span>
-      </p>
+      {objects && objects?.length > 1 && (
+        <p>
+          <span className="inline font-bold">Об&#39;єкти спеціальності: </span>
+          <span className="inline font-normal lowercase">{objects}</span>
+        </p>
+      )}
+
       {/* Qualification */}
-      <div className="card card-sm card-border border-base-300 mt-10 overflow-hidden md:col-span-2">
+      <div className="card card-sm card-border border-base-300 mt-6 overflow-hidden md:col-span-2">
         <div className="card-body bg-base-100 items-center px-8 pb-2">
           <p className="text-base">
             Після завершення навчання вам буде присуджено науковий ступінь

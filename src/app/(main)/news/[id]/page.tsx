@@ -3,7 +3,6 @@ import { Breadcrumbs, Carousel } from "@/ui/components/";
 import { getNewsById } from "@/lib/api/news";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import * as perf_hooks from "node:perf_hooks";
 import { createImagePath } from "@/lib/utils/createImagePath";
 
 export default async function NewsPage({
@@ -35,9 +34,11 @@ export default async function NewsPage({
           <div className="badge badge-primary badge-soft h-fit">
             {news.mainTag}
           </div>
-          <div className="badge badge-soft h-fit">
-            {news.otherTags.map((tag) => tag)}
-          </div>
+          {news.otherTags.map((tag) => (
+            <div key={tag} className="badge badge-soft h-fit">
+              {tag}
+            </div>
+          ))}
         </div>
 
         {/*Title*/}

@@ -74,7 +74,7 @@ export const programSchema = z.object({
     .optional(),
   programCharacteristics: programCharacteristicsSchema.optional(),
   descriptions: z.string().min(2, "Обов'язкове поле").optional(), //workaround of stupid bug
-  objects: z.string().min(1, "Обов'язкове поле").optional(),
+  objects: z.string().optional(),
   directions: z
     .array(z.string().min(1, "Обов'язкове поле"))
     .min(1, "Додайте хоча б один напрям!")

@@ -37,13 +37,10 @@ export function LogoFooter() {
         </Link>
         <Link
           className="link link-hover"
-          href="https://library.ontu.edu.ua"
+          href="https://need2know.ontu.edu.ua/"
           target="_blank"
         >
-          Науково-технічна бібліотека
-        </Link>
-        <Link className="link link-hover" href="/">
-          Наукові видання
+          Need To Know
         </Link>
         <Link className="link link-hover" href="/contacts">
           Контакти
