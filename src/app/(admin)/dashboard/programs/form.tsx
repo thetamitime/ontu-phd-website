@@ -23,6 +23,7 @@ import {
 } from "@/ui/components";
 import { getFieldsByDegree, getSpecialitiesByField } from "@/lib/api/fields";
 import { fieldContext, formContext } from "@/lib/hooks/useFieldContext";
+import { getAllInstitutes } from "@/lib/api/institutes";
 
 //=============Form Context=============
 const { useAppForm } = createFormHook({
@@ -77,6 +78,12 @@ export default function ProgramForm({ programId }: { programId?: number }) {
     refetchOnWindowFocus: false,
   });
 
+  const { data: institutes } = useQuery({
+    queryKey: ["institutes"],
+    queryFn: () => getAllInstitutes(),
+    refetchOnWindowFocus: false,
+  });
+
   const defaultProgramCharacteristics = {
     area: {
       object: "",
@@ -93,6 +100,9 @@ export default function ProgramForm({ programId }: { programId?: number }) {
       name: isEdit ? program?.name : "",
       degree: isEdit ? program?.degree : "phd",
       accredited: program?.accredited ?? true,
+      institute: institutes?.find(
+        (inst) => inst.name === program?.institute,
+      ) ?? { id: 0, name: "" },
       fieldOfStudy: program?.fieldOfStudy ?? { code: "", name: "" },
       speciality: program?.speciality ?? { code: "", name: "" },
       form: program?.form ?? ["очна (денна)"],
@@ -105,7 +115,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
       descriptions: program?.descriptions ?? undefined,
       objects: isEdit ? (program?.objects ?? undefined) : undefined,
       directions: isEdit ? (program?.directions ?? undefined) : undefined,
-      linkFaculty: isEdit ? program?.linkFaculty : "",
+      linkFaculties: isEdit ? program?.linkFaculties : [{ name: "", link: "" }],
       // programDocumentId: program?.programDocumentId ?? undefined,
     } as ProgramFormValues,
     validators: {
@@ -114,6 +124,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
     onSubmit: ({ value }) => {
       console.log("onSubmit", value);
       handleFormSubmit(value);
+      window.location.reload();
     },
   });
 
@@ -176,7 +187,6 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         <form.AppField name={"name"}>
           {(field) => <field.InputField label="Назва програми" type={"text"} />}
         </form.AppField>
-
         {/* Choose degree and check accreditation */}
         <div className="flex items-center justify-between">
           <form.AppField
@@ -200,7 +210,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                   form.setFieldValue("purpose", undefined);
                   form.setFieldValue("programCharacteristics", undefined);
 
-                  form.setFieldValue("directions", []);
+                  form.setFieldValue("directions", [""]);
                   form.setFieldValue("descriptions", " ");
                   form.setFieldValue("objects", "");
                 } else {
@@ -230,7 +240,18 @@ export default function ProgramForm({ programId }: { programId?: number }) {
           </form.AppField>
         </div>
 
-        {/* Fields of study */}
+        {/* Institute */}
+        <form.AppField name={"institute"}>
+          {(field) => (
+            <field.SelectField
+              label="Інститут"
+              options={institutes || []}
+              getOptionLabel={(option) => `${option.name}`}
+            />
+          )}
+        </form.AppField>
+
+        {/*Fields of study*/}
         <form.AppField
           name={"fieldOfStudy"}
           listeners={{
@@ -246,6 +267,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
             <field.SelectField
               label="Галузь знань"
               options={fieldsWithoutDegree ?? [{ code: "", name: "" }]}
+              getOptionLabel={(option) => `${option.code} ${option.name}`}
             />
           )}
         </form.AppField>
@@ -257,6 +279,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
               label="Cпеціальність"
               options={specialities || [{ code: "", name: "" }]}
               disabled={form.getFieldValue("fieldOfStudy.code") === ""}
+              getOptionLabel={(option) => `${option.code} ${option.name}`}
             />
           )}
         </form.AppField>
@@ -342,7 +365,6 @@ export default function ProgramForm({ programId }: { programId?: number }) {
             </form.AppField>
           )}
         </div>
-
         {degree === "phd" ? (
           <div>
             <form.AppField name={"purpose"}>
@@ -431,12 +453,13 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                   <legend className="fieldset-legend text-base-content/50 font-medium">
                     Напрямки досліджень
                   </legend>
+
                   {field.state.value?.map((_, i) => {
                     return (
                       <form.AppField key={i} name={`directions[${i}]`}>
                         {(subField) => (
                           <field.TextAreaInputInline
-                            label={`Напрям ${i}`}
+                            label={`Напрям ${i + 1}`}
                             value={subField.state.value}
                             onChange={(e) =>
                               subField.handleChange(e.target.value)
@@ -446,7 +469,11 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                       </form.AppField>
                     );
                   })}
-                  <button onClick={() => field.pushValue("")} type="button">
+                  <button
+                    onClick={() => field.pushValue("")}
+                    type="button"
+                    className="btn btn-soft btn-block"
+                  >
                     Додати напрям
                   </button>
                 </>
@@ -456,16 +483,53 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         )}
 
         {/* Input for faculty link */}
-        <form.AppField name={"linkFaculty"}>
-          {(field) => {
-            return (
-              <field.InputField
-                label={"Сайт кафедри"}
-                placeholder="https://"
-                icon={<LinkIcon size={16} />}
-              />
-            );
-          }}
+        <form.AppField name="linkFaculties" mode="array">
+          {(field) => (
+            <>
+              <legend className="fieldset-legend text-base-content/50 font-medium">
+                Посилання
+              </legend>
+              {field.state.value?.map((_, i) => {
+                return (
+                  <div key={i}>
+                    <form.AppField name={`linkFaculties[${i}].name`}>
+                      {(nameField) => (
+                        <field.InputField
+                          label={"Підпис посилання"}
+                          labelStyle="text-sm"
+                          value={nameField.state.value}
+                          onChange={(e) =>
+                            nameField.handleChange(e.target.value)
+                          }
+                        />
+                      )}
+                    </form.AppField>
+                    <form.AppField name={`linkFaculties[${i}].link`}>
+                      {(linkField) => (
+                        <field.InputField
+                          label={"Посилання"}
+                          labelStyle="text-sm"
+                          placeholder="https://"
+                          icon={<LinkIcon size={16} />}
+                          value={linkField.state.value}
+                          onChange={(e) =>
+                            linkField.handleChange(e.target.value)
+                          }
+                        />
+                      )}
+                    </form.AppField>
+                  </div>
+                );
+              })}
+              <button
+                onClick={() => field.pushValue({ name: "", link: "" })}
+                type="button"
+                className="btn btn-soft"
+              >
+                Додати посилання
+              </button>
+            </>
+          )}
         </form.AppField>
 
         {/*  /!* File selection *!/*/}
@@ -482,13 +546,15 @@ export default function ProgramForm({ programId }: { programId?: number }) {
         {/*      />*/}
         {/*      // <field.SelectField*/}
         {/*      //   label="Документ програми"*/}
-        {/*      //   options={documents || []}*/}
+        {/*      //   options={public-information || []}*/}
         {/*      // />*/}
         {/*    )}*/}
         {/*  </form.AppField>*/}
-
         <form.AppForm>
-          <form.SubscribeButton label="Submit" />
+          <form.SubscribeButton
+            label="Зберегти"
+            className="btn btn-soft mt-2 self-end"
+          />
         </form.AppForm>
       </form>
     </div>

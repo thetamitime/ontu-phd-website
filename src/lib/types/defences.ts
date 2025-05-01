@@ -3,17 +3,17 @@ import { ProgramDegree } from "@/lib/types/programs";
 export interface DefenseEvent {
   id: number;
   programId: number;
-  nameSurname: string;
-  defenseName: string;
-  programInfo: ProgramDegree;
+  candidateNameSurname: string;
+  defenseTitle: string;
+  program: ProgramDegree;
   scienceTeachers?: string[];
-  dateOfDefense: string;
+  defenseDate: string;
   address: string;
-  message: string;
+  message?: string;
   members?: Member[];
   placeholder?: string;
   files: DefenseFile[];
-  dateOfPublication: string;
+  publicationDate: string;
 }
 
 interface DefenseFile {
@@ -26,6 +26,7 @@ export interface Member {
   position: string;
   members: {
     nameSurname: string;
+    title: string;
     toolTip: string;
   }[];
 }

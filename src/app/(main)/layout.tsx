@@ -8,10 +8,11 @@ export default function MainLayout({
 }>) {
   return (
     <>
-      {/* Admin Bar + Navigation */}
+      {/* Admin bar + Navigation */}
       <MainNavigation />
 
-      {children}
+      {/* Page contents */}
+      <main className="bg-base-200 flex grow-1 flex-col">{children}</main>
 
       {/* Footer */}
       <MainFooter />

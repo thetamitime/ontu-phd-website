@@ -1,4 +1,4 @@
-import Timeline from "@/ui/components/Timeline";
+import { Timeline } from "@/ui/components";
 import { getRoadmap } from "@/lib/api/roadmap";
 
 export default async function Roadmap({

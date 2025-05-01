@@ -1,21 +1,27 @@
 import React from "react";
-import { Breadcrumbs } from "@/ui/components/Breadcrumbs";
+import { Breadcrumbs, Carousel } from "@/ui/components/";
 import { getNewsById } from "@/lib/api/news";
-import { Carousel } from "@/ui/components/Carousel";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
-export default async function Page({
+export default async function NewsPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
   const news = await getNewsById(id);
-  const formattedDate = new Date(news.date).toLocaleString("uk-UA", {
+
+  const formattedDate = new Date(news.publicationDate).toLocaleString("uk-UA", {
     year: "numeric",
     month: "long",
     day: "numeric",
+  });
+
+  const photos = news.photoPaths.map((photo) => {
+    photo = createImagePath("News", news.id, photo);
+    return photo;
   });
 
   return (
@@ -28,9 +34,11 @@ export default async function Page({
           <div className="badge badge-primary badge-soft h-fit">
             {news.mainTag}
           </div>
-          <div className="badge badge-soft h-fit">
-            {news.otherTags.map((tag) => tag)}
-          </div>
+          {news.otherTags.map((tag) => (
+            <div key={tag} className="badge badge-soft h-fit">
+              {tag}
+            </div>
+          ))}
         </div>
 
         {/*Title*/}
@@ -40,7 +48,7 @@ export default async function Page({
         <p className="text-base-content/60 mt-2">{formattedDate}</p>
 
         {/* Photos */}
-        <Carousel images={news.photos} />
+        <Carousel images={photos} />
 
         <div>
           <Markdown remarkPlugins={[remarkGfm]}>{news.body}</Markdown>

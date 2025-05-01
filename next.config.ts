@@ -13,16 +13,13 @@ const nextConfig: NextConfig = {
         hostname: "ontu.edu.ua",
         pathname: "/images/**",
       },
+      {
+        protocol: "http",
+        hostname: "192.168.0.160",
+        pathname: "/files/uploads/**",
+      },
     ],
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/:path*",
-  //       destination: "http://localhost:5124/api/:path*", // The backend API URL
-  //     },
-  //   ];
-  // },
   async redirects() {
     return [
       {

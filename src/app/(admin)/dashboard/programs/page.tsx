@@ -1,16 +1,16 @@
 "use client";
 
-import { columns } from "@/app/dashboard/programs/columns";
+import { columns } from "@/app/(admin)/dashboard/programs/columns";
 import { DataTable } from "@/ui/components/tables/DataTable";
 import { PlusCircleIcon, X } from "lucide-react";
 import { Drawer } from "@/ui/components/drawer/Drawer";
 import { SidebarContent } from "@/ui/components/drawer/SidebarContent";
 import { PageContent } from "@/ui/components/drawer/PageContent";
-import ProgramForm from "@/app/dashboard/programs/form";
+import ProgramForm from "@/app/(admin)/dashboard/programs/form";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPrograms } from "@/lib/api/programs";
 import { useState } from "react";
-import { CreateModal } from "@/ui/dashboard/CreateModal";
+import { Modal } from "@/ui/dashboard/Modal";
 
 export default function ProgramsPage() {
   const [selectedProgramId, setSelectedProgramId] = useState<number>();
@@ -36,9 +36,9 @@ export default function ProgramsPage() {
             </button>
           </div>
           {isModalOpen && (
-            <CreateModal label={"нову програму"} onClose={closeModal}>
+            <Modal label={"Створити нову програму"} onClose={closeModal}>
               <ProgramForm />
-            </CreateModal>
+            </Modal>
           )}
           <DataTable
             columns={columns(setSelectedProgramId)}
@@ -54,9 +54,6 @@ export default function ProgramsPage() {
           key={selectedProgramId}
           programId={selectedProgramId || 0}
         />
-        <div className="mt-6 flex justify-end gap-4">
-          <button className="btn btn-soft btn-primary">Зберегти зміни</button>
-        </div>
       </SidebarContent>
     </Drawer>
   );

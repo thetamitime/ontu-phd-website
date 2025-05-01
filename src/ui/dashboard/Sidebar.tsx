@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutTemplate } from "lucide-react";
+import { useAuth } from "@/lib/utils/AuthProvider";
 
 interface SidebarProps {
   isSidebarOpen: boolean;
@@ -10,13 +11,14 @@ interface SidebarProps {
 
 export default function Sidebar({ isSidebarOpen }: SidebarProps) {
   const pathname = usePathname();
+  const { logout } = useAuth();
 
   const menuItems = [
     { href: "/dashboard", label: "Панель керування" },
     { href: "/dashboard/programs", label: "Програми" },
     { href: "/dashboard/defence", label: "Захист" },
     { href: "/dashboard/news", label: "Новини" },
-    { href: "/dashboard/documents", label: "Документи" },
+    { href: "/dashboard/public-information", label: "Документи" },
     { href: "/dashboard/faculty", label: "Співробітники" },
     { href: "/dashboard/settings", label: "Налаштування" },
     { href: "/dashboard/logout", label: "Вийти" },
@@ -51,7 +53,8 @@ export default function Sidebar({ isSidebarOpen }: SidebarProps) {
         {restMenuItems.map((item) => (
           <li key={item.href}>
             <Link
-              href={item.href}
+              onClick={item.label === "Вийти" ? logout : undefined}
+              href={item.label === "Вийти" ? "" : item.href}
               className={`py-2 ${pathname === item.href ? "menu-active" : ""}`}
             >
               <LayoutTemplate size={20} />

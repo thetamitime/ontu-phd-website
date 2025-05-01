@@ -1,13 +1,13 @@
-import { FacultyCard } from "@/ui/components/cards/FacultyCard";
 import Link from "next/link";
 import { getLatestNews } from "@/lib/api/news";
 import { getAllEmployees } from "@/lib/api/employees";
+import { getAllFields } from "@/lib/api/fields";
 import {
-  ProgramCardSmall,
+  FacultyCard,
   NewsCardLarge,
   NewsCardMedium,
+  ProgramCardSmall,
 } from "@/ui/components";
-import { getAllFields } from "@/lib/api/fields";
 
 export default async function Home() {
   const photoUrl =
@@ -18,10 +18,8 @@ export default async function Home() {
   const latestNews = await getLatestNews();
   const [firstLatestNews, ...restLatestNews] = latestNews;
 
-  console.log(programFields);
-
   return (
-    <main className="bg-base-200 min-h-full">
+    <>
       {/* Banner */}
       <section
         className="hero min-h-[65dvh] items-end justify-items-start"
@@ -45,11 +43,12 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Main Information */}
-      <div className="m-auto mt-10 mb-30 w-[90%] lg:w-[80%]">
-        {/* Programs Section */}
-        <section className="section mt-0">
-          <div className="wrapper gap-6">
+      {/* Main information */}
+      <div className="container">
+        {/* Programs section */}
+        <section className="section">
+          <h3 className="sr-only">Галузі знань</h3>
+          <div className="flex-wrapper mt-6">
             {programFields.map((field, index) => (
               <ProgramCardSmall
                 key={index}
@@ -60,48 +59,50 @@ export default async function Home() {
           </div>
           <Link
             href={"/programs"}
-            className="link md:link-hover text-base-content/40 mt-5"
+            className="link md:link-hover text-base-content/40"
           >
             Усі програми
           </Link>
         </section>
 
-        {/* Faculty Section */}
+        {/* Faculty section */}
         <section className="section">
-          <h3 className="header">Наші співробітники</h3>
-          <div className="wrapper gap-7">
+          <h3 className="header mt-12! mb-6!">Наші співробітники</h3>
+          <div className="flex-wrapper">
             {employees.map((worker) => (
               <FacultyCard
                 key={worker.id}
                 id={worker.id}
                 name={worker.name}
-                photo={worker.photo}
+                photoPath={worker.photoPath}
                 position={worker.position}
               />
             ))}
           </div>
         </section>
 
-        {/* News Section */}
+        {/* News section */}
         <section className="section">
-          <h3 className="header">Останні новини</h3>
-          <div className="grid w-full items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
+          <h3 className="header mt-12! mb-6!">Останні новини</h3>
+          <div className="grid w-[75%] items-stretch gap-6 md:grid-cols-2 md:grid-rows-3">
             <div className="row-span-3">
+              {/* Newest news */}
               <NewsCardLarge
                 id={firstLatestNews.id}
                 title={firstLatestNews.title}
                 summary={firstLatestNews.summary}
                 mainTag={firstLatestNews.mainTag}
-                thumbnail={firstLatestNews.thumbnail}
-                date={firstLatestNews.date}
+                thumbnailPath={firstLatestNews.thumbnailPath}
+                publicationDate={firstLatestNews.publicationDate}
               />
             </div>
+            {/* Other latest news */}
             {restLatestNews.map((newsCard) => (
               <NewsCardMedium
                 key={newsCard.id}
                 id={newsCard.id}
                 summary={newsCard.summary}
-                date={newsCard.date}
+                publicationDate={newsCard.publicationDate}
                 title={newsCard.title}
                 mainTag={newsCard.mainTag}
               />
@@ -109,12 +110,12 @@ export default async function Home() {
           </div>
           <Link
             href={"/news"}
-            className="link md:link-hover text-base-content/40 mt-5"
+            className="link md:link-hover text-base-content/40 mt-1.5"
           >
             Усі новини
           </Link>
         </section>
       </div>
-    </main>
+    </>
   );
 }

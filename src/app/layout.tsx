@@ -25,9 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${sofiaSans.variable} ${rubik.variable} min-h-screen antialiased`}
-      >
+      <body className={`${sofiaSans.variable} ${rubik.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

@@ -1,7 +1,8 @@
 import { LatestNews } from "@/lib/types/news";
 import Link from "next/link";
-import { formattedDate } from "@/lib/functions";
+import { formattedDate } from "@/lib/utils/date-formatting";
 import Image from "next/image";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 type NewsCardLargeProps = LatestNews;
 
@@ -9,11 +10,12 @@ export const Large: React.FC<NewsCardLargeProps> = ({
   id,
   title,
   mainTag,
-  date,
-  thumbnail,
+  publicationDate,
+  thumbnailPath,
   summary,
 }) => {
-  const displayDate = formattedDate(date);
+  const displayDate = formattedDate(publicationDate);
+  const thumb = createImagePath("News", id, thumbnailPath);
 
   return (
     <div
@@ -26,9 +28,9 @@ export const Large: React.FC<NewsCardLargeProps> = ({
       </div>
       <figure>
         <Image
-          src={`/${thumbnail}`}
+          src={thumb}
           alt={`Новина за тегом ${mainTag} - ${title}`}
-          className="max-h-[28rem] w-full object-cover"
+          className="max-h-[26rem] w-full object-cover"
           width={1000}
           height={1000}
         />

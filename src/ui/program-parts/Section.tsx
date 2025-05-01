@@ -1,5 +1,5 @@
 import React from "react";
-import { Title } from "@/ui/components/Title";
+import { Title } from "@/ui/components/misc/Title";
 import { Program } from "@/lib/types/programs";
 
 type SectionProps = {

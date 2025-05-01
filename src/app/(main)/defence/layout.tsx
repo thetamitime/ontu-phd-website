@@ -1,4 +1,4 @@
-import { Tabs } from "@/ui/components/Tabs";
+import { Tabs } from "@/ui/components";
 
 export default function DefenceLayout({
   children,
@@ -6,12 +6,12 @@ export default function DefenceLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="bg-base-200 px-6 md:px-10 lg:px-20">
-      <div className="container mb-0 flex flex-col items-center xl:px-20">
-        <h2 className="header mb-4">Захист дисертацій</h2>
+    <div className="container">
+      <h2 className="header mb-4">Захист дисертацій</h2>
+      <div className="flex flex-col items-center justify-center">
         <Tabs />
         {children}
       </div>
-    </main>
+    </div>
   );
 }

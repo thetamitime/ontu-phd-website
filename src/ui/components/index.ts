@@ -25,3 +25,15 @@ export { SubscribeButton } from "./form/SubscribeButton";
 export { TextAreaInput } from "./form/TextAreaInput";
 export { TextAreaInputInline } from "./form/TextAreaInputInline";
 export { FieldInfo } from "./form/FieldInfo";
+
+//============= Miscellaneous =============
+export { Breadcrumbs } from "./misc/Breadcrumbs";
+export { Carousel } from "./misc/Carousel";
+export { ContactsMap } from "./misc/ContactsMap";
+export { InfoBox } from "./misc/InfoBox";
+export { Pagination } from "./misc/Pagination";
+export { RequiredDocument } from "./misc/RequiredDocument";
+export { Tabs } from "./misc/Tabs";
+export { ThemeToggle } from "./misc/ThemeToggle";
+export { Timeline } from "./misc/Timeline";
+export { Title } from "./misc/Title";

@@ -3,15 +3,19 @@ import { FieldInfo } from "@/ui/components";
 import { useFieldContext } from "@/lib/hooks/useFieldContext";
 import { useStore } from "@tanstack/react-form";
 
-export const SelectField = ({
+type SelectFieldProps<T> = {
+  label: string;
+  options: T[];
+  disabled?: boolean;
+  getOptionLabel: (option: T) => string;
+};
+
+export const SelectField = <T,>({
   label,
   options,
   disabled,
-}: {
-  label: string;
-  options: any[];
-  disabled?: boolean;
-}) => {
+  getOptionLabel,
+}: SelectFieldProps<T>) => {
   const field = useFieldContext();
   const hasError = field.state.meta.errors.length > 0;
   const errors = useStore(field.store, (state) => state.meta.errors);
@@ -45,7 +49,7 @@ export const SelectField = ({
 
         {options?.map((option, index) => (
           <option key={index} value={JSON.stringify(option)}>
-            {option.code} {option.name}
+            {getOptionLabel(option)}
           </option>
         ))}
       </select>

@@ -20,7 +20,7 @@ export const Large: React.FC<ProgramCardSmallProps> = ({
             {`${speciality?.code} ${speciality?.name}`}
           </p>
         </div>
-        <h3 className="text-base-content h-full text-xl font-bold">{name}</h3>
+        <h4 className="text-base-content h-full text-xl font-bold">{name}</h4>
         <div className="card-actions justify-end self-stretch">
           <Link
             href={`/programs/${degree}/${id}`}

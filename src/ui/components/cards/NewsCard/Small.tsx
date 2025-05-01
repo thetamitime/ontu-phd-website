@@ -1,7 +1,8 @@
 import { LatestNews } from "@/lib/types/news";
 import Link from "next/link";
-import { formattedDate } from "@/lib/functions";
 import Image from "next/image";
+import { formattedDate } from "@/lib/utils/date-formatting";
+import { createImagePath } from "@/lib/utils/createImagePath";
 
 type NewsCardSmallProps = Omit<LatestNews, "summary">;
 
@@ -9,10 +10,11 @@ export const Small: React.FC<NewsCardSmallProps> = ({
   id,
   mainTag,
   title,
-  thumbnail,
-  date,
+  thumbnailPath,
+  publicationDate,
 }) => {
-  const displayDate = formattedDate(date);
+  const displayDate = formattedDate(publicationDate);
+  const thumb = createImagePath("news", id, thumbnailPath);
 
   return (
     <div
@@ -21,7 +23,7 @@ export const Small: React.FC<NewsCardSmallProps> = ({
     >
       <figure>
         <Image
-          src={`/${thumbnail}`}
+          src={thumb}
           alt="Thumbnail"
           className="h-64 w-full object-cover"
           width={1000}

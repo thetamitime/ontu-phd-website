@@ -56,8 +56,8 @@ export const NavigationBar = () => {
       path: "/defence",
     },
     {
-      title: "Нормативні документи",
-      path: "/documents",
+      title: "Публічна інформація",
+      path: "/public-information",
     },
     {
       title: "Новини",
@@ -110,7 +110,7 @@ export const NavigationBar = () => {
   return (
     <nav className="navbar justify-start px-3 py-5 md:justify-between md:px-16 md:py-2">
       <div className="navbar-start gap-2">
-        {/* mobile display dropdown menu */}
+        {/* Mobile display dropdown menu */}
         <div className="dropdown">
           <div
             tabIndex={0}
@@ -136,11 +136,11 @@ export const NavigationBar = () => {
           </ul>
         </div>
 
-        {/* logo */}
+        {/* Logo */}
         <h1 className="line text-2xl font-bold whitespace-nowrap">ONTU PHD</h1>
       </div>
 
-      {/* menu */}
+      {/* Menu md-screen */}
       <ul className="menu menu-md menu-horizontal hidden items-center justify-end uppercase md:flex">
         {pages.map((page) => {
           return !page.subTitle ? (
@@ -157,7 +157,7 @@ export const NavigationBar = () => {
                   {page.title}
                 </div>
               )}
-              <ul className="dropdown-content menu bg-base-200 rounded-box z-1 flex w-fit p-2 normal-case shadow-sm">
+              <ul className="dropdown-content menu bg-base-200 z-1 flex w-fit rounded-lg p-2 normal-case shadow-sm">
                 {navigationDropdownTab(page)}
               </ul>
             </div>

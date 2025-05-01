@@ -1,7 +1,7 @@
 import React from "react";
 import { getApplyDocuments } from "@/lib/api/applyDocuments";
-import { RequiredDocument } from "@/ui/components/RequiredDocument";
 import { Info } from "lucide-react";
+import { RequiredDocument } from "@/ui/components";
 
 export default async function DocumentsPage({
   params,
@@ -9,11 +9,10 @@ export default async function DocumentsPage({
   params: Promise<{ degree: string }>;
 }) {
   const { degree } = await params;
-  const applyDocuments = await getApplyDocuments(degree);
-  const document = applyDocuments[0];
+  const document = await getApplyDocuments(degree);
 
   return (
-    <article className="">
+    <article>
       <p>{document.description}</p>
       <p className="my-4">
         Особи, які вступають до аспірантури, подають особисто наступні

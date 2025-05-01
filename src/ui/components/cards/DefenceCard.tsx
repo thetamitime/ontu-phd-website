@@ -3,47 +3,55 @@ import { FileSymlink, SquareArrowOutUpRight } from "lucide-react";
 import React from "react";
 import { RadaCard } from "@/ui/components";
 import { DefenseEvent } from "@/lib/types/defences";
-import { formattedDate, formattedDateWithHours } from "@/lib/functions";
-import { InfoBox } from "@/ui/components/InfoBox";
+import {
+  formattedDate,
+  formattedDateWithHours,
+} from "@/lib/utils/date-formatting";
+import { InfoBox } from "@/ui/components/misc/InfoBox";
 
 export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
-  nameSurname,
-  dateOfDefense,
-  dateOfPublication,
-  defenseName,
+  candidateNameSurname,
+  defenseDate,
+  publicationDate,
+  defenseTitle,
   message,
   address,
   files,
   members,
   placeholder,
-  programInfo,
+  program,
   scienceTeachers,
   degree,
 }) => {
-  const displayDateOfDefense = formattedDateWithHours(dateOfDefense);
-  const displayDateOfPublication = formattedDate(dateOfPublication);
+  const displayDateOfDefense = formattedDateWithHours(defenseDate);
+  const displayDateOfPublication = formattedDate(publicationDate);
+
+  console.log(files);
 
   const radaFile = files.find(({ type }) => type === "Rada");
   const filesAndLivesFiles = files.filter(
-    ({ type }) => type === "Live" || type === "Defense",
+    ({ type }) =>
+      type === "Live" || type === "DefenceFile" || type === "Thesis",
   );
   const digitalSignatureFiles = files.filter(
-    ({ type }) => type === "DES" || type === "Feedback",
+    ({ type }) => type === "ESK" || type === "Feedback",
   );
 
   return (
     <div className="mt-10 w-full">
-      <h4 className="text-base-content/50">{nameSurname}</h4>
-      <h3 className="sub-header my-2">{defenseName}</h3>
+      <h4 className="text-base-content/50 text-lg uppercase">
+        {candidateNameSurname}
+      </h4>
+      <h3 className="sub-header my-2">{defenseTitle}</h3>
       <div className="flex flex-wrap gap-2 pt-2 pb-6">
         <div className="badge badge-lg badge-primary badge-soft h-fit">
-          {`${programInfo.fieldOfStudy.code} ${programInfo.fieldOfStudy.name}`}
+          {`${program.fieldOfStudy.code} ${program.fieldOfStudy.name}`}
         </div>
         <div className="badge badge-lg badge-primary badge-soft h-fit">
-          {`${programInfo.speciality.code} ${programInfo.speciality.name}`}
+          {`${program.speciality.code} ${program.speciality.name}`}
         </div>
         <div className="badge badge-lg badge-primary badge-soft h-fit">
-          {`${programInfo.name}`}
+          {`${program.name}`}
         </div>
       </div>
       {degree === "phd" && (
@@ -61,16 +69,19 @@ export const DefenceCard: React.FC<DefenseEvent & { degree: string }> = ({
       <p>
         <span className="font-semibold">Адреса: </span> {address}
       </p>
-      <InfoBox body={message} size={20} className="my-4" />
+
+      {message && <InfoBox body={message} size={20} className="my-4" />}
+
       {degree === "phd" ? (
         <>
           <p className="mt-4">
             Разова спеціалізована вчена рада з правом прийняття до розгляду та
-            проведення разового захисту дисертаційної роботи {nameSurname} на
-            здобуття ступеня доктора філософії в галузі знань{" "}
-            {programInfo.fieldOfStudy.code} «{programInfo.fieldOfStudy.name}» за
-            спеціальністю {programInfo.speciality.code} «
-            {programInfo.speciality.name}» (ОНП «{programInfo.name}»).
+            проведення разового захисту дисертаційної роботи{" "}
+            {candidateNameSurname} на здобуття ступеня доктора філософії в
+            галузі знань {program.fieldOfStudy.code} «
+            {program.fieldOfStudy.name}» за спеціальністю{" "}
+            {program.speciality.code} «{program.speciality.name}» (ОНП «
+            {program.name}»).
           </p>
           <p className="mt-2 mb-4 text-lg font-semibold">
             Склад спеціалізованої ради:

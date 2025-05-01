@@ -18,7 +18,7 @@ export function Tabs() {
   }, [degree]);
 
   return (
-    <div role="tablist" className="tabs tabs-box bg-base-300 mb-2">
+    <div role="tablist" className="tabs tabs-box bg-base-300 mb-2 w-fit">
       <Link
         href={`/${previousPath}/phd`}
         className={`tab ${isPhd && "tab-active"}`}

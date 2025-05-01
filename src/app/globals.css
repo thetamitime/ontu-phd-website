@@ -13,16 +13,23 @@
 
 @layer components {
   .container {
-    @apply mx-auto mb-14;
+    @apply mx-auto my-16 min-h-screen px-6;
   }
   .section {
-    background-color: var(--color-base-200);
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1.5rem;
     margin-bottom: calc(var(--spacing) * 6);
     margin-top: calc(var(--spacing) * 6);
   }
+  .flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem
+  }
+
   .header {
     font-family: var(--font-sofia-sans), sans-serif;
     text-align: center;
@@ -32,7 +39,6 @@
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
     margin-bottom: calc(var(--spacing) * 10);
-    margin-top: calc(var(--spacing) * 15);
   }
   .sub-header {
     text-align: start;
@@ -48,11 +54,6 @@
     --tw-font-weight: var(--font-weight-medium);
     font-weight: var(--font-weight-medium);
     padding-bottom: calc(var(--spacing) * 2);
-  }
-  .wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
   }
 }
 

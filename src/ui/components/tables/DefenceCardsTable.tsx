@@ -10,7 +10,7 @@ import {
 import { DefenseEvent } from "@/lib/types/defences";
 import React, { useEffect } from "react";
 import { DefenceCard } from "@/ui/components";
-import { Pagination } from "@/ui/components/Pagination";
+import { Pagination } from "@/ui/components/misc/Pagination";
 
 type CardRow = DefenseEvent & { degree: string };
 
@@ -42,10 +42,10 @@ export const DefenceCardsTable = ({ data }: { data: CardRow[] }) => {
   }, [pageIndex]);
 
   return (
-    <div className="w-full">
+    <div className="flex w-full flex-col items-end justify-center">
       <Pagination table={table} />
 
-      <div className="space-y-10">
+      <div className="w-full">
         {table.getRowModel().rows.map((row) => (
           <div key={row.id}>
             {row.getVisibleCells().map((cell) => (

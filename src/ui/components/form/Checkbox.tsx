@@ -5,7 +5,7 @@ export const Checkbox = ({ title }: { title: string }) => {
   const field = useFieldContext<boolean>();
 
   return (
-    <fieldset className="fieldset text-base">
+    <fieldset className="fieldset ml-10 text-base">
       <label className="fieldset-label text-base-content gap-3">
         <input
           type="checkbox"

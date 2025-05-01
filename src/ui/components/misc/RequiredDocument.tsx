@@ -22,6 +22,7 @@ export const RequiredDocument = ({
   const highlightRegex = /(за наявністю|за необхідністю)/g;
   const descriptionParts = formattedDescription.split(highlightRegex);
 
+  console.log("title", title);
   // split title into bold & non-bold parts based on parenthesis
   const titleParts = title.split(/(\(.*?\))/g);
 
