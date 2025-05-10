@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../OntuPhdApi/.idea/OntuPhdApi.iml" filepath="$PROJECT_DIR$/../OntuPhdApi/.idea/OntuPhdApi.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ontu-phd-website.iml" filepath="$PROJECT_DIR$/.idea/ontu-phd-website.iml" />
     </modules>
   </component>

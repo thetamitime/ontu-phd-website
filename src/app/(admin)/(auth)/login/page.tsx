@@ -66,7 +66,7 @@ export default function LoginPage() {
             </form.AppField>
 
             <form.AppField name="password">
-              {(field) => <field.InputField label="Пароль" />}
+              {(field) => <field.InputField label="Пароль" type="password" />}
             </form.AppField>
           </div>
 

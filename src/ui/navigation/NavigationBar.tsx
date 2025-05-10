@@ -141,7 +141,7 @@ export const NavigationBar = () => {
       </div>
 
       {/* Menu md-screen */}
-      <ul className="menu menu-md menu-horizontal hidden items-center justify-end uppercase md:flex">
+      <ul className="menu menu-md menu-horizontal hidden w-full items-center justify-end uppercase md:flex">
         {pages.map((page) => {
           return !page.subTitle ? (
             navigationTab(page)

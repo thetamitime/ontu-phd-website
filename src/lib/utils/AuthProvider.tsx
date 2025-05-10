@@ -182,6 +182,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       );
       setIsAuthenticated(true);
 
+      console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/signin`);
+      console.log(credentials);
+
       const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
       const mustChangeCookie = cookies.find((c) =>
         c.startsWith("mustChangePassword="),
