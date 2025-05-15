@@ -11,7 +11,7 @@ const specialitySchema = z.object({
 });
 
 const instituteSchema = z.object({
-  id: z.number(),
+  //id: z.number(),
   name: z.string().min(1),
 });
 
@@ -45,7 +45,9 @@ export const programSchema = z.object({
   name: z.string().min(1, "Обов'язкове поле"),
   degree: z.enum(["phd", "doc"]),
   accredited: z.boolean(),
-  institute: instituteSchema,
+  institute: instituteSchema.refine((data) => data.name !== "", {
+    message: "Обов'язкове поле",
+  }),
   fieldOfStudy: fieldOfStudySchema.refine(
     (data) => data.code !== "" && data.name !== "",
     {

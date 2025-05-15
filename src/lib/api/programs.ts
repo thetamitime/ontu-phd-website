@@ -31,6 +31,14 @@ export async function getProgramById(id: string) {
   return program;
 }
 
+export async function getShortProgramById(id: string) {
+  const res = await fetch(`${API_BASE_URL}/api/programs/short/${id}`);
+
+  const program: Program = await res.json();
+  if (!program) notFound();
+  return program;
+}
+
 export async function createProgram(updatedProgram: ProgramFormValues) {
   try {
     console.log("Program before POST", updatedProgram);
