@@ -102,7 +102,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
       accredited: program?.accredited ?? true,
       institute: institutes?.find(
         (inst) => inst.name === program?.institute,
-      ) ?? { id: 0, name: "" },
+      ) ?? { name: "" },
       fieldOfStudy: program?.fieldOfStudy ?? { code: "", name: "" },
       speciality: program?.speciality ?? { code: "", name: "" },
       form: program?.form ?? ["очна (денна)"],
@@ -196,6 +196,7 @@ export default function ProgramForm({ programId }: { programId?: number }) {
                 if (isEdit && value === program?.degree) {
                   form.setFieldValue("fieldOfStudy", program!.fieldOfStudy);
                   form.setFieldValue("speciality", program!.speciality);
+                  form.setFieldValue("institute", program!.institute);
                 }
 
                 if (!isEdit || value !== program?.degree) {

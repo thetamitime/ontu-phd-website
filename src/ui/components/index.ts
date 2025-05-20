@@ -17,6 +17,7 @@ export { SidebarContent } from "./drawer/SidebarContent";
 
 //============= Form/Field Components =============
 export { Checkbox } from "./form/Checkbox";
+export { DateTimeInput } from "./form/DateTimeInput";
 export { InputField } from "./form/InputField";
 export { NumberInput } from "./form/NumberInput";
 export { OptionsRadioInput } from "./form/OptionsRadioInput";

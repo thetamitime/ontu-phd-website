@@ -21,13 +21,21 @@ export const SelectField = <T,>({
   const errors = useStore(field.store, (state) => state.meta.errors);
 
   // create empty value of field.state
-  const resetFieldState = Object.keys(field.state.value as object).reduce(
-    (acc, key) => {
-      acc[key] = "";
-      return acc;
-    },
-    {} as { [key: string]: string },
-  );
+  const resetFieldState = React.useMemo(() => {
+    const resetValue = (obj: any): any => {
+      if (obj === null || typeof obj !== "object") return "";
+
+      return Object.keys(obj).reduce(
+        (acc, key) => {
+          acc[key] = resetValue(obj[key]);
+          return acc;
+        },
+        Array.isArray(obj) ? [] : {},
+      );
+    };
+
+    return resetValue(field.state.value || {});
+  }, [field.state.value]);
 
   return (
     <fieldset className="fieldset gap-2 text-base">
@@ -44,7 +52,7 @@ export const SelectField = <T,>({
         required
       >
         <option value={JSON.stringify(resetFieldState)} disabled>
-          Оберіть {label.toLowerCase()}
+          ---
         </option>
 
         {options?.map((option, index) => (

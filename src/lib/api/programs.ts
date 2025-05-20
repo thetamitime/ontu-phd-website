@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { Program, ProgramDegree } from "@/lib/types/programs";
+import { Program, ProgramDegree, ProgramShort } from "@/lib/types/programs";
 import { appendToFormData } from "@/lib/utils/append-data";
 import { ProgramFormValues } from "@/lib/schemas/programSchema";
 
@@ -31,12 +31,14 @@ export async function getProgramById(id: string) {
   return program;
 }
 
-export async function getShortProgramById(id: string) {
-  const res = await fetch(`${API_BASE_URL}/api/programs/short/${id}`);
+export async function getShortProgramsByDegree(degree: string) {
+  const res = await fetch(
+    `${API_BASE_URL}/api/programs/short?degree=${degree}`,
+  );
 
-  const program: Program = await res.json();
-  if (!program) notFound();
-  return program;
+  const programs: ProgramShort[] = await res.json();
+  if (!programs) notFound();
+  return programs;
 }
 
 export async function createProgram(updatedProgram: ProgramFormValues) {

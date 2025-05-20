@@ -19,7 +19,10 @@ export interface Program {
   //programDocumentId: File;
 }
 
-export type ProgramField = Pick<Program, "id" | "degree" | "fieldOfStudy">;
+export type ProgramShort = Pick<
+  Program,
+  "id" | "name" | "fieldOfStudy" | "speciality"
+>;
 
 export type ProgramDegree = Pick<
   Program,

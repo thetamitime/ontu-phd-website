@@ -12,7 +12,7 @@ export const Modal = ({
 }) => {
   return (
     <dialog open className="modal">
-      <div className="modal-box bg-base-200 max-h-[80dvh] w-fit max-w-3xl">
+      <div className="modal-box bg-base-200 max-h-[80dvh] max-w-[65dvh] min-w-[20dvh]">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold">{label}</h3>
           {onClose && (

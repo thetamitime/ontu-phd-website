@@ -3,7 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ProgramDegree } from "@/lib/types/programs";
 import { SortableHeader } from "@/ui/components/tables/SortableHeader";
-import { ProgramActions } from "@/ui/components/tables/Actions";
+import { Actions } from "@/ui/components/tables/Actions";
+import { deleteDefence } from "@/lib/api/defence";
+import { deleteProgram } from "@/lib/api/programs";
 
 type ProgramsColumn = ProgramDegree;
 
@@ -45,8 +47,8 @@ export const columns = (
     header: "Дії",
     cell: ({ row }) => {
       return (
-        <ProgramActions
-          program={row.original}
+        <Actions
+          data={row.original}
           onEditAction={() => {
             const drawerCheckbox = document.getElementById("my-drawer");
             if (drawerCheckbox) {
@@ -54,6 +56,10 @@ export const columns = (
             }
             // Call the setSelectedProgramId function passed from the parent
             setSelectedProgramId(row.original.id);
+          }}
+          onDeleteAction={() => {
+            deleteProgram(row.original.id);
+            window.location.reload();
           }}
         />
       );
