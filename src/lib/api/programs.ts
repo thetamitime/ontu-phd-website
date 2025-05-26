@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Program, ProgramDegree, ProgramShort } from "@/lib/types/programs";
-import { appendToFormData } from "@/lib/utils/append-data";
+import { appendToFormData } from "@/lib/utils/toFormData";
 import { ProgramFormValues } from "@/lib/schemas/programSchema";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;

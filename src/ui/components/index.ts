@@ -26,6 +26,7 @@ export { SubscribeButton } from "./form/SubscribeButton";
 export { TextAreaInput } from "./form/TextAreaInput";
 export { TextAreaInputInline } from "./form/TextAreaInputInline";
 export { FieldInfo } from "./form/FieldInfo";
+export { FileInput } from "./form/FileInput";
 
 //============= Miscellaneous =============
 export { Breadcrumbs } from "./misc/Breadcrumbs";

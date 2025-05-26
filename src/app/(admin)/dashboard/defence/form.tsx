@@ -236,15 +236,11 @@ export default function DefenceForm({ defenceId }: { defenceId?: number }) {
         {/* TODO: fix error not displaying */}
         <form.AppField name={"program"}>
           {(field) => (
-            <>
-              <field.SelectField
-                label="Програма"
-                options={programs || []}
-                getOptionLabel={(option) => option.name}
-              />
-
-              {}
-            </>
+            <field.SelectField
+              label="Програма"
+              options={programs || []}
+              getOptionLabel={(option) => option.name}
+            />
           )}
         </form.AppField>
 

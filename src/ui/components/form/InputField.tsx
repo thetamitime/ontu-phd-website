@@ -4,7 +4,7 @@ import { useFieldContext } from "@/lib/hooks/useFieldContext";
 import { useStore } from "@tanstack/react-form";
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   labelStyle?: string;
   icon?: React.ReactNode;
 }
