@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { LatestNews, News, NewsBody } from "@/lib/types/news";
-import { ProgramFormValues } from "@/lib/schemas/programSchema";
 import { NewsFormValues } from "@/lib/schemas/newsSchema";
 import { toFormData } from "@/lib/utils/toFormData";
 
@@ -44,6 +43,8 @@ export const createNews = async (newNews: NewsFormValues) => {
     body: toFormData(newNews),
   });
 
+  console.log("FormData", newNews);
+
   if (!response.ok) {
     const errorText = await response.text();
     console.error("Error response:", errorText);
@@ -53,7 +54,7 @@ export const createNews = async (newNews: NewsFormValues) => {
   }
 
   const result = await response.json();
-  console.log("News updated successfully:", result);
+  console.log("News created successfully:", result);
   return result;
 };
 
